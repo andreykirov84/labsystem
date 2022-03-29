@@ -1,0 +1,79 @@
+{% extends 'main/base.html' %}
+
+{% block page_content %}
+    <h1 class="text-center">Patient information</h1>
+    <div class="row">
+        <div class="col-lg-3"></div>
+
+        <div class="col-lg-6">
+            Patient information:
+            <div class="col-lg-6">
+                {{ object.pid_type }}: {{ object.pid }}
+            </div>
+            <div class="col-lg-6">
+                First Name: {{ object.first_name }}
+            </div>
+
+            {% if object.middle_name %}
+                <div class="col-lg-6">
+                    Middle Name: {{ object.middle_name }}
+                </div>
+            {% endif %}
+            <div class="col-lg-6">
+                Last Name: {{ object.last_name }}
+            </div>
+            <div class="col-lg-6">
+                Date of Birth: {{ object.date_of_birth }}
+            </div>
+            <div class="col-lg-6">
+                Sex: {{ object.sex }}
+            </div>
+            {% if object.telephone_number %}
+                <div class="col-lg-6">
+                    Telephone number: {{ object.telephone_number }}
+                </div>
+            {% endif %}
+            {% if object.email %}
+                <div class="col-lg-6">
+                    E-mail: {{ object.email }}
+                </div>
+            {% endif %}
+            {% if object.address %}
+                <div class="col-lg-6">
+                    Address: {{ object.address }}
+                </div>
+            {% endif %}
+            {% if object.city %}
+                <div class="col-lg-6">
+                    City: {{ object.city }}
+                </div>
+            {% endif %}
+            {% if object.clinical_data %}
+                <div class="col-lg-6">
+                    Clinical Data: {{ object.clinical_data }}
+                </div>
+            {% endif %}
+            {% if object.comments %}
+                <div class="col-lg-6">
+                    Comments: {{ object.comments }}
+                </div>
+            {% endif %}
+        </div>
+        {% if deleted %}
+            <p>
+                <a href="{% url 'all deleted patients' %}"> Back</a>
+            </p>
+            <p>
+                <a href="{% url 'restore patient' object.pk %}"> Restore Patient</a>
+            </p>
+        {% else %}
+            <p>
+                <a href="{% url 'all patients' %}"> Back</a>
+            </p>
+            <p>
+                <a href="{% url 'delete patient' object.pk %}"> Delete Patient</a>
+            </p>
+        {% endif %}
+        <div class="col-lg-3"></div>
+    </div>
+{% endblock %}

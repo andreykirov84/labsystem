@@ -1,0 +1,62 @@
+{% extends 'main/base.html' %}
+
+{% block page_content %}
+    <h1 class="text-center">Health Facilities List</h1>
+    <div class="row">
+        <div class="col-lg-3"></div>
+                {% if all_facilities %}
+        <div class="col-lg-6">
+            <table class="table table-bordered">
+                <tr class="first-table-row">
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">City</th>
+                    <th scope="col">VAT</th>
+                    <th scope="col">Contact Person</th>
+                    <th scope="col">Telephone Number</th>
+                    <th scope="col">e-mail</th>
+                    <th scope="col">Comments</th>
+                    <th scope="col">Detail link</th>
+                </tr>
+                {% for facility in all_facilities %}
+                    <tr>
+                        <td>{{ facility.name }}</td>
+                        <td>{{ facility.address }}</td>
+                        <td>{{ facility.city }}</td>
+                        <td>{{ facility.vat }}</td>
+                        <td>{{ facility.contact_person }}</td>
+                        <td>{{ facility.telephone_number }}</td>
+                        <td>{{ facility.email }}</td>
+                        <td>{{ facility.comments }}</td>
+                        <td><a href="{% url 'edit health facility' facility.pk %}"> {{ facility.name }} details</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% if is_paginated %}
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in paginator.page_range %}
+                        {% if page_obj.number == i %}
+                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                </ul>
+                        {% endif %}
+                    {% else %}
+                    No health facilities to display! If you want to create one clic here:  <a href="{% url 'health facility register' %}"> Health facility register </a>
+        {% endif %}
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+{% endblock %}

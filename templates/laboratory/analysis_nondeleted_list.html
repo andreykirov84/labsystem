@@ -1,0 +1,55 @@
+{% extends 'main/base.html' %}
+
+{% block page_content %}
+    <h1 class="text-center">Analysis list</h1>
+    <div class="row">
+        <div class="col-lg-3"></div>
+                {% if all_analysis %}
+        <div class="col-lg-6">
+            <table class="table table-bordered">
+                <tr class="first-table-row">
+                    <th scope="col">Code</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">price</th>
+                    <th scope="col">TAT [days]</th>
+                    <th scope="col">Details</th>
+                </tr>
+                {% for analysis in all_analysis %}
+                    <tr>
+                        <td>{{ analysis.code }}</td>
+                        <td>{{ analysis.name }}</td>
+                        <td>{{ analysis.price }}</td>
+                        <td>{{ analysis.tat }}</td>
+                        <td><a href="{% url 'edit analysis' analysis.pk %}"> {{ analysis.name }} details</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% if is_paginated %}
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in paginator.page_range %}
+                        {% if page_obj.number == i %}
+                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+                    {% else %}
+                    No analysis! If you want to create one clic here:  <a href="{% url 'analysis register' %}"> Analysis register </a>
+        {% endif %}
+        </div>
+
+        <div class="col-lg-3"></div>
+    </div>
+{% endblock %}

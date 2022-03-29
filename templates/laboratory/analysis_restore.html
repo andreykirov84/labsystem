@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+{#{% load crispy_forms_tags %}#}
+{% block page_content %}
+    <h1 class="text-center">Restore Analysis Form</h1>
+    <div class="row">
+        <div class="col-lg-6">
+            <form method="post" action="{% url 'restore analysis' analysis.pk %}">
+                {% csrf_token %}
+{#                {{ form|crispy }}#}
+                {{ form }}
+
+                <button class="btn btn-primary mt-2" type="submit">Restore analysis</button>
+            </form>
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+{% endblock %}

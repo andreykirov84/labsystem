@@ -1,0 +1,86 @@
+{% extends 'main/base.html' %}
+{% block page_content %}
+    <div class="jumbotron">
+        <img style="width: 100%"
+             src="https://cdn5.vectorstock.com/i/1000x1000/13/74/isometric-genetic-engineering-dna-structure-vector-25151374.jpg"
+             alt="">
+        <div class="position-sticky">
+            <h1 class="display-4">Welcome to Laboratory Management System (LIMS)</h1>
+            <p class="lead">Use LIMS to manage your routine laboratory work</p>
+            <hr class="my-4">
+            <div class="flex-row">
+
+                <a href="{% url 'login user' %}" class="btn btn-lg btn-secondary">Login</a>
+
+                <a href="{% url 'create user_as_patient' %}" class="btn btn-lg btn-secondary">Register new user as
+                    patient</a>
+
+                <a href="{% url 'analysis register' %}" class="btn btn-lg btn-secondary">Create new analysis</a>
+
+                <a href="{% url 'health facility register' %}" class="btn btn-lg btn-secondary">Create new health
+                    facility</a>
+
+                <a href="{% url 'department register' %}" class="btn btn-lg btn-secondary">Create new department</a>
+
+                <a href="{% url 'position register' %}" class="btn btn-lg btn-secondary">Create new job position</a>
+
+                <a href="{% url 'all analysis' %}" class="btn btn-lg btn-secondary">Show all analysis</a>
+
+                <a href="{% url 'all deleted analysis' %}" class="btn btn-lg btn-secondary">Show all deleted
+                    analysis</a>
+
+                <a href="{% url 'all health facilities' %}" class="btn btn-lg btn-secondary">Show all health
+                    facilities</a>
+
+                <a href="{% url 'all deleted health facilities' %}" class="btn btn-lg btn-secondary">Show all deleted
+                    health facilities</a>
+
+                <a href="{% url 'all departments' %}" class="btn btn-lg btn-secondary">Show all departments</a>
+
+                <a href="{% url 'all deleted departments' %}" class="btn btn-lg btn-secondary">Show all deleted</a>
+
+                <a href="{% url 'all patients' %}" class="btn btn-lg btn-secondary">Show non-deleted patients</a>
+
+                <a href="{% url 'all deleted patients' %}" class="btn btn-lg btn-secondary">Show deleted
+                    patients</a>
+
+                <a href="{% url 'create staff user' %}" class="btn btn-lg btn-secondary">Register new user as
+                    staff</a>
+
+                <a href="{% url 'all staffs' %}" class="btn btn-lg btn-secondary">Show all staff</a>
+
+                <a href="{% url 'all deleted staffs' %}" class="btn btn-lg btn-secondary">Show deleted staff</a>
+
+                <p>
+                    <a href="{% url 'create physician user' %}" class="btn btn-lg btn-secondary">Register new user
+                        as
+                        physician</a>
+
+                    <a href="{% url 'all physicians' %}" class="btn btn-lg btn-secondary">Show all physicians</a>
+
+                    <a href="{% url 'all deleted physicians' %}" class="btn btn-lg btn-secondary">Show deleted
+                        physicians</a>
+                </p>
+
+
+                {#                <!-- Login Button -->#}
+                {#                {% if not request.user.is_authenticated %}#}
+                {#                    <a href="{% url 'login user' %}" class="btn btn-lg btn-secondary">Login</a>#}
+                {#                {% endif %}#}
+                {##}
+                {#                {% if request.user.is_authenticated %}#}
+                {#                    <!-- Logout Button -->#}
+                {#                    <a href="{% url 'logout user' %}" class="btn btn-lg btn-secondary">logout</a>#}
+                {#                {% endif %}#}
+                {##}
+                {#                {% if request.user.is_authenticated %}#}
+                {#                    <!-- Show all patients -->#}
+                {#                    <a href="{% url 'patients list' %}" class="btn btn-lg btn-secondary">Show all patient</a>#}
+                {#                {% endif %}#}
+
+                {#                <!-- Register Button -->#}
+                {#                <a href="{% url 'register' %}" class="btn btn-lg btn-secondary">Register</a>#}
+            </div>
+        </div>
+    </div>
+{% endblock %}

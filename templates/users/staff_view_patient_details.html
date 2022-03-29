@@ -1,0 +1,46 @@
+{% extends 'main/base.html' %}
+
+{% block page_content %}
+    <h1 class="text-center">Patient list</h1>
+    <div class="row">
+        <div class="col-lg-3"></div>
+
+        <div class="col-lg-6">
+            <table>
+                <caption>All patients list</caption>
+
+            <tr class="first-table-row">
+                <th scope="col" >EGN</th>
+                <th scope="col">Full Name</th>
+                <th scope="col">Date of Birth</th>
+                <th scope="col">Sex</th>
+                <th scope="col">Registered On</th>
+                <th scope="col">View Patient</th>
+                <th scope="col">Edit Patient</th>
+            </tr>
+            <tr>
+                {% for patient in object_list  %}
+                    <td>{{ patient.egn }}</td>
+                    <td>{{ patient.full_name }}</td>
+                    <td>{{ patient.date_of_birth }}</td>
+                    <td>{{ patient.sex }}</td>
+                    <td>{{ patient.created_on }}</td>
+                    <td><a href="{% url 'profile details' patient.user.id %}"> User details</a> </td>
+                    <td><a href="{% url 'profile details' patient.user.id %}"> User details</a> </td>
+                {% endfor %}
+            </tr>
+            </table>
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+{% endblock %}
+
+
+{% block content %}
+    <h2>Publishers</h2>
+    <ul>
+        {% for publisher in object_list %}
+            <li>{{ publisher.name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
