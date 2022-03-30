@@ -4,8 +4,8 @@
     <h1 class="text-center">All Deleted Analysis List</h1>
     <div class="row">
         <div class="col-lg-3"></div>
-                {% if all_analysis %}
-        <div class="col-lg-6">
+        {% if all_analysis %}
+            <div class="table-responsive-md">
             <table class="table table-bordered">
                 <tr class="first-table-row">
                     <th scope="col">Code</th>
@@ -45,8 +45,8 @@
                     {% endif %}
                 </ul>
             {% endif %}
-                    {% else %}
-                    No deleted analysis!
+        {% else %}
+            No deleted analysis!
         {% endif %}
         </div>
 

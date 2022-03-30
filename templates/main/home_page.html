@@ -15,19 +15,12 @@
                 <a href="{% url 'create user_as_patient' %}" class="btn btn-lg btn-secondary">Register new user as
                     patient</a>
 
-                <a href="{% url 'analysis register' %}" class="btn btn-lg btn-secondary">Create new analysis</a>
-
                 <a href="{% url 'health facility register' %}" class="btn btn-lg btn-secondary">Create new health
                     facility</a>
 
                 <a href="{% url 'department register' %}" class="btn btn-lg btn-secondary">Create new department</a>
 
                 <a href="{% url 'position register' %}" class="btn btn-lg btn-secondary">Create new job position</a>
-
-                <a href="{% url 'all analysis' %}" class="btn btn-lg btn-secondary">Show all analysis</a>
-
-                <a href="{% url 'all deleted analysis' %}" class="btn btn-lg btn-secondary">Show all deleted
-                    analysis</a>
 
                 <a href="{% url 'all health facilities' %}" class="btn btn-lg btn-secondary">Show all health
                     facilities</a>
@@ -60,6 +53,15 @@
 
                     <a href="{% url 'all deleted physicians' %}" class="btn btn-lg btn-secondary">Show deleted
                         physicians</a>
+                </p>
+                <p>
+                    Analysis Fields
+                    <a href="{% url 'create analysis field' %}" class="btn btn-lg btn-secondary">Create new analysis field</a>
+
+                    <a href="{% url 'all analysis fields' %}" class="btn btn-lg btn-secondary">Show all analysis fields</a>
+
+                    <a href="{% url 'all deleted analysis fields' %}" class="btn btn-lg btn-secondary">Show deleted
+                        analysis fields</a>
                 </p>
 
 

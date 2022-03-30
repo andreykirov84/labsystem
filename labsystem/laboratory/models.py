@@ -416,7 +416,7 @@ class SampleType(SoftDeleteModel):
     name = models.CharField(
         max_length=NAME_MAX_LENGTH,
         validators=(
-            MinLengthValidator(NAME_MAX_LENGTH),
+            MinLengthValidator(NAME_MIN_LENGTH),
         )
     )
 
@@ -427,14 +427,25 @@ class SampleType(SoftDeleteModel):
 class AnalysisField(SoftDeleteModel):
     NAME_MIN_LENGTH = 2
     NAME_MAX_LENGTH = 30
+    UNIT_MIN_LENGTH = 1
+    UNIT_MAX_LENGTH = 10
 
     name = models.CharField(
         max_length=NAME_MAX_LENGTH,
         validators=(
-            MinLengthValidator(NAME_MAX_LENGTH),
+            MinLengthValidator(NAME_MIN_LENGTH),
         )
     )
 
+    # Measuring units
+    unit = models.CharField(
+        max_length=UNIT_MAX_LENGTH,
+        validators=(
+            MinLengthValidator(UNIT_MIN_LENGTH),
+        ),
+        null=True,
+        blank=True,
+    )
     male_min = models.FloatField(
         validators=(validate_value_not_negative,),
     )
@@ -474,7 +485,7 @@ class Analysis(SoftDeleteModel):
     name = models.CharField(
         max_length=NAME_MAX_LENGTH,
         validators=(
-            MinLengthValidator(NAME_MAX_LENGTH),
+            MinLengthValidator(NAME_MIN_LENGTH),
         )
     )
 
@@ -555,7 +566,7 @@ class ResultLine(SoftDeleteModel):
     name = models.CharField(
         max_length=NAME_MAX_LENGTH,
         validators=(
-            MinLengthValidator(NAME_MAX_LENGTH),
+            MinLengthValidator(NAME_MIN_LENGTH),
         )
     )
 
