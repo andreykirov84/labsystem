@@ -479,6 +479,8 @@ class AnalysisField(SoftDeleteModel):
 class Analysis(SoftDeleteModel):
     NAME_MIN_LENGTH = 2
     NAME_MAX_LENGTH = 30
+    CURRENCY_MIN_LENGTH = 3
+    CURRENCY_MAX_LENGTH = 3
     PRICE_MAX_DIGITS = 7
     PRICE_DECIMAL_PLACE = 2
 
@@ -494,9 +496,21 @@ class Analysis(SoftDeleteModel):
         null=True,
     )
 
+    currency = models.CharField(
+        max_length=CURRENCY_MAX_LENGTH,
+        validators=(
+            MinLengthValidator(CURRENCY_MIN_LENGTH),
+        ),
+        default='EUR',
+    )
+
     price = models.DecimalField(
         max_digits=PRICE_MAX_DIGITS,
         decimal_places=PRICE_DECIMAL_PLACE,
+        validators=(
+            validate_value_not_negative,
+        ),
+        default=0.00
     )
 
     tat = models.IntegerField(
@@ -517,6 +531,18 @@ class Analysis(SoftDeleteModel):
 
 
 class Result(SoftDeleteModel):
+    CURRENCY_MIN_LENGTH = 3
+    CURRENCY_MAX_LENGTH = 3
+    PRICE_MAX_DIGITS = 7
+    PRICE_DECIMAL_PLACE = 2
+    PAYMENT_AMOUNT_MAX_DIGITS = 7
+    PAYMENT_AMOUNT_DECIMAL_PLACE = 2
+
+    PAYMENT_BY_CARD = 'PAYMENT_BY_CARD'
+    CASH_PAYMENT = 'CASH_PAYMENT'
+    PAYMENT_TYPE_NOT_SPECIFIED = 'PAYMENT_TYPE_NOT_SPECIFIED'
+    PAYMENT_TYPES = [(x, x) for x in (PAYMENT_BY_CARD, CASH_PAYMENT, PAYMENT_TYPE_NOT_SPECIFIED)]
+
     patient_id = models.ForeignKey(
         Profile,
         related_name='result_patient_id',
@@ -551,12 +577,42 @@ class Result(SoftDeleteModel):
         on_delete=models.CASCADE,
     )
 
+    analysis_price = models.DecimalField(
+        max_digits=PRICE_MAX_DIGITS,
+        decimal_places=PRICE_DECIMAL_PLACE,
+        validators=(
+            validate_value_not_negative,
+        )
+    )
+
+    currency = models.CharField(
+        max_length=CURRENCY_MAX_LENGTH,
+        validators=(
+            MinLengthValidator(CURRENCY_MIN_LENGTH),
+        ),
+        default='EUR',
+    )
+
+    payment_amount = models.DecimalField(
+        max_digits=PAYMENT_AMOUNT_MAX_DIGITS,
+        decimal_places=PAYMENT_AMOUNT_DECIMAL_PLACE,
+        validators=(
+            validate_value_not_negative,
+        ),
+        default=0.00
+    )
+
+    payment_type = models.CharField(
+        max_length=max(len(x) for x, _ in PAYMENT_TYPES),
+        choices=PAYMENT_TYPES,
+    )
+
     created_on = models.DateTimeField(auto_now_add=True)
 
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.id
+        return f'ID: {self.id}, patient ID: {self.patient_id}'
 
 
 class ResultLine(SoftDeleteModel):
@@ -590,3 +646,6 @@ class ResultLine(SoftDeleteModel):
         AnalysisField,
         on_delete=models.CASCADE,
     )
+
+    def __str__(self):
+        return f'{self.name}'

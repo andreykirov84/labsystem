@@ -74,6 +74,9 @@
                 <a href="{% url 'delete patient' object.pk %}"> Delete Patient</a>
             </p>
         {% endif %}
+        <p>
+            <a href="{% url 'add analyses to patient' object.pk %}"> Add Analysis to Patient</a>
+        </p>
         <div class="col-lg-3"></div>
     </div>
 {% endblock %}

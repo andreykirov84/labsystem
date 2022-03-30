@@ -1,54 +1,25 @@
 from django import forms
-from django.contrib.auth import forms as auth_forms, get_user_model
-from labsystem.auth_app.models import LimsUser
 from labsystem.laboratory.models import Profile
-from utils.abstract_forms import DeleteAbstractForm, RestoreAbstractForm
 from utils.helpers import BootstrapFormMixin
 
 
-class CreatePatientUserForm(BootstrapFormMixin, auth_forms.UserCreationForm):
-    PASSWORD_LENGTH = 6
-    username = forms.CharField(
-        max_length=LimsUser.USERNAME_MAX_LENGTH,
-    )
-
-    password1 = forms.CharField(
-        max_length=PASSWORD_LENGTH,
-        widget=forms.TextInput(
-            attrs={'placeholder': "Enter password here"})
-    )
-
-    password2 = forms.CharField(
-        max_length=PASSWORD_LENGTH,
-        widget=forms.TextInput(
-            attrs={'placeholder': "Enter again the same password here"})
-    )
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._init_bootstrap_form_controls()
-
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.is_patient = True
-        user.save()
-        return user
-
-    class Meta:
-        model = get_user_model()
-        fields = (
-            'username',
-            'password1',
-            'password2',
-        )
-
-
 class CreateProfilePatientForm(BootstrapFormMixin, forms.ModelForm):
+    result_lines_pk = []
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._init_bootstrap_form_controls()
 
     def save(self, commit=True):
+
+        # ResultLine
+        # name
+        # value
+        # comment
+        # result_id
+        # analysis_field_id
+
+
         profile = Profile(
             pid=self.cleaned_data['pid'],
             pid_type=self.cleaned_data['pid_type'],
@@ -108,19 +79,3 @@ class CreateProfilePatientForm(BootstrapFormMixin, forms.ModelForm):
                 }),
         }
 
-
-class DeletePatientForm(DeleteAbstractForm):
-    class Meta:
-        model = Profile
-        exclude = (
-            'deleted_at',
-        )
-
-
-class RestorePatientForm(RestoreAbstractForm):
-
-    class Meta:
-        model = Profile
-        exclude = (
-            'deleted_at',
-        )

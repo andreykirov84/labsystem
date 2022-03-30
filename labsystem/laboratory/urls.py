@@ -32,6 +32,7 @@ urlpatterns = (
     path('patients/<int:pk>/restore/', restore_patient_view, name='restore patient'),
     path('patients/all', PatientsListView.as_view(), name='all patients'),
     path('patients/all/deleted/', DeletedPatientsListView.as_view(), name='all deleted patients'),
+    path('patients/<int:pk>/add/analyses/', EditPatientView.as_view(), name='add analyses to patient'),
 
     path('staffs/create/<int:pk>/profile', StaffCreateView.as_view(), name='create staff'),
     path('staffs/<int:pk>/edit/', EditPatientView.as_view(), name='edit staff'),
