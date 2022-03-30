@@ -62,7 +62,7 @@ def restore_analysis_field_view(request, pk):
         'form': form,
         'analysis_field': analysis_field
     }
-    return render(request, 'laboratory/department_restore.html', context)
+    return render(request, 'laboratory/analysis_field/analysis_field_restore.html', context)
 
 
 class AnalysisFieldsListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):

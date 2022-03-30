@@ -1,26 +1,28 @@
 {% extends 'main/base.html' %}
 
 {% block page_content %}
-    <h1 class="text-center">All Deleted Analysis List</h1>
+    <h1 class="text-center">Deleted Analyses List</h1>
     <div class="row">
         <div class="col-lg-3"></div>
-        {% if all_analysis %}
-            <div class="table-responsive-md">
+                {% if all_analyses %}
+        <div class="table-responsive-md">
             <table class="table table-bordered">
                 <tr class="first-table-row">
-                    <th scope="col">Code</th>
                     <th scope="col">Name</th>
-                    <th scope="col">price</th>
-                    <th scope="col">TAT [days]</th>
-                    <th scope="col">Restore</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Price [euro]</th>
+                    <th scope="col">Turnaround Time [days]</th>
+                    <th scope="col">Analysis Fields</th>
+                    <th scope="col">Restore link</th>
                 </tr>
-                {% for analysis in all_analysis %}
+                {% for analysis in all_analyses %}
                     <tr>
-                        <td>{{ analysis.code }}</td>
                         <td>{{ analysis.name }}</td>
+                        <td>{{ analysis.description }}</td>
                         <td>{{ analysis.price }}</td>
                         <td>{{ analysis.tat }}</td>
-                        <td><a href="{% url 'restore analysis' analysis.pk %}"> {{ analysis.name }} restore</a></td>
+                        <td>{{ analysis.analysis_field.all | unordered_list}}</td>
+                        <td><a href="{% url 'restore analysis' analysis.pk %}"> Restore</a></td>
                     </tr>
                 {% endfor %}
             </table>
@@ -44,12 +46,11 @@
                         <li class="disabled"><span>&raquo;</span></li>
                     {% endif %}
                 </ul>
-            {% endif %}
-        {% else %}
-            No deleted analysis!
+                        {% endif %}
+                    {% else %}
+                    No deleted analyses to display!
         {% endif %}
         </div>
-
         <div class="col-lg-3"></div>
     </div>
 {% endblock %}

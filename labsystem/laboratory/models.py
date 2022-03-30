@@ -426,7 +426,7 @@ class SampleType(SoftDeleteModel):
 
 class AnalysisField(SoftDeleteModel):
     NAME_MIN_LENGTH = 2
-    NAME_MAX_LENGTH = 30
+    NAME_MAX_LENGTH = 50
     UNIT_MIN_LENGTH = 1
     UNIT_MAX_LENGTH = 10
 

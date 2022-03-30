@@ -2,6 +2,8 @@ from django.urls import path
 
 from labsystem.laboratory.views.analysis_field_views import CreateAnalysisFieldView, EditAnalysisFieldView, \
     delete_analysis_field_view, restore_analysis_field_view, AnalysisFieldsListView, DeletedAnalysisFieldsListView
+from labsystem.laboratory.views.analysis_views import CreateAnalysisView, EditAnalysisView, delete_analysis_view, \
+    restore_analysis_view, AnalysisListView, DeletedAnalysisListView
 from labsystem.laboratory.views.department_views import DepartmentCreation, EditDepartment, delete_department, \
     restore_department, DepartmentsListView, DeletedDepartmentsListView
 from labsystem.laboratory.views.health_facility_views import HealthFacilityCreation, EditHealthFacility, \
@@ -47,13 +49,6 @@ urlpatterns = (
     path('physicians/all', PhysicianListView.as_view(), name='all physicians'),
     path('physicians/all/deleted/', DeletedPhysicianListView.as_view(), name='all deleted physicians'),
 
-    # path('analysis/create/', AnalysisCreation.as_view(), name='analysis register'),
-    # path('analysis/<int:pk>/edit/', EditAnalysis.as_view(), name='edit analysis'),
-    # path('analysis/<int:pk>/delete/', delete_analysis, name='delete analysis'),
-    # path('analysis/<int:pk>/restore/', restore_analysis, name='restore analysis'),
-    # path('analysis/all/', AnalysisView.as_view(), name='all analysis'),
-    # path('analysis/all_deleted/', DeletedAnalysisView.as_view(), name='all deleted analysis'),
-
     path('health_facility/create/', HealthFacilityCreation.as_view(), name='health facility register'),
     path('health_facility/<int:pk>/edit/', EditHealthFacility.as_view(), name='edit health facility'),
     path('health_facility/<int:pk>/delete/', delete_health_facility, name='delete health facility'),
@@ -76,6 +71,13 @@ urlpatterns = (
     path('analysis_fields/<int:pk>/restore/', restore_analysis_field_view, name='restore analysis field'),
     path('analysis_fields/all/', AnalysisFieldsListView.as_view(), name='all analysis fields'),
     path('analysis_fields/all_deleted/', DeletedAnalysisFieldsListView.as_view(), name='all deleted analysis fields'),
+
+    path('analyses/create/', CreateAnalysisView.as_view(), name='create analysis'),
+    path('analyses/<int:pk>/edit/', EditAnalysisView.as_view(), name='edit analysis'),
+    path('analyses/<int:pk>/delete/', delete_analysis_view, name='delete analysis'),
+    path('analyses/<int:pk>/restore/', restore_analysis_view, name='restore analysis'),
+    path('analyses/all/', AnalysisListView.as_view(), name='all analyses'),
+    path('analyses/all_deleted/', DeletedAnalysisListView.as_view(), name='all deleted analyses'),
 )
 
 # path('', HomeView.as_view(), name='index'),
