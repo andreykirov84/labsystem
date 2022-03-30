@@ -1,12 +1,9 @@
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-
 from labsystem.auth_app.models import LimsUser
 from django.core.validators import MinLengthValidator
 from django.db import models
 
 from utils.abstract_models import SoftDeleteModel
-from utils.validators import validate_only_letters
+from utils.validators import validate_only_letters, validate_value_not_negative
 
 
 class City(SoftDeleteModel):
@@ -245,43 +242,6 @@ class Sex(SoftDeleteModel):
         return self.name
 
 
-class Analysis(SoftDeleteModel):
-    CODE_MAX_LEN = 6
-    NAME_MAX_LEN = 30
-    PRICE_MAX_DIGITS = 8
-    PRICE_DECIMAL_PLACES = 2
-
-    code = models.CharField(
-        max_length=CODE_MAX_LEN,
-        unique=True,
-    )
-
-    name = models.CharField(
-        max_length=NAME_MAX_LEN,
-        unique=True,
-    )
-
-    description = models.TextField(
-        blank=True,
-        null=True,
-    )
-
-    price = models.DecimalField(
-        max_digits=PRICE_MAX_DIGITS,
-        decimal_places=PRICE_DECIMAL_PLACES,
-    )
-
-    # Turnaround time (TAT) (working days)
-    tat = models.IntegerField()
-
-    created_on = models.DateTimeField(auto_now_add=True)
-
-    updated_on = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
-
-
 class Profile(SoftDeleteModel):
     FIRST_NAME_MIN_LENGTH = 2
     FIRST_NAME_MAX_LENGTH = 30
@@ -447,3 +407,175 @@ class Profile(SoftDeleteModel):
     # @receiver(post_save, sender=LimsUser)
     # def save_profile(sender, instance, **kwargs):
     #     instance.profile.save()
+
+
+class SampleType(SoftDeleteModel):
+    NAME_MIN_LENGTH = 2
+    NAME_MAX_LENGTH = 30
+
+    name = models.CharField(
+        max_length=NAME_MAX_LENGTH,
+        validators=(
+            MinLengthValidator(NAME_MAX_LENGTH),
+        )
+    )
+
+    def __str__(self):
+        return self.name
+
+
+class AnalysisField(SoftDeleteModel):
+    NAME_MIN_LENGTH = 2
+    NAME_MAX_LENGTH = 30
+
+    name = models.CharField(
+        max_length=NAME_MAX_LENGTH,
+        validators=(
+            MinLengthValidator(NAME_MAX_LENGTH),
+        )
+    )
+
+    male_min = models.FloatField(
+        validators=(validate_value_not_negative,),
+    )
+
+    male_max = models.FloatField(
+        validators=(validate_value_not_negative,),
+    )
+
+    female_min = models.FloatField(
+        validators=(validate_value_not_negative,),
+    )
+
+    female_max = models.FloatField(
+        validators=(validate_value_not_negative,),
+    )
+
+    # comment when value outside range
+    comment = models.TextField(
+        null=True,
+        blank=True,
+    )
+
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Analysis(SoftDeleteModel):
+    NAME_MIN_LENGTH = 2
+    NAME_MAX_LENGTH = 30
+    PRICE_MAX_DIGITS = 7
+    PRICE_DECIMAL_PLACE = 2
+
+    name = models.CharField(
+        max_length=NAME_MAX_LENGTH,
+        validators=(
+            MinLengthValidator(NAME_MAX_LENGTH),
+        )
+    )
+
+    description = models.TextField(
+        blank=True,
+        null=True,
+    )
+
+    price = models.DecimalField(
+        max_digits=PRICE_MAX_DIGITS,
+        decimal_places=PRICE_DECIMAL_PLACE,
+    )
+
+    tat = models.IntegerField(
+        validators=(validate_value_not_negative,)
+    )
+
+    analysis_field = models.ManyToManyField(
+        AnalysisField,
+        blank=True,
+    )
+
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Result(SoftDeleteModel):
+    patient_id = models.ForeignKey(
+        Profile,
+        related_name='result_patient_id',
+        on_delete=models.CASCADE,
+    )
+
+    physician_id = models.ForeignKey(
+        Profile,
+        related_name='result_physician_id',
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
+
+    analysis_id = models.ForeignKey(
+        Analysis,
+        on_delete=models.CASCADE,
+    )
+
+    sample_type = models.ForeignKey(
+        SampleType,
+        on_delete=models.CASCADE,
+    )
+
+    sample_collection_time = models.DateField(
+        null=True,
+        blank=True,
+    )
+
+    status = models.ForeignKey(
+        ResultStatus,
+        on_delete=models.CASCADE,
+    )
+
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    updated_on = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.id
+
+
+class ResultLine(SoftDeleteModel):
+    NAME_MIN_LENGTH = 2
+    NAME_MAX_LENGTH = 30
+
+    name = models.CharField(
+        max_length=NAME_MAX_LENGTH,
+        validators=(
+            MinLengthValidator(NAME_MAX_LENGTH),
+        )
+    )
+
+    value = models.FloatField(
+        validators=(validate_value_not_negative,),
+        null=True,
+        blank=True,
+    )
+
+    comment = models.TextField(
+        null=True,
+        blank=True,
+    )
+
+    result_id = models.ForeignKey(
+        Result,
+        on_delete=models.CASCADE,
+    )
+
+    analysis_field_id = models.ForeignKey(
+        AnalysisField,
+        on_delete=models.CASCADE,
+    )

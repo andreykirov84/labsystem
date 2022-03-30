@@ -35,6 +35,12 @@ def validate_only_digits(value):
             raise ValidationError('Value must contain only digits')
 
 
+def validate_value_not_negative(value):
+    if value < 0:
+        # Invalid case
+        raise ValidationError('Value must be equal or larger then 0')
+
+
 def validate_telephone(value):
     """
     accept only phone numbers in format +35924204242

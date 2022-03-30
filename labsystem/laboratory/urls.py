@@ -1,7 +1,5 @@
 from django.urls import path
 
-from labsystem.laboratory.views.analysis_views import AnalysisCreation, EditAnalysis, delete_analysis, restore_analysis, \
-    AnalysisView, DeletedAnalysisView
 from labsystem.laboratory.views.department_views import DepartmentCreation, EditDepartment, delete_department, \
     restore_department, DepartmentsListView, DeletedDepartmentsListView
 from labsystem.laboratory.views.health_facility_views import HealthFacilityCreation, EditHealthFacility, \
@@ -47,12 +45,12 @@ urlpatterns = (
     path('physicians/all', PhysicianListView.as_view(), name='all physicians'),
     path('physicians/all/deleted/', DeletedPhysicianListView.as_view(), name='all deleted physicians'),
 
-    path('analysis/create/', AnalysisCreation.as_view(), name='analysis register'),
-    path('analysis/<int:pk>/edit/', EditAnalysis.as_view(), name='edit analysis'),
-    path('analysis/<int:pk>/delete/', delete_analysis, name='delete analysis'),
-    path('analysis/<int:pk>/restore/', restore_analysis, name='restore analysis'),
-    path('analysis/all/', AnalysisView.as_view(), name='all analysis'),
-    path('analysis/all_deleted/', DeletedAnalysisView.as_view(), name='all deleted analysis'),
+    # path('analysis/create/', AnalysisCreation.as_view(), name='analysis register'),
+    # path('analysis/<int:pk>/edit/', EditAnalysis.as_view(), name='edit analysis'),
+    # path('analysis/<int:pk>/delete/', delete_analysis, name='delete analysis'),
+    # path('analysis/<int:pk>/restore/', restore_analysis, name='restore analysis'),
+    # path('analysis/all/', AnalysisView.as_view(), name='all analysis'),
+    # path('analysis/all_deleted/', DeletedAnalysisView.as_view(), name='all deleted analysis'),
 
     path('health_facility/create/', HealthFacilityCreation.as_view(), name='health facility register'),
     path('health_facility/<int:pk>/edit/', EditHealthFacility.as_view(), name='edit health facility'),
