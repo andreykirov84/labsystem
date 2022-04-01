@@ -1,0 +1,32 @@
+{% extends 'main/base.html' %}
+
+{% block page_content %}
+    <h1 class="text-center">Edit Result Line Form</h1>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="table-responsive-md">
+                <table class="table table-bordered">
+                    <tr class="first-table-row">
+                        <th scope="col"> Result ID</th>
+                        <th scope="col">Sample Type</th>
+                        <th scope="col">Patient</th>
+                        <th scope="col">Analysis</th>
+                    </tr>
+                    <tr>
+                        <td>{{ result_line.result.pk }}</td>
+                        <td>{{ result_line.result.sample_type }}</td>
+                        <td>{{ result_line.result.patient.full_name }}
+                        <td>{{ result_line.analysis_field.name }}</td>
+                    </tr>
+                </table>
+            </div>
+            <form method="post" action="{% url 'result line details' result_line.pk %}">
+                {% csrf_token %}
+                {{ form }}
+
+                <button class="btn btn-primary mt-2" type="submit">Enter value</button>
+            </form>
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+{% endblock %}

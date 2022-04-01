@@ -75,7 +75,10 @@
             </p>
         {% endif %}
         <p>
-            <a href="{% url 'add analyses to patient' object.pk %}"> Add Analysis to Patient</a>
+            <a href="{% url 'add result to patient' object.pk %}"> Add Analysis to Patient</a>
+        </p>
+        <p>
+            <a href="{% url 'all patient specific results' object.pk %}"> Show all patient's Analysis</a>
         </p>
         <div class="col-lg-3"></div>
     </div>

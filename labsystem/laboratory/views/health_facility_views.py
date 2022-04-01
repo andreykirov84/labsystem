@@ -77,18 +77,18 @@ def restore_health_facility(request, pk):
 
 
 class HealthFacilityListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
-    FACILITY_PER_PAGE = 10
+    ITEMS_PER_PAGE = 10
     Model = HealthFacility
     template_name = 'laboratory/health_facilities_nondeleted_list.html'
     context_object_name = 'all_facilities'
     queryset = HealthFacility.objects.filter(deleted_at=None)
-    paginate_by = FACILITY_PER_PAGE
+    paginate_by = ITEMS_PER_PAGE
 
 
 class DeletedHealthFacilityListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
-    FACILITY_PER_PAGE = 10
+    ITEMS_PER_PAGE = 10
     Model = HealthFacility
     template_name = 'laboratory/health_facilities_deleted_list.html'
     context_object_name = 'all_deleted_facilities'
     queryset = HealthFacility.objects.exclude(deleted_at=None)
-    paginate_by = FACILITY_PER_PAGE
+    paginate_by = ITEMS_PER_PAGE

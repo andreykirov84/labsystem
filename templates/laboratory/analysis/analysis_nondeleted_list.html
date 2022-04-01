@@ -11,7 +11,8 @@
                 <tr class="first-table-row">
                     <th scope="col">Name</th>
                     <th scope="col">Description</th>
-                    <th scope="col">Price [euro]</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Currency</th>
                     <th scope="col">Turnaround Time [days]</th>
                     <th scope="col">Analysis Fields</th>
                     <th scope="col">Detail link</th>
@@ -21,6 +22,7 @@
                         <td>{{ analysis.name }}</td>
                         <td>{{ analysis.description }}</td>
                         <td>{{ analysis.price }}</td>
+                        <td>{{ analysis.currency }}</td>
                         <td>{{ analysis.tat }}</td>
                         <td>{{ analysis.analysis_field.all | unordered_list}}</td>
                         <td><a href="{% url 'edit analysis' analysis.pk %}"> Detail </a></td>

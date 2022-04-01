@@ -79,12 +79,12 @@ class PatientsListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
 
 
 class DeletedPatientsListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
-    PATIENTS_PER_PAGE = 10
+    ITEMS_PER_PAGE = 10
     Model = Profile
     template_name = 'users/patients_deleted_list.html'
     context_object_name = 'deleted_patients'
     queryset = Profile.objects.filter(user__is_patient=True).exclude(deleted_at=None)
-    paginate_by = PATIENTS_PER_PAGE
+    paginate_by = ITEMS_PER_PAGE
     ordering = ['-updated_on']
 
 

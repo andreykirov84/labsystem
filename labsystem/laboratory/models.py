@@ -392,8 +392,26 @@ class Profile(SoftDeleteModel):
         first_second_name = f'{self.first_name}{mid_name}'
         return f'{first_second_name} {self.last_name}'
 
+    @property
+    def is_staff(self):
+        return self.user.is_staff
+
+    @property
+    def is_physician(self):
+        return self.user.is_physician
+
+    @property
+    def is_patient(self):
+        return self.user.is_patient
+
     def __str__(self):
-        return self.full_name
+        if self.is_patient:
+            return self.full_name
+        elif self.is_staff:
+            return f'Staff Name: {self.full_name}'
+        elif self.is_physician:
+            return f'Physician Name: {self.full_name}, Health Facility: {self.health_facility.name} ' \
+                   f'City: ({self.health_facility.city}) '
 
     # """
     # Here, we are telling Django that whenever a save event occurs (signal called post_save)
@@ -403,10 +421,6 @@ class Profile(SoftDeleteModel):
     # def create_profile(sender, instance, created, **kwargs):
     #     if created:
     #         Profile.objects.create(user=instance)
-    #
-    # @receiver(post_save, sender=LimsUser)
-    # def save_profile(sender, instance, **kwargs):
-    #     instance.profile.save()
 
 
 class SampleType(SoftDeleteModel):
@@ -426,7 +440,7 @@ class SampleType(SoftDeleteModel):
 
 class AnalysisField(SoftDeleteModel):
     NAME_MIN_LENGTH = 2
-    NAME_MAX_LENGTH = 50
+    NAME_MAX_LENGTH = 100
     UNIT_MIN_LENGTH = 1
     UNIT_MAX_LENGTH = 10
 
@@ -527,7 +541,7 @@ class Analysis(SoftDeleteModel):
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.name
+        return f'{self.name}, price: {self.price} {self.currency}'
 
 
 class Result(SoftDeleteModel):
@@ -538,26 +552,28 @@ class Result(SoftDeleteModel):
     PAYMENT_AMOUNT_MAX_DIGITS = 7
     PAYMENT_AMOUNT_DECIMAL_PLACE = 2
 
-    PAYMENT_BY_CARD = 'PAYMENT_BY_CARD'
-    CASH_PAYMENT = 'CASH_PAYMENT'
-    PAYMENT_TYPE_NOT_SPECIFIED = 'PAYMENT_TYPE_NOT_SPECIFIED'
-    PAYMENT_TYPES = [(x, x) for x in (PAYMENT_BY_CARD, CASH_PAYMENT, PAYMENT_TYPE_NOT_SPECIFIED)]
+    CARD_PAYMENT = 'Card payment'
+    CASH_PAYMENT = 'Cash payment'
+    CASH_CARD_PAYMENT = 'Combined cash and card payment'
+    OTHER = 'Other'
+    PAYMENT_TYPE_NOT_SPECIFIED = 'Not specified'
+    PAYMENT_TYPES = [(x, x) for x in (CARD_PAYMENT, CASH_PAYMENT, CASH_CARD_PAYMENT, OTHER, PAYMENT_TYPE_NOT_SPECIFIED)]
 
-    patient_id = models.ForeignKey(
+    patient = models.ForeignKey(
         Profile,
-        related_name='result_patient_id',
+        related_name='result_patient',
         on_delete=models.CASCADE,
     )
 
-    physician_id = models.ForeignKey(
+    referring_physician = models.ForeignKey(
         Profile,
-        related_name='result_physician_id',
+        related_name='referring_physician',
         on_delete=models.CASCADE,
         blank=True,
         null=True,
     )
 
-    analysis_id = models.ForeignKey(
+    analysis = models.ForeignKey(
         Analysis,
         on_delete=models.CASCADE,
     )
@@ -565,6 +581,8 @@ class Result(SoftDeleteModel):
     sample_type = models.ForeignKey(
         SampleType,
         on_delete=models.CASCADE,
+        null=True,
+        blank=True,
     )
 
     sample_collection_time = models.DateField(
@@ -617,7 +635,7 @@ class Result(SoftDeleteModel):
 
 class ResultLine(SoftDeleteModel):
     NAME_MIN_LENGTH = 2
-    NAME_MAX_LENGTH = 30
+    NAME_MAX_LENGTH = 100
 
     name = models.CharField(
         max_length=NAME_MAX_LENGTH,
@@ -637,12 +655,12 @@ class ResultLine(SoftDeleteModel):
         blank=True,
     )
 
-    result_id = models.ForeignKey(
+    result = models.ForeignKey(
         Result,
         on_delete=models.CASCADE,
     )
 
-    analysis_field_id = models.ForeignKey(
+    analysis_field = models.ForeignKey(
         AnalysisField,
         on_delete=models.CASCADE,
     )

@@ -1,0 +1,55 @@
+{% extends 'main/base.html' %}
+
+{% block page_content %}
+    <h1 class="text-center">Patient information</h1>
+    <div class="row">
+        <div class="col-lg-3"></div>
+
+        <div class="col-lg-6">
+            Patient information:
+            <div class="col-lg-6">
+                {{ patient.pid_type }}: {{ patient.pid }}
+            </div>
+            <div class="col-lg-6">
+                First Name: {{ patient.first_name }}
+            </div>
+
+            {% if patient.middle_name %}
+                <div class="col-lg-6">
+                    Middle Name: {{ patient.middle_name }}
+                </div>
+            {% endif %}
+            <div class="col-lg-6">
+                Last Name: {{ patient.last_name }}
+            </div>
+            <div class="col-lg-6">
+                Date of Birth: {{ patient.date_of_birth }}
+            </div>
+            <div class="col-lg-6">
+                Sex: {{ patient.sex }}
+            </div>
+            {% if patient.clinical_data %}
+                <div class="col-lg-6">
+                    Clinical Data: {{ patient.clinical_data }}
+                </div>
+            {% endif %}
+            {% if patient.comments %}
+                <div class="col-lg-6">
+                    Comments: {{ patient.comments }}
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <form method="post" action="{% url 'add result to patient' patient.pk %}">
+                {% csrf_token %}
+{#                {{ form }}#}
+                {{ form.as_p }}
+
+                <button class="btn btn-primary mt-2" type="submit">Create</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

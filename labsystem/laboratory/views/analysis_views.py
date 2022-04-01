@@ -63,12 +63,12 @@ def restore_analysis_view(request, pk):
 
 
 class AnalysisListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
-    FACILITY_PER_PAGE = 10
+    ITEMS_PER_PAGE = 10
     Model = Analysis
     template_name = 'laboratory/analysis/analysis_nondeleted_list.html'
     context_object_name = 'all_analyses'
     queryset = Analysis.objects.filter(deleted_at=None)
-    paginate_by = FACILITY_PER_PAGE
+    paginate_by = ITEMS_PER_PAGE
 
     # def get_context_data(self, *, object_list=None, **kwargs):
     #     context = super().get_context_data()
@@ -76,9 +76,9 @@ class AnalysisListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
 
 
 class DeletedAnalysisListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
-    FACILITY_PER_PAGE = 10
+    ITEMS_PER_PAGE = 10
     Model = Analysis
     template_name = 'laboratory/analysis/analysis_deleted_list.html'
     context_object_name = 'all_analyses'
     queryset = Analysis.objects.exclude(deleted_at=None)
-    paginate_by = FACILITY_PER_PAGE
+    paginate_by = ITEMS_PER_PAGE

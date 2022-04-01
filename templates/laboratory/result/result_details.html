@@ -1,0 +1,75 @@
+{% extends 'main/base.html' %}
+
+{% block page_content %}
+    <h1 class="text-center">Patient's Result Details</h1>
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <p>
+            Patient: {{ patient.full_name }}
+        </p>
+        <p>
+            {{ patient.pid_type }}: {{ patient.pid }}
+        </p>
+        {% if result_lines %}
+            {#            <div class="col-lg-6">#}
+            <div class="table-responsive-md">
+            <table class="table table-bordered">
+                <tr class="first-table-row">
+                    <th scope="col">Name</th>
+                    <th scope="col">Value</th>
+                    <th scope="col">Units</th>
+                    <th scope="col">Reference range</th>
+                    <th scope="col">Comment</th>
+                    <th scope="col">Edit</th>
+
+                </tr>
+                {% for line in result_lines %}
+                    <tr>
+                        <td>{{ line.name }}</td>
+                        <td>{{ line.value }}</td>
+                        <td>{{ line.analysis_field.unit }}</td>
+                        {% if patient.sex.name == 'Male' %}
+                            <td>{{ line.analysis_field.male_min }}
+                                - {{ line.analysis_field.male_max }}</td>
+                        {% elif patient.sex.name == 'Female' %}
+                            <td>{{ line.analysis_field.female_min }}
+                                - {{ line.analysis_field.female_max }}</td>
+                        {% else %}
+                            <td>Males: {{ line.analysis_field.male_min }}
+                                - {{ line.analysis_field.male_max }};
+                                Females: {{ line.analysis_field.female_min }}
+                                - {{ line.analysis_field.female_max }}</td>
+                        {% endif %}
+                        <td>{{ line.comment }}</td>
+                        <td><a href="{% url 'result line details' line.pk %}"> Link </a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% if is_paginated %}
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in paginator.page_range %}
+                        {% if page_obj.number == i %}
+                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+        {% else %}
+            No results to display!
+        {% endif %}
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+{% endblock %}

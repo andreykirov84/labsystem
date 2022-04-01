@@ -1,30 +1,30 @@
 {% extends 'main/base.html' %}
 
 {% block page_content %}
-    <h1 class="text-center">Deleted Analyses List</h1>
+    <h1 class="text-center">Patient's Results List</h1>
     <div class="row">
         <div class="col-lg-3"></div>
-                {% if all_analyses %}
-        <div class="table-responsive-md">
+        <p>
+            Patient: {{ patient.full_name }}
+        </p>
+        <p>
+            {{ patient.pid_type }}: {{ patient.pid }}
+        </p>
+        {% if all_results %}
+            <div class="table-responsive-md">
             <table class="table table-bordered">
                 <tr class="first-table-row">
-                    <th scope="col">Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Currency</th>
-                    <th scope="col">Turnaround Time [days]</th>
-                    <th scope="col">Analysis Fields</th>
-                    <th scope="col">Restore link</th>
+                    <th scope="col">Result ID</th>
+                    <th scope="col">Created at</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Detail link</th>
                 </tr>
-                {% for analysis in all_analyses %}
+                {% for result in all_results %}
                     <tr>
-                        <td>{{ analysis.name }}</td>
-                        <td>{{ analysis.description }}</td>
-                        <td>{{ analysis.price }}</td>
-                        <td>{{ analysis.currency }}</td>
-                        <td>{{ analysis.tat }}</td>
-                        <td>{{ analysis.analysis_field.all | unordered_list}}</td>
-                        <td><a href="{% url 'restore analysis' analysis.pk %}"> Restore</a></td>
+                        <td>{{ result.pk }}</td>
+                        <td>{{ result.created_on }}</td>
+                        <td>{{ result.status }}</td>
+                        <td><a href="{% url 'result details' patient.pk result.pk %}"> Details </a></td>
                     </tr>
                 {% endfor %}
             </table>
@@ -48,9 +48,9 @@
                         <li class="disabled"><span>&raquo;</span></li>
                     {% endif %}
                 </ul>
-                        {% endif %}
-                    {% else %}
-                    No deleted analyses to display!
+            {% endif %}
+        {% else %}
+            No analyses to display!
         {% endif %}
         </div>
         <div class="col-lg-3"></div>

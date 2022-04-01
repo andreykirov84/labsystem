@@ -42,22 +42,22 @@ class PhysicianCreateView(LoginRequiredMixin, SuperUserRequiredMixin, views.Crea
 
 
 class PhysicianListView(LoginRequiredMixin, SuperUserRequiredMixin, views.ListView):
-    PHYSICIANS_SHOWN_PER_PAGE = 10
+    ITEMS_PER_PAGE = 10
     Model = Profile
     template_name = 'users/physician/physician_nondeleted_list.html'
     context_object_name = 'all_physicians'
     queryset = Profile.objects.filter(user__is_physician=True, deleted_at=None)
-    paginate_by = PHYSICIANS_SHOWN_PER_PAGE
+    paginate_by = ITEMS_PER_PAGE
     ordering = ['-updated_on']
 
 
 class DeletedPhysicianListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
-    PHYSICIANS_SHOWN_PER_PAGE = 10
+    ITEMS_PER_PAGE = 10
     Model = Profile
     template_name = 'users/physician/physician_deleted_list.html'
     context_object_name = 'all_physicians'
     queryset = Profile.objects.filter(user__is_physician=True).exclude(deleted_at=None)
-    paginate_by = PHYSICIANS_SHOWN_PER_PAGE
+    paginate_by = ITEMS_PER_PAGE
     ordering = ['-updated_on']
 
 

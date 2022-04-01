@@ -66,18 +66,18 @@ def restore_analysis_field_view(request, pk):
 
 
 class AnalysisFieldsListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
-    FACILITY_PER_PAGE = 10
+    ITEMS_PER_PAGE = 10
     Model = AnalysisField
     template_name = 'laboratory/analysis_field/analysis_field_nondeleted_list.html'
     context_object_name = 'all_analysis_fields'
     queryset = AnalysisField.objects.filter(deleted_at=None)
-    paginate_by = FACILITY_PER_PAGE
+    paginate_by = ITEMS_PER_PAGE
 
 
 class DeletedAnalysisFieldsListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
-    FACILITY_PER_PAGE = 10
+    ITEMS_PER_PAGE = 10
     Model = AnalysisField
     template_name = 'laboratory/analysis_field/analysis_field_deleted_list.html'
     context_object_name = 'all_deleted_analysis_fields'
     queryset = AnalysisField.objects.exclude(deleted_at=None)
-    paginate_by = FACILITY_PER_PAGE
+    paginate_by = ITEMS_PER_PAGE

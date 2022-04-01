@@ -65,18 +65,18 @@ def restore_department(request, pk):
 
 
 class DepartmentsListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
-    FACILITY_PER_PAGE = 10
+    ITEMS_PER_PAGE = 10
     Model = Department
     template_name = 'laboratory/department_nondeleted_list.html'
     context_object_name = 'all_departments'
     queryset = Department.objects.filter(deleted_at=None)
-    paginate_by = FACILITY_PER_PAGE
+    paginate_by = ITEMS_PER_PAGE
 
 
 class DeletedDepartmentsListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
-    FACILITY_PER_PAGE = 10
+    ITEMS_PER_PAGE = 10
     Model = Department
     template_name = 'laboratory/department_deleted_list.html'
     context_object_name = 'all_deleted_departments'
     queryset = Department.objects.exclude(deleted_at=None)
-    paginate_by = FACILITY_PER_PAGE
+    paginate_by = ITEMS_PER_PAGE

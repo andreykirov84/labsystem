@@ -42,22 +42,22 @@ class StaffCreateView(LoginRequiredMixin, SuperUserRequiredMixin, views.CreateVi
 
 
 class StaffListView(LoginRequiredMixin, SuperUserRequiredMixin, views.ListView):
-    STAFF_SHOWN_PER_PAGE = 10
+    ITEMS_PER_PAGE = 10
     Model = Profile
     template_name = 'users/staff/staff_nondeleted_list.html'
     context_object_name = 'all_staff'
     queryset = Profile.objects.filter(user__is_staff=True, deleted_at=None)
-    paginate_by = STAFF_SHOWN_PER_PAGE
+    paginate_by = ITEMS_PER_PAGE
     ordering = ['-updated_on']
 
 
 class DeletedStaffListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
-    PATIENTS_PER_PAGE = 10
+    ITEMS_PER_PAGE = 10
     Model = Profile
     template_name = 'users/staff/staff_deleted_list.html'
     context_object_name = 'all_staff'
     queryset = Profile.objects.filter(user__is_staff=True).exclude(deleted_at=None)
-    paginate_by = PATIENTS_PER_PAGE
+    paginate_by = ITEMS_PER_PAGE
     ordering = ['-updated_on']
 
 

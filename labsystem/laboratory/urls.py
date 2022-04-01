@@ -13,6 +13,8 @@ from labsystem.laboratory.views.patient_views import PatientUserCreateView, Pati
     PatientDetailsView, delete_patient_view, restore_patient_view, PatientsListView, DeletedPatientsListView
 from labsystem.laboratory.views.physician_views import PhysicianListView, DeletedPhysicianListView, EditPhysicianView, \
     PhysicianDetailsView, delete_physician_view, restore_physician_view, PhysicianUserCreateView, PhysicianCreateView
+from labsystem.laboratory.views.results_views import CreateResultView, EditResultView, PatientSpecificResultListView, \
+    ResultDetailsView, EditResultLineView
 from labsystem.laboratory.views.staff_views import StaffCreateView, StaffListView, StaffUserCreateView, \
     StaffDetailsView, delete_staff_view, restore_staff_view, DeletedStaffListView
 from labsystem.laboratory.views.utils_views import HomeView, UserLoginView, UserLogoutView
@@ -32,7 +34,6 @@ urlpatterns = (
     path('patients/<int:pk>/restore/', restore_patient_view, name='restore patient'),
     path('patients/all', PatientsListView.as_view(), name='all patients'),
     path('patients/all/deleted/', DeletedPatientsListView.as_view(), name='all deleted patients'),
-    path('patients/<int:pk>/add/analyses/', EditPatientView.as_view(), name='add analyses to patient'),
 
     path('staffs/create/<int:pk>/profile', StaffCreateView.as_view(), name='create staff'),
     path('staffs/<int:pk>/edit/', EditPatientView.as_view(), name='edit staff'),
@@ -79,6 +80,14 @@ urlpatterns = (
     path('analyses/<int:pk>/restore/', restore_analysis_view, name='restore analysis'),
     path('analyses/all/', AnalysisListView.as_view(), name='all analyses'),
     path('analyses/all_deleted/', DeletedAnalysisListView.as_view(), name='all deleted analyses'),
+
+    path('patients/<int:pk>/result/create/', CreateResultView.as_view(), name='add result to patient'),
+    path('patients/<int:pk>/result/edit/', EditResultView.as_view(), name='edit result'),
+    path('patients/<int:pk>/results/', PatientSpecificResultListView.as_view(), name='all patient specific results'),
+    path('patients/<int:patient_pk>/results/<int:pk>/', ResultDetailsView.as_view(), name='result details'),
+    path('resultline/<int:pk>/edit', EditResultLineView.as_view(), name='result line details'),
+
+
 )
 
 # path('', HomeView.as_view(), name='index'),

@@ -1,81 +1,46 @@
 from django import forms
-from labsystem.laboratory.models import Profile
-from utils.helpers import BootstrapFormMixin
+from django.db.models import Q
+
+from labsystem.laboratory.models import Result, Profile, ResultStatus
+from utils.abstract_forms import DeleteAbstractForm, RestoreAbstractForm
+from utils.widgets import DatePickerInput
 
 
-class CreateProfilePatientForm(BootstrapFormMixin, forms.ModelForm):
-    result_lines_pk = []
-
+class CreateResultForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._init_bootstrap_form_controls()
-
-    def save(self, commit=True):
-
-        # ResultLine
-        # name
-        # value
-        # comment
-        # result_id
-        # analysis_field_id
-
-
-        profile = Profile(
-            pid=self.cleaned_data['pid'],
-            pid_type=self.cleaned_data['pid_type'],
-            sex=self.cleaned_data['sex'],
-            first_name=self.cleaned_data['first_name'],
-            middle_name=self.cleaned_data['middle_name'],
-            last_name=self.cleaned_data['last_name'],
-            date_of_birth=self.cleaned_data['date_of_birth'],
-            telephone_number=self.cleaned_data['telephone_number'],
-            email=self.cleaned_data['email'],
-            address=self.cleaned_data['address'],
-            city=self.cleaned_data['city'],
-            clinical_data=self.cleaned_data['clinical_data'],
-            comments=self.cleaned_data['comments'],
-            user=self.cleaned_data['user'],
-        ).save()
-        return profile
+        self.fields['referring_physician'].queryset = Profile.objects.filter(user__is_physician=True)
+        self.fields['status'].queryset = ResultStatus.objects.filter(Q(name='Registered') | Q(name='Awaiting sample'))
 
     class Meta:
-        model = Profile
-        fields = (
-            'pid',
-            'pid_type',
-            'sex',
-            'first_name',
-            'middle_name',
-            'last_name',
-            'date_of_birth',
-            'telephone_number',
-            'email',
-            'address',
-            'city',
-            'clinical_data',
-            'comments',
-            'user',
+        model = Result
+        exclude = (
+            'patient',
+            'analysis_price',
+            'created_on',
+            'updated_on',
+            'deleted_at',
         )
         widgets = {
-            'pid': forms.TextInput(
-                attrs={
-                    'placeholder': 'Enter Personal ID',
-                }),
-            'first_name': forms.TextInput(
-                attrs={
-                    'placeholder': 'Enter First Name',
-                }),
-            'middle_name': forms.TextInput(
-                attrs={
-                    'placeholder': 'Enter Middle Name (Optional)',
-                }),
-            'last_name': forms.TextInput(
-                attrs={
-                    'placeholder': 'Enter Last Name',
-                }),
-            'user': forms.HiddenInput(
-                attrs={
-                    'placeholder': 'User id',
-                }),
+            'sample_collection_time': DatePickerInput(),
         }
 
+
+class DeleteResultForm(DeleteAbstractForm):
+    class Meta:
+        model = Result
+        exclude = (
+            'created_on',
+            'updated_on',
+            'deleted_at',
+        )
+
+
+class RestoreResultForm(RestoreAbstractForm):
+    class Meta:
+        model = Result
+        exclude = (
+            'created_on',
+            'updated_on',
+            'deleted_at',
+        )
