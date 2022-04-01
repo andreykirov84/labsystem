@@ -15,9 +15,6 @@
                     <th scope="col">Currency</th>
                     <th scope="col">Turnaround Time [days]</th>
                     <th scope="col">Analysis Fields</th>
-                    {% if user.is_authenticated %}
-                        <th scope="col">Detail link</th>
-                    {% endif %}
                 </tr>
                 {% for analysis in all_analyses %}
                     <tr>

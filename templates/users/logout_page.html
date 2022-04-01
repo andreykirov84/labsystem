@@ -1,17 +1,13 @@
 {% extends 'main/base.html' %}
 {% block page_content %}
-    <script type="text/javascript">
-        setTimeout(function () {
-            window.location.href = {% url 'index'%};
-        }, 2000);
-    </script>
-
     <head>
+    <title>Logout Page</title>
+      <meta http-equiv = "refresh" content = "3; url = {% url 'index'%}" />
         <meta charset="UTF-8">
         <title>LogOut page</title>
     </head>
     <body>
-    <p>Thank you for using our services!</p>
+    <p>Thank you for using our website services!</p>
     <p>You will be redirected to our homepage in 3 seconds</p>
 
 

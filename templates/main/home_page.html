@@ -1,98 +1,161 @@
 {% extends 'main/base.html' %}
+{% load static %}
 {% block page_content %}
+    <img style="width: 100%" src="{% static 'images/KirovLab.jpg' %}" alt="Home page image">
+
     <div class="jumbotron">
-        <img style="width: 100%"
-             src="https://cdn5.vectorstock.com/i/1000x1000/13/74/isometric-genetic-engineering-dna-structure-vector-25151374.jpg"
-             alt="">
         <div class="position-sticky">
-            <h1 class="display-4">Welcome to Laboratory Management System (LIMS)</h1>
-            <p class="lead">Use LIMS to manage your routine laboratory work</p>
+            <h1 class="display-4">Welcome to KirovLab</h1>
+            <p class="lead">Use our first-class medical diagnostic testing covering from basic routine testing to more
+                advanced genetic testing.</p>
             <hr class="my-4">
-            <div class="flex-row">
+            <div class="row">
+                <div class="col-sm-4">
+                    <img src="{% static 'images/screening_test.jpg' %}" class="img-responsive margin" style="width:100%"
+                         alt="Screening Test Image">
+                    <h2> Screening </h2>
+                    <h4> What is screening? </h4>
+                    <p class="lead">Screening is a way of finding out if people have a higher chance of having a health
+                        problem, so that early treatment can be offered or information given to help them make informed
+                        decisions.</p>
+                    <h4> Screening results </h4>
+                    <p>If you get a normal result (a screen negative result) after a screening test, this means you are
+                        at low risk of having the condition you were screened for. This does not mean you will never
+                        develop the condition in the future, just that you are low risk at the moment.
 
-                <a href="{% url 'login user' %}" class="btn btn-lg btn-secondary">Login</a>
+                        If you have a higher-risk result (a screen positive result), it means you may have the condition
+                        that you've been tested for. At this point, you will be offered further tests (called diagnostic
+                        tests) to confirm if you have the condition. You can then be offered treatment, advice and
+                        support.
 
-                <a href="{% url 'create user_as_patient' %}" class="btn btn-lg btn-secondary">Register new user as
-                    patient</a>
+                        Finding out about a problem early can mean that treatment is more effective. However, screening
+                        tests are not perfect and they can lead to difficult decisions about having further tests or
+                        treatment.</p>
+                </div>
 
-                <a href="{% url 'health facility register' %}" class="btn btn-lg btn-secondary">Create new health
-                    facility</a>
+                <div class="col-sm-4">
+                    <img src="{% static 'images/atherosclerosis_development.jpg' %}" class="img-responsive margin"
+                         style="width:100%"
+                         alt="Atherosclerosis Development Image">
+                    <h2> High cholesterol </h2>
+                    <h5> High cholesterol is linked with a higher risk of cardiovascular disease. </h5>
+                    <h4> Screening results </h4>
+                    <p>Cholesterol is a waxy substance found in your blood. Your body needs cholesterol to build healthy
+                        cells, but high levels of cholesterol can increase your risk of heart disease. With high
+                        cholesterol, you can develop fatty deposits in your blood vessels. Eventually, these deposits
+                        grow, making it
+                        difficult for enough blood to flow through your arteries. Sometimes, those deposits can break
+                        suddenly and form a clot that causes a heart attack or stroke.
 
-                <a href="{% url 'department register' %}" class="btn btn-lg btn-secondary">Create new department</a>
+                        High cholesterol can be inherited, but it's often the result of unhealthy lifestyle choices,
+                        which make it preventable
+                        and treatable. A healthy diet, regular exercise and sometimes medication can help reduce
+                        high cholesterol.
 
-                <a href="{% url 'position register' %}" class="btn btn-lg btn-secondary">Create new job position</a>
+                        If you have a higher-risk result (a screen positive result), it means you may have the condition
+                        that you've been tested for. At this point, you will be offered further tests (called diagnostic
+                        tests) to confirm if you have the condition. You can then be offered treatment, advice and
+                        support.
 
-                <a href="{% url 'all health facilities' %}" class="btn btn-lg btn-secondary">Show all health
-                    facilities</a>
+                        Finding out about a problem early can mean that treatment is more effective. However, screening
+                        tests are not perfect and they can lead to difficult decisions about having further tests or
+                        treatment.</p>
+                    <p class="lead">IMPORTANT: High cholesterol has no symptoms! A blood test is the only way to detect
+                        if you have it.</p>
 
-                <a href="{% url 'all deleted health facilities' %}" class="btn btn-lg btn-secondary">Show all deleted
-                    health facilities</a>
+                </div>
+                <div class="col-sm-4">
+                    <img src="{% static 'images/NIPT.jpg' %}" class="img-responsive margin"
+                         style="width:100%" alt="NIPT Image">
+                    <h2> Prenatal Testing </h2>
+                    <h4> Non-invasive prenatal testing </h4>
+                    <p>As non-invasive prenatal testing becomes more advanced, questions of informed consent, clinical
+                        utility and ethical concerns become more complicated for clinicians, and more anxiety-provoking
+                        for parents, say experts.
 
-                <a href="{% url 'all departments' %}" class="btn btn-lg btn-secondary">Show all departments</a>
-
-                <a href="{% url 'all deleted departments' %}" class="btn btn-lg btn-secondary">Show all deleted</a>
-
-                <a href="{% url 'all patients' %}" class="btn btn-lg btn-secondary">Show non-deleted patients</a>
-
-                <a href="{% url 'all deleted patients' %}" class="btn btn-lg btn-secondary">Show deleted
-                    patients</a>
-
-                <a href="{% url 'create staff user' %}" class="btn btn-lg btn-secondary">Register new user as
-                    staff</a>
-
-                <a href="{% url 'all staffs' %}" class="btn btn-lg btn-secondary">Show all staff</a>
-
-                <a href="{% url 'all deleted staffs' %}" class="btn btn-lg btn-secondary">Show deleted staff</a>
-
-                <p>
-                    <a href="{% url 'create physician user' %}" class="btn btn-lg btn-secondary">Register new user
-                        as
-                        physician</a>
-
-                    <a href="{% url 'all physicians' %}" class="btn btn-lg btn-secondary">Show all physicians</a>
-
-                    <a href="{% url 'all deleted physicians' %}" class="btn btn-lg btn-secondary">Show deleted
-                        physicians</a>
-                </p>
-                <p>
-                    Analysis Fields
-                    <a href="{% url 'create analysis field' %}" class="btn btn-lg btn-secondary">Create new analysis
-                        field</a>
-
-                    <a href="{% url 'all analysis fields' %}" class="btn btn-lg btn-secondary">Show all analysis
-                        fields</a>
-
-                    <a href="{% url 'all deleted analysis fields' %}" class="btn btn-lg btn-secondary">Show deleted
-                        analysis fields</a>
-                </p>
-                <p>
-                    Analyses
-                    <a href="{% url 'create analysis' %}" class="btn btn-lg btn-secondary">Create new analysis</a>
-
-                    <a href="{% url 'all analyses' %}" class="btn btn-lg btn-secondary">Show all analyses</a>
-
-                    <a href="{% url 'all deleted analyses' %}" class="btn btn-lg btn-secondary">Show deleted
-                        analyses</a>
-                </p>
-
-
-                {#                <!-- Login Button -->#}
-                {#                {% if not request.user.is_authenticated %}#}
-                {#                    <a href="{% url 'login user' %}" class="btn btn-lg btn-secondary">Login</a>#}
-                {#                {% endif %}#}
+                        Writing in the <a
+                                href="https://www.mja.com.au/journal/2021/214/4/non-invasive-prenatal-testing-clinical-utility-and-ethical-concerns-about-recent">
+                            MJA</a>
+                        , Dr Joseph Thomas, a senior specialist in maternal–fetal medicine at Mater Health Services in
+                        Brisbane, and colleagues said that non-invasive prenatal testing (NIPT), introduced in 2010, was
+                        “revolutionary, with sensitivity, specificity and detection rates unmatched”.
+                        “NIPT was found to achieve a detection rate for Down syndrome of 99.7%, with a false positive
+                        rate of 0.04%,” Thomas and colleagues wrote.
+                    </p>
+                    <p>However, as the technology advanced, some NIPT providers started to offer extended panels and
+                        low resolution whole genomic sequencing (WGS), including sex chromosome aneuploidies,
+                        recurrent microdeletions, subchromosomal deletions and duplications.</p>
+                    <p class="lead">“This comes at a cost of a higher false positive rate and lower positive predictive
+                        value,” Thomas and colleagues wrote.</p>
+                </div>
+                {#                #}
+                {#                <div class="flex-row">#}
+                {#                    <a href="{% url 'create user_as_patient' %}" class="btn btn-lg btn-secondary">Register new user as#}
+                {#                        patient</a>#}
                 {##}
-                {#                {% if request.user.is_authenticated %}#}
-                {#                    <!-- Logout Button -->#}
-                {#                    <a href="{% url 'logout user' %}" class="btn btn-lg btn-secondary">logout</a>#}
-                {#                {% endif %}#}
+                {#                    <a href="{% url 'health facility register' %}" class="btn btn-lg btn-secondary">Create new health#}
+                {#                        facility</a>#}
                 {##}
-                {#                {% if request.user.is_authenticated %}#}
-                {#                    <!-- Show all patients -->#}
-                {#                    <a href="{% url 'patients list' %}" class="btn btn-lg btn-secondary">Show all patient</a>#}
-                {#                {% endif %}#}
-
-                {#                <!-- Register Button -->#}
-                {#                <a href="{% url 'register' %}" class="btn btn-lg btn-secondary">Register</a>#}
+                {#                    <a href="{% url 'department register' %}" class="btn btn-lg btn-secondary">Create new department</a>#}
+                {##}
+                {#                    <a href="{% url 'position register' %}" class="btn btn-lg btn-secondary">Create new job position</a>#}
+                {##}
+                {#                    <a href="{% url 'all health facilities' %}" class="btn btn-lg btn-secondary">Show all health#}
+                {#                        facilities</a>#}
+                {##}
+                {#                    <a href="{% url 'all deleted health facilities' %}" class="btn btn-lg btn-secondary">Show all#}
+                {#                        deleted#}
+                {#                        health facilities</a>#}
+                {##}
+                {#                    <a href="{% url 'all departments' %}" class="btn btn-lg btn-secondary">Show all departments</a>#}
+                {##}
+                {#                    <a href="{% url 'all deleted departments' %}" class="btn btn-lg btn-secondary">Show all deleted</a>#}
+                {##}
+                {#                    <a href="{% url 'all patients' %}" class="btn btn-lg btn-secondary">Show non-deleted patients</a>#}
+                {##}
+                {#                    <a href="{% url 'all deleted patients' %}" class="btn btn-lg btn-secondary">Show deleted#}
+                {#                        patients</a>#}
+                {##}
+                {#                    <a href="{% url 'create staff user' %}" class="btn btn-lg btn-secondary">Register new user as#}
+                {#                        staff</a>#}
+                {##}
+                {#                    <a href="{% url 'all staffs' %}" class="btn btn-lg btn-secondary">Show all staff</a>#}
+                {##}
+                {#                    <a href="{% url 'all deleted staffs' %}" class="btn btn-lg btn-secondary">Show deleted staff</a>#}
+                {##}
+                {#                    <p>#}
+                {#                        <a href="{% url 'create physician user' %}" class="btn btn-lg btn-secondary">Register new user#}
+                {#                            as#}
+                {#                            physician</a>#}
+                {##}
+                {#                        <a href="{% url 'all physicians' %}" class="btn btn-lg btn-secondary">Show all physicians</a>#}
+                {##}
+                {#                        <a href="{% url 'all deleted physicians' %}" class="btn btn-lg btn-secondary">Show deleted#}
+                {#                            physicians</a>#}
+                {#                    </p>#}
+                {#                    <p>#}
+                {#                        Analysis Fields#}
+                {#                        <a href="{% url 'create analysis field' %}" class="btn btn-lg btn-secondary">Create new analysis#}
+                {#                            field</a>#}
+                {##}
+                {#                        <a href="{% url 'all analysis fields' %}" class="btn btn-lg btn-secondary">Show all analysis#}
+                {#                            fields</a>#}
+                {##}
+                {#                        <a href="{% url 'all deleted analysis fields' %}" class="btn btn-lg btn-secondary">Show deleted#}
+                {#                            analysis fields</a>#}
+                {#                    </p>#}
+                {#                    <p>#}
+                {#                        Analyses#}
+                {#                        <a href="{% url 'create analysis' %}" class="btn btn-lg btn-secondary">Create new analysis</a>#}
+                {##}
+                {#                        <a href="{% url 'all analyses' %}" class="btn btn-lg btn-secondary">Show all analyses</a>#}
+                {##}
+                {#                        <a href="{% url 'all deleted analyses' %}" class="btn btn-lg btn-secondary">Show deleted#}
+                {#                            analyses</a>#}
+                {#                    </p>#}
+                {##}
+                {##}
+                {#                </div>#}
             </div>
         </div>
     </div>

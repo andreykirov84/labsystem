@@ -11,10 +11,10 @@ from utils.generators import get_secure_random_string
 from utils.view_mixins import StaffRequiredMixin
 
 
-class PatientUserCreateView(views.CreateView):
+class PatientUserCreateView(LoginRequiredMixin, StaffRequiredMixin, views.CreateView):
     form_class = CreatePatientUserForm
     template_name = 'users/patient_user_create.html'
-    success_url = reverse_lazy('create staff')
+    success_url = reverse_lazy('create patient')
     pk = None
 
     def get_initial(self):
@@ -42,7 +42,7 @@ class PatientUserCreateView(views.CreateView):
         return INITIAL_DATA
 
     def get_success_url(self):
-        return reverse('create staff', kwargs={'pk': self.object.pk})
+        return reverse('create patient', kwargs={'pk': self.object.pk})
 
 
 class PatientCreateView(LoginRequiredMixin, StaffRequiredMixin, views.CreateView):

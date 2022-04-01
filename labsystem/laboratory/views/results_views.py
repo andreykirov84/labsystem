@@ -64,7 +64,7 @@ class PatientSpecificResultListView(LoginRequiredMixin, views.ListView):
         return context
 
 
-class ResultDetailsView(views.DetailView):
+class ResultDetailsView(LoginRequiredMixin, views.DetailView):
     model = Result
     template_name = 'laboratory/result/result_details.html'
     context_object_name = 'result_context'

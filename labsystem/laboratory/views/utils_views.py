@@ -24,6 +24,18 @@ class UserLogoutView(auth_views.LogoutView):
 class HomeView(views.TemplateView):
     template_name = 'main/home_page.html'
 
+    # def get_context_data(self, **kwargs):
+    #     context = super(HomeView, self).get_context_data()
+    #     is_logged_in = True
+    #     user = self.request.user
+    #     logged_user_is_physician = False
+    #     logged_user_is_staff = False
+    #     if user == 'AnonymousUser':
+    #         is_logged_in = False
+    #     context['user'] = user
+    #     context['is_logged_in'] = is_logged_in
+    #     return context
+
 
 class StaffPatientView(LoginRequiredMixin, views.ListView):
     Model = Profile

@@ -4,6 +4,7 @@ from labsystem.auth_app.models import LimsUser
 from labsystem.laboratory.models import Profile
 from utils.abstract_forms import DeleteAbstractForm, RestoreAbstractForm
 from utils.helpers import BootstrapFormMixin
+from utils.widgets import DatePickerInput
 
 
 class CreatePhysicianUserForm(BootstrapFormMixin, auth_forms.UserCreationForm):
@@ -90,19 +91,24 @@ class CreateProfilePhysicianForm(BootstrapFormMixin, forms.ModelForm):
                 attrs={
                     'placeholder': 'Enter Personal ID',
                 }),
+
             'first_name': forms.TextInput(
                 attrs={
                     'placeholder': 'Enter First Name',
                 }),
+
             'middle_name': forms.TextInput(
                 attrs={
                     'placeholder': 'Enter Middle Name (Optional)',
                 }),
+
             'last_name': forms.TextInput(
                 attrs={
                     'placeholder': 'Enter Last Name',
                 }),
-            'date_of_birth': forms.DateInput(),
+
+            'date_of_birth': DatePickerInput,
+
             'user': forms.HiddenInput(
                 attrs={
                     'placeholder': 'User id',
