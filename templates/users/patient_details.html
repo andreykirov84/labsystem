@@ -59,7 +59,8 @@
                 </div>
             {% endif %}
         </div>
-        {% if deleted %}
+    {% if user_is_staff %}
+         {% if deleted %}
             <p>
                 <a href="{% url 'all deleted patients' %}"> Back</a>
             </p>
@@ -77,6 +78,7 @@
         <p>
             <a href="{% url 'add result to patient' object.pk %}"> Add Analysis to Patient</a>
         </p>
+    {% endif %}
         <p>
             <a href="{% url 'all patient specific results' object.pk %}"> Show all patient's Analysis</a>
         </p>

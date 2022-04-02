@@ -4,7 +4,14 @@
     <img style="width: 100%" src="{% static 'images/KirovLab.jpg' %}" alt="Home page image">
 
     <div class="jumbotron">
+
         <div class="position-sticky">
+            {% if logged_user_is_physician %}
+                <h3>Welcome Dr. {{ user.profile.full_name }}</h3>
+                <a href="{% url 'all specific physician patients' user.pk %}" class="btn btn-primary btn-lg active" role="button"
+                   aria-pressed="true">Check Your Patients</a>
+            {% endif %}
+
             <h1 class="display-4">Welcome to KirovLab</h1>
             <p class="lead">Use our first-class medical diagnostic testing covering from basic routine testing to more
                 advanced genetic testing.</p>
@@ -31,6 +38,7 @@
                         Finding out about a problem early can mean that treatment is more effective. However, screening
                         tests are not perfect and they can lead to difficult decisions about having further tests or
                         treatment.</p>
+                    <a href="{% url 'all analyses' %}">Check our analyses</a>
                 </div>
 
                 <div class="col-sm-4">
@@ -62,6 +70,7 @@
                         treatment.</p>
                     <p class="lead">IMPORTANT: High cholesterol has no symptoms! A blood test is the only way to detect
                         if you have it.</p>
+                    <a href="{% url 'all analyses' %}">Check our analyses</a>
 
                 </div>
                 <div class="col-sm-4">
@@ -87,11 +96,12 @@
                         recurrent microdeletions, subchromosomal deletions and duplications.</p>
                     <p class="lead">“This comes at a cost of a higher false positive rate and lower positive predictive
                         value,” Thomas and colleagues wrote.</p>
+                    <a href="{% url 'all analyses' %}">Check our analyses</a>
                 </div>
                 {#                #}
-                {#                <div class="flex-row">#}
-                {#                    <a href="{% url 'create user_as_patient' %}" class="btn btn-lg btn-secondary">Register new user as#}
-                {#                        patient</a>#}
+                                <div class="flex-row">
+                                    <a href="{% url 'create user_as_patient' %}" class="btn btn-lg btn-secondary">Register new user as
+                                        patient</a>
                 {##}
                 {#                    <a href="{% url 'health facility register' %}" class="btn btn-lg btn-secondary">Create new health#}
                 {#                        facility</a>#}
@@ -111,7 +121,7 @@
                 {##}
                 {#                    <a href="{% url 'all deleted departments' %}" class="btn btn-lg btn-secondary">Show all deleted</a>#}
                 {##}
-                {#                    <a href="{% url 'all patients' %}" class="btn btn-lg btn-secondary">Show non-deleted patients</a>#}
+                                    <a href="{% url 'all patients' %}" class="btn btn-lg btn-secondary">Show non-deleted patients</a>
                 {##}
                 {#                    <a href="{% url 'all deleted patients' %}" class="btn btn-lg btn-secondary">Show deleted#}
                 {#                        patients</a>#}
@@ -123,16 +133,16 @@
                 {##}
                 {#                    <a href="{% url 'all deleted staffs' %}" class="btn btn-lg btn-secondary">Show deleted staff</a>#}
                 {##}
-                {#                    <p>#}
-                {#                        <a href="{% url 'create physician user' %}" class="btn btn-lg btn-secondary">Register new user#}
-                {#                            as#}
-                {#                            physician</a>#}
-                {##}
-                {#                        <a href="{% url 'all physicians' %}" class="btn btn-lg btn-secondary">Show all physicians</a>#}
-                {##}
-                {#                        <a href="{% url 'all deleted physicians' %}" class="btn btn-lg btn-secondary">Show deleted#}
-                {#                            physicians</a>#}
-                {#                    </p>#}
+                                    <p>
+                                        <a href="{% url 'create physician user' %}" class="btn btn-lg btn-secondary">Register new user
+                                            as
+                                            physician</a>
+
+                                        <a href="{% url 'all physicians' %}" class="btn btn-lg btn-secondary">Show all physicians</a>
+
+                                        <a href="{% url 'all deleted physicians' %}" class="btn btn-lg btn-secondary">Show deleted
+                                            physicians</a>
+                                    </p>
                 {#                    <p>#}
                 {#                        Analysis Fields#}
                 {#                        <a href="{% url 'create analysis field' %}" class="btn btn-lg btn-secondary">Create new analysis#}

@@ -7,9 +7,10 @@ from labsystem.laboratory.forms.physician_forms import CreatePhysicianUserForm, 
     DeletePhysicianForm, RestorePhysicianForm
 from labsystem.laboratory.models import Profile
 from utils.view_mixins import StaffRequiredMixin, SuperUserRequiredMixin
+from django.contrib.admin.views.decorators import staff_member_required
 
 
-class PhysicianUserCreateView(views.CreateView):
+class PhysicianUserCreateView(LoginRequiredMixin, SuperUserRequiredMixin, views.CreateView):
     form_class = CreatePhysicianUserForm
     template_name = 'users/physician/physician_user_create.html'
     success_url = reverse_lazy('create physician')
@@ -41,7 +42,7 @@ class PhysicianCreateView(LoginRequiredMixin, SuperUserRequiredMixin, views.Crea
         return reverse_lazy('index')
 
 
-class PhysicianListView(LoginRequiredMixin, SuperUserRequiredMixin, views.ListView):
+class PhysicianListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = Profile
     template_name = 'users/physician/physician_nondeleted_list.html'
@@ -51,7 +52,7 @@ class PhysicianListView(LoginRequiredMixin, SuperUserRequiredMixin, views.ListVi
     ordering = ['-updated_on']
 
 
-class DeletedPhysicianListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
+class DeletedPhysicianListView(LoginRequiredMixin, SuperUserRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = Profile
     template_name = 'users/physician/physician_deleted_list.html'
@@ -83,7 +84,7 @@ class EditPhysicianView(LoginRequiredMixin, StaffRequiredMixin, views.UpdateView
     success_url = reverse_lazy('all staffs')
 
 
-class PhysicianDetailsView(views.DetailView):
+class PhysicianDetailsView(LoginRequiredMixin, StaffRequiredMixin, views.DetailView):
     model = Profile
     template_name = 'users/physician/physician_details.html'
     context_object_name = 'profile'
@@ -97,6 +98,7 @@ class PhysicianDetailsView(views.DetailView):
         return context
 
 
+@staff_member_required
 def delete_physician_view(request, pk):
     physician = Profile.objects.get(pk=pk)
     physician_pid = physician.pid_type
@@ -121,6 +123,7 @@ def delete_physician_view(request, pk):
     return render(request, 'users/physician/physician_delete.html', context)
 
 
+@staff_member_required
 def restore_physician_view(request, pk):
     physician = Profile.objects.get(pk=pk)
     physician_pid = physician.pid_type

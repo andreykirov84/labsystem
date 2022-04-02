@@ -1,3 +1,4 @@
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.views import generic as views
@@ -28,6 +29,7 @@ class EditAnalysisView(LoginRequiredMixin, StaffRequiredMixin, views.UpdateView)
     success_url = reverse_lazy('all analyses')
 
 
+@staff_member_required
 def delete_analysis_view(request, pk):
     analysis = Analysis.objects.get(pk=pk)
     if request.method == 'POST':
@@ -45,6 +47,7 @@ def delete_analysis_view(request, pk):
     return render(request, 'laboratory/analysis/analysis_delete.html', context)
 
 
+@staff_member_required
 def restore_analysis_view(request, pk):
     analysis = Analysis.objects.get(pk=pk)
     if request.method == 'POST':

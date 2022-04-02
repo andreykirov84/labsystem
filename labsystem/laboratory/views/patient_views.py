@@ -1,4 +1,6 @@
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.views import generic as views
 from django.urls import reverse_lazy, reverse
@@ -6,9 +8,9 @@ from django.urls import reverse_lazy, reverse
 from labsystem.auth_app.models import LimsUser
 from labsystem.laboratory.forms.patient_forms import CreatePatientUserForm, CreateProfilePatientForm, DeletePatientForm, \
     RestorePatientForm
-from labsystem.laboratory.models import Profile
+from labsystem.laboratory.models import Profile, Result
 from utils.generators import get_secure_random_string
-from utils.view_mixins import StaffRequiredMixin
+from utils.view_mixins import StaffRequiredMixin, PhysicianRequiredMixin
 
 
 class PatientUserCreateView(LoginRequiredMixin, StaffRequiredMixin, views.CreateView):
@@ -78,6 +80,29 @@ class PatientsListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
     ordering = ['-updated_on']
 
 
+class AllPhysicianPatientsListView(LoginRequiredMixin, PhysicianRequiredMixin, views.ListView):
+    PATIENTS_PER_PAGE = 10
+    Model = Profile
+    template_name = 'laboratory/all_patients_referred_by_specific_physician_list.html'
+    context_object_name = 'all_patients'
+
+    queryset = Profile.objects.filter(user__is_patient=True, deleted_at=None, )
+    paginate_by = PATIENTS_PER_PAGE
+    ordering = ['-created_on']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        physician = Profile.objects.get(pk=self.kwargs['pk'])
+        results = Result.objects.filter(referring_physician=self.kwargs['pk']).values()
+        patients = None
+        if results:
+            all_patients_pk = [x['patient_id'] for x in results]
+            patients = Profile.objects.filter(pk__in=all_patients_pk)
+        context['patients'] = patients
+        context['physician'] = physician
+        return context
+
+
 class DeletedPatientsListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = Profile
@@ -104,7 +129,7 @@ class EditPatientView(LoginRequiredMixin, StaffRequiredMixin, views.UpdateView):
     success_url = reverse_lazy('all patients')
 
 
-class PatientDetailsView(views.DetailView):
+class PatientDetailsView(LoginRequiredMixin, views.DetailView):
     model = Profile
     template_name = 'users/patient_details.html'
     context_object_name = 'profile'
@@ -114,10 +139,13 @@ class PatientDetailsView(views.DetailView):
         deleted = False
         if self.object.deleted_at is not None:
             deleted = True
+        user_is_staff = Profile.objects.get(pk=self.kwargs['pk']).user.is_staff
         context['deleted'] = deleted
+        context['user_is_staff'] = user_is_staff
         return context
 
 
+@staff_member_required
 def delete_patient_view(request, pk):
     patient = Profile.objects.get(pk=pk)
     patient_pid = patient.pid_type
@@ -141,6 +169,7 @@ def delete_patient_view(request, pk):
     return render(request, 'users/patient_delete.html', context)
 
 
+@staff_member_required
 def restore_patient_view(request, pk):
     patient = Profile.objects.get(pk=pk)
     patient_pid = patient.pid_type

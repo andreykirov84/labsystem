@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from labsystem.laboratory.forms.department_forms import DeleteDepartmentForm, RestoreDepartmentForm, \
     CreateDepartmentForm
 from labsystem.laboratory.models import Department
+from utils.decorators import superuser_required
 from utils.view_mixins import StaffRequiredMixin
 
 
@@ -16,7 +17,7 @@ class DepartmentCreation(LoginRequiredMixin, StaffRequiredMixin, views.CreateVie
     success_url = reverse_lazy('all departments')
 
 
-class EditDepartment(LoginRequiredMixin, StaffRequiredMixin, SuccessMessageMixin, views.UpdateView):
+class EditDepartment(LoginRequiredMixin, StaffRequiredMixin, views.UpdateView):
     model = Department
     context_object_name = 'department'
     template_name = 'laboratory/department_edit.html'
@@ -26,10 +27,10 @@ class EditDepartment(LoginRequiredMixin, StaffRequiredMixin, SuccessMessageMixin
         'telephone_number',
         'email',
     )
-    success_message = f'The Department was successfully updated'
     success_url = reverse_lazy('all departments')
 
 
+@superuser_required
 def delete_department(request, pk):
     department = Department.objects.get(pk=pk)
     if request.method == 'POST':
@@ -47,6 +48,7 @@ def delete_department(request, pk):
     return render(request, 'laboratory/department_delete.html', context)
 
 
+@superuser_required
 def restore_department(request, pk):
     department = Department.objects.get(pk=pk)
     if request.method == 'POST':

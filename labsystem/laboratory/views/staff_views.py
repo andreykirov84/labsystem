@@ -6,10 +6,11 @@ from labsystem.auth_app.models import LimsUser
 from labsystem.laboratory.forms.staff_forms import CreateStafftUserForm, CreateProfileStaffForm, DeleteStaffForm, \
     RestoreStaffForm
 from labsystem.laboratory.models import Profile
+from utils.decorators import superuser_required
 from utils.view_mixins import StaffRequiredMixin, SuperUserRequiredMixin
 
 
-class StaffUserCreateView(views.CreateView):
+class StaffUserCreateView(LoginRequiredMixin, SuperUserRequiredMixin, views.CreateView):
     form_class = CreateStafftUserForm
     template_name = 'users/staff/staff_user_create.html'
     success_url = reverse_lazy('create staff')
@@ -51,7 +52,7 @@ class StaffListView(LoginRequiredMixin, SuperUserRequiredMixin, views.ListView):
     ordering = ['-updated_on']
 
 
-class DeletedStaffListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
+class DeletedStaffListView(LoginRequiredMixin, SuperUserRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = Profile
     template_name = 'users/staff/staff_deleted_list.html'
@@ -61,7 +62,7 @@ class DeletedStaffListView(LoginRequiredMixin, StaffRequiredMixin, views.ListVie
     ordering = ['-updated_on']
 
 
-class EditStaffView(LoginRequiredMixin, StaffRequiredMixin, views.UpdateView):
+class EditStaffView(LoginRequiredMixin, SuperUserRequiredMixin, views.UpdateView):
     model = Profile
     template_name = 'users/staff/staff_edit.html'
     fields = (
@@ -85,7 +86,7 @@ class EditStaffView(LoginRequiredMixin, StaffRequiredMixin, views.UpdateView):
     success_url = reverse_lazy('all staffs')
 
 
-class StaffDetailsView(views.DetailView):
+class StaffDetailsView(LoginRequiredMixin, SuperUserRequiredMixin, views.DetailView):
     model = Profile
     template_name = 'users/staff/staff_details.html'
     context_object_name = 'profile'
@@ -99,6 +100,7 @@ class StaffDetailsView(views.DetailView):
         return context
 
 
+@superuser_required
 def delete_staff_view(request, pk):
     staff = Profile.objects.get(pk=pk)
     staff_pid = staff.pid_type
@@ -123,6 +125,7 @@ def delete_staff_view(request, pk):
     return render(request, 'users/staff/staff_delete.html', context)
 
 
+@superuser_required
 def restore_staff_view(request, pk):
     staff = Profile.objects.get(pk=pk)
     staff_pid = staff.pid_type

@@ -1,0 +1,58 @@
+{% extends 'main/base.html' %}
+
+{% block page_content %}
+    <h1 class="text-center">All Patients Referred by Physician {{ physician.full_name }}</h1>
+    <div class="row">
+        {% if patients %}
+            <div class="table-responsive-md">
+            <table class="table table-bordered">
+                <tr class="first-table-row">
+                    <th scope="col">Personal identification number</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Full name</th>
+                    <th scope="col">Sex</th>
+                    <th scope="col">Date of birth</th>
+                    <th scope="col">Registered [Date]</th>
+                    <th scope="col">Check results</th>
+
+                </tr>
+                {% for patient in patients %}
+                    <tr>
+                        <td>{{ patient.pid }}</td>
+                        <td>{{ patient.pid_type }}</td>
+                        <td>{{ patient.full_name }}</td>
+                        <td>{{ patient.sex }}</td>
+                        <td>{{ patient.date_of_birth }}</td>
+                        <td>{{ patient.created_on }}</td>
+                        <td><a href="{% url 'show details patient' patient.pk %}"> Link </a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+            {% if is_paginated %}
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in paginator.page_range %}
+                        {% if page_obj.number == i %}
+                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                        <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+        {% else %}
+            No Patients to display!
+        {% endif %}
+        </div>
+        <div class="col-lg-3"></div>
+    </div>
+{% endblock %}

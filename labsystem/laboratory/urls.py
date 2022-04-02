@@ -10,7 +10,8 @@ from labsystem.laboratory.views.health_facility_views import HealthFacilityCreat
     delete_health_facility, restore_health_facility, HealthFacilityListView, DeletedHealthFacilityListView
 from labsystem.laboratory.views.job_position_views import JobPositionCreation
 from labsystem.laboratory.views.patient_views import PatientUserCreateView, PatientCreateView, EditPatientView, \
-    PatientDetailsView, delete_patient_view, restore_patient_view, PatientsListView, DeletedPatientsListView
+    PatientDetailsView, delete_patient_view, restore_patient_view, PatientsListView, DeletedPatientsListView, \
+    AllPhysicianPatientsListView
 from labsystem.laboratory.views.physician_views import PhysicianListView, DeletedPhysicianListView, EditPhysicianView, \
     PhysicianDetailsView, delete_physician_view, restore_physician_view, PhysicianUserCreateView, PhysicianCreateView
 from labsystem.laboratory.views.results_views import CreateResultView, EditResultView, PatientSpecificResultListView, \
@@ -50,6 +51,7 @@ urlpatterns = (
     path('physicians/<int:pk>/restore/', restore_physician_view, name='restore physician'),
     path('physicians/all', PhysicianListView.as_view(), name='all physicians'),
     path('physicians/all/deleted/', DeletedPhysicianListView.as_view(), name='all deleted physicians'),
+    path('physicians/<int:pk>/patients/all/', AllPhysicianPatientsListView.as_view(), name='all specific physician patients'),
 
     path('health_facility/create/', HealthFacilityCreation.as_view(), name='health facility register'),
     path('health_facility/<int:pk>/edit/', EditHealthFacility.as_view(), name='edit health facility'),

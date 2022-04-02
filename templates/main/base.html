@@ -11,6 +11,7 @@
           href="https://cdn3.iconfinder.com/data/icons/40-set-corona-pandemic-virus-1/512/012-film_roll-512.png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
           integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
 </head>
 
 <body>
@@ -27,19 +28,19 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
+{#            <li class="nav-item">#}
+{#                <a class="nav-link" href="#">Link</a>#}
+{#            </li>#}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     Dropdown
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="{% url 'all analyses' %}">All analysis</a>
+{#                    <a class="dropdown-item" href="#">Another action</a>#}
+{#                    <div class="dropdown-divider"></div>#}
+{#                    <a class="dropdown-item" href="#">Something else here</a>#}
                 </div>
             </li>
             <li class="nav-item">
@@ -73,36 +74,35 @@
 {#</footer>#}
 {#<!-- Footer -->#}
 <footer class="text-center text-lg-start bg-light text-muted">
-    {#    <!-- Section: Social media -->#}
-    {#    <section#}
-    {#            class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">#}
-    {#        <!-- Left -->#}
-    {##}
-    {#        <!-- Left -->#}
-    {##}
-    {#        <!-- Right -->#}
-    {#        <div>#}
-    {#            <a href="" class="me-4 text-reset">#}
-    {#                <i class="fab fa-facebook-f"></i>#}
-    {#            </a>#}
-    {#            <a href="" class="me-4 text-reset">#}
-    {#                <i class="fab fa-twitter"></i>#}
-    {#            </a>#}
-    {#            <a href="" class="me-4 text-reset">#}
-    {#                <i class="fab fa-google"></i>#}
-    {#            </a>#}
-    {#            <a href="" class="me-4 text-reset">#}
-    {#                <i class="fab fa-instagram"></i>#}
-    {#            </a>#}
-    {#            <a href="" class="me-4 text-reset">#}
-    {#                <i class="fab fa-linkedin"></i>#}
-    {#            </a>#}
-    {#            <a href="" class="me-4 text-reset">#}
-    {#                <i class="fab fa-github"></i>#}
-    {#            </a>#}
-    {#        </div>#}
-    {#        <!-- Right -->#}
-    {#    </section>#}
+        <!-- Section: Social media -->
+{#        <section#}
+{#                class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">#}
+            <!-- Left -->
+
+            <!-- Left -->
+
+            <!-- Right -->
+{#            <div>#}
+{#                 <a href="https://www.facebook.com/andrey.kirov.10/">Share</a>#}
+{#                    <i class="fab fa-facebook-f"></i>#}
+{#                <a href="" class="me-4 text-reset">#}
+{#                    <i class="fab fa-twitter"></i>#}
+{#                </a>#}
+{#                <a href="" class="me-4 text-reset">#}
+{#                    <i class="fab fa-google"></i>#}
+{#                </a>#}
+{#                <a href="" class="me-4 text-reset">#}
+{#                    <i class="fab fa-instagram"></i>#}
+{#                </a>#}
+{#                <a href="" class="me-4 text-reset">#}
+{#                    <i class="fab fa-linkedin"></i>#}
+{#                </a>#}
+{#                <a href="" class="me-4 text-reset">#}
+{#                    <i class="fab fa-github"></i>#}
+{#                </a>#}
+{#            </div>#}
+{#            <!-- Right -->#}
+{#        </section>#}
     <!-- Section: Social media -->
 
     <!-- Section: Links  -->
@@ -124,24 +124,24 @@
                 <!-- Grid column -->
 
                 <!-- Grid column -->
-{#                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">#}
-{#                    <!-- Links -->#}
-{#                    <h6 class="text-uppercase fw-bold mb-4">#}
-{#                        Products#}
-{#                    </h6>#}
-{#                    <p>#}
-{#                        <a href="#!" class="text-reset">Angular</a>#}
-{#                    </p>#}
-{#                    <p>#}
-{#                        <a href="#!" class="text-reset">React</a>#}
-{#                    </p>#}
-{#                    <p>#}
-{#                        <a href="#!" class="text-reset">Vue</a>#}
-{#                    </p>#}
-{#                    <p>#}
-{#                        <a href="#!" class="text-reset">Laravel</a>#}
-{#                    </p>#}
-{#                </div>#}
+                {#                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">#}
+                {#                    <!-- Links -->#}
+                {#                    <h6 class="text-uppercase fw-bold mb-4">#}
+                {#                        Products#}
+                {#                    </h6>#}
+                {#                    <p>#}
+                {#                        <a href="#!" class="text-reset">Angular</a>#}
+                {#                    </p>#}
+                {#                    <p>#}
+                {#                        <a href="#!" class="text-reset">React</a>#}
+                {#                    </p>#}
+                {#                    <p>#}
+                {#                        <a href="#!" class="text-reset">Vue</a>#}
+                {#                    </p>#}
+                {#                    <p>#}
+                {#                        <a href="#!" class="text-reset">Laravel</a>#}
+                {#                    </p>#}
+                {#                </div>#}
                 <!-- Grid column -->
 
                 <!-- Grid column -->
@@ -165,10 +165,10 @@
                     <h6 class="text-uppercase fw-bold mb-4">
                         Contact
                     </h6>
-                    <p><i class="fas fa-home me-3"></i> Somewhere in Sofia, 1000, BG</p>
-                    <a href="https://goo.gl/maps/oB7qgh5k9iap4ags7" class="text-reset">Find us in Google Maps</a>
+                    <p><i class="fa fa-home"></i> 1 Somewhere str., Sofia, BG</p>
+                    <a href="https://goo.gl/maps/oB7qgh5k9iap4ags7" class="text-reset">Find us on Google maps</a>
                     <p>
-                        <i class="fas fa-envelope me-3"></i>
+                        <i class="fa fa-envelope"></i>
                         info@lims.com
                     </p>
                     <p><i class="fas fa-phone me-3"></i> +359 123 456 789</p>
@@ -183,7 +183,7 @@
     <!-- Copyright -->
     <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
         © Laboratory Managment System Project (author: Andrey Kirov):
-        <a class="text-reset fw-bold" href="#">LIMS</a>
+{#        <a class="text-reset fw-bold" href="#">LIMS</a>#}
     </div>
     <!-- Copyright -->
 </footer>

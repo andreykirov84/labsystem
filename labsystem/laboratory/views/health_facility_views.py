@@ -1,3 +1,4 @@
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, render
@@ -42,6 +43,7 @@ class EditHealthFacility(LoginRequiredMixin, StaffRequiredMixin, SuccessMessageM
     success_url = reverse_lazy('all health facilities')
 
 
+@staff_member_required
 def delete_health_facility(request, pk):
     facility = HealthFacility.objects.get(pk=pk)
     if request.method == 'POST':
@@ -59,6 +61,7 @@ def delete_health_facility(request, pk):
     return render(request, 'laboratory/health_facility_delete.html', context)
 
 
+@staff_member_required
 def restore_health_facility(request, pk):
     facility = HealthFacility.objects.get(pk=pk)
     if request.method == 'POST':
