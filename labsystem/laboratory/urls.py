@@ -3,7 +3,7 @@ from django.urls import path
 from labsystem.laboratory.views.analysis_field_views import CreateAnalysisFieldView, EditAnalysisFieldView, \
     delete_analysis_field_view, restore_analysis_field_view, AnalysisFieldsListView, DeletedAnalysisFieldsListView
 from labsystem.laboratory.views.analysis_views import CreateAnalysisView, EditAnalysisView, delete_analysis_view, \
-    restore_analysis_view, AnalysisListView, DeletedAnalysisListView
+    restore_analysis_view, AnalysisListView, DeletedAnalysisListView, SearchAnalysesView
 from labsystem.laboratory.views.department_views import DepartmentCreation, EditDepartment, delete_department, \
     restore_department, DepartmentsListView, DeletedDepartmentsListView
 from labsystem.laboratory.views.health_facility_views import HealthFacilityCreation, EditHealthFacility, \
@@ -81,6 +81,7 @@ urlpatterns = (
     path('analyses/<int:pk>/delete/', delete_analysis_view, name='delete analysis'),
     path('analyses/<int:pk>/restore/', restore_analysis_view, name='restore analysis'),
     path('analyses/all/', AnalysisListView.as_view(), name='all analyses'),
+    path('analyses/all/search/', SearchAnalysesView.as_view(), name='all searched analyses'),
     path('analyses/all_deleted/', DeletedAnalysisListView.as_view(), name='all deleted analyses'),
 
     path('patients/<int:pk>/result/create/', CreateResultView.as_view(), name='add result to patient'),

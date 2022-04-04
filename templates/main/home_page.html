@@ -8,8 +8,34 @@
         <div class="position-sticky">
             {% if logged_user_is_physician %}
                 <h3>Welcome Dr. {{ user.profile.full_name }}</h3>
-                <a href="{% url 'all specific physician patients' user.pk %}" class="btn btn-primary btn-lg active" role="button"
+                <a href="{% url 'all specific physician patients' user.pk %}" class="btn btn-primary btn-lg active"
+                   role="button"
                    aria-pressed="true">Check Your Patients</a>
+            {% endif %}
+            {% if logged_user_is_patient %}
+                <h3>Welcome {{ user.profile.full_name }}</h3>
+                <a href="{% url 'all patient specific results' user.pk %}" class="btn btn-primary btn-lg active"
+                   role="button"
+                   aria-pressed="true">Check Your Results</a>
+            {% endif %}
+            {% if logged_user_is_staff %}
+                <h3>Welcome {{ user.profile.full_name }}! You are logged in as a laboratory staff member</h3>
+                <p>
+                    <a href="{% url 'create user_as_patient' %}" class="btn btn-primary btn-lg active"
+                       role="button"
+                       aria-pressed="true">Register a new patients</a>
+                </p>
+                <p>
+                    <a href="{% url 'all patients' %}" class="btn btn-primary btn-lg active"
+                       role="button"
+                       aria-pressed="true">See all patients</a>
+                </p>
+            {% endif %}
+            {% if user.is_superuser %}
+                <h3> Your are also logged in as Admin </h3>
+                <a href="http://127.0.0.1:8000/admin/" class="btn btn-primary btn-lg active"
+                   role="button"
+                   aria-pressed="true">Admin panel</a>
             {% endif %}
 
             <h1 class="display-4">Welcome to KirovLab</h1>
@@ -99,73 +125,73 @@
                     <a href="{% url 'all analyses' %}">Check our analyses</a>
                 </div>
                 {#                #}
-                                <div class="flex-row">
-                                    <a href="{% url 'create user_as_patient' %}" class="btn btn-lg btn-secondary">Register new user as
-                                        patient</a>
-                {##}
-                {#                    <a href="{% url 'health facility register' %}" class="btn btn-lg btn-secondary">Create new health#}
-                {#                        facility</a>#}
-                {##}
-                {#                    <a href="{% url 'department register' %}" class="btn btn-lg btn-secondary">Create new department</a>#}
-                {##}
-                {#                    <a href="{% url 'position register' %}" class="btn btn-lg btn-secondary">Create new job position</a>#}
-                {##}
-                {#                    <a href="{% url 'all health facilities' %}" class="btn btn-lg btn-secondary">Show all health#}
-                {#                        facilities</a>#}
-                {##}
-                {#                    <a href="{% url 'all deleted health facilities' %}" class="btn btn-lg btn-secondary">Show all#}
-                {#                        deleted#}
-                {#                        health facilities</a>#}
-                {##}
-                {#                    <a href="{% url 'all departments' %}" class="btn btn-lg btn-secondary">Show all departments</a>#}
-                {##}
-                {#                    <a href="{% url 'all deleted departments' %}" class="btn btn-lg btn-secondary">Show all deleted</a>#}
-                {##}
-                                    <a href="{% url 'all patients' %}" class="btn btn-lg btn-secondary">Show non-deleted patients</a>
-                {##}
-                {#                    <a href="{% url 'all deleted patients' %}" class="btn btn-lg btn-secondary">Show deleted#}
-                {#                        patients</a>#}
-                {##}
-                {#                    <a href="{% url 'create staff user' %}" class="btn btn-lg btn-secondary">Register new user as#}
-                {#                        staff</a>#}
-                {##}
-                {#                    <a href="{% url 'all staffs' %}" class="btn btn-lg btn-secondary">Show all staff</a>#}
-                {##}
-                {#                    <a href="{% url 'all deleted staffs' %}" class="btn btn-lg btn-secondary">Show deleted staff</a>#}
-                {##}
-                                    <p>
-                                        <a href="{% url 'create physician user' %}" class="btn btn-lg btn-secondary">Register new user
-                                            as
-                                            physician</a>
+                <div class="flex-row">
+                    <a href="{% url 'create user_as_patient' %}" class="btn btn-lg btn-secondary">Register new user as
+                        patient</a>
+                    {##}
+                    {#                    <a href="{% url 'health facility register' %}" class="btn btn-lg btn-secondary">Create new health#}
+                    {#                        facility</a>#}
+                    {##}
+                    {#                    <a href="{% url 'department register' %}" class="btn btn-lg btn-secondary">Create new department</a>#}
+                    {##}
+                    {#                    <a href="{% url 'position register' %}" class="btn btn-lg btn-secondary">Create new job position</a>#}
+                    {##}
+                    {#                    <a href="{% url 'all health facilities' %}" class="btn btn-lg btn-secondary">Show all health#}
+                    {#                        facilities</a>#}
+                    {##}
+                    {#                    <a href="{% url 'all deleted health facilities' %}" class="btn btn-lg btn-secondary">Show all#}
+                    {#                        deleted#}
+                    {#                        health facilities</a>#}
+                    {##}
+                    {#                    <a href="{% url 'all departments' %}" class="btn btn-lg btn-secondary">Show all departments</a>#}
+                    {##}
+                    {#                    <a href="{% url 'all deleted departments' %}" class="btn btn-lg btn-secondary">Show all deleted</a>#}
+                    {##}
+                    <a href="{% url 'all patients' %}" class="btn btn-lg btn-secondary">Show non-deleted patients</a>
+                    {##}
+                    {#                    <a href="{% url 'all deleted patients' %}" class="btn btn-lg btn-secondary">Show deleted#}
+                    {#                        patients</a>#}
+                    {##}
+                    {#                    <a href="{% url 'create staff user' %}" class="btn btn-lg btn-secondary">Register new user as#}
+                    {#                        staff</a>#}
+                    {##}
+                    {#                    <a href="{% url 'all staffs' %}" class="btn btn-lg btn-secondary">Show all staff</a>#}
+                    {##}
+                    {#                    <a href="{% url 'all deleted staffs' %}" class="btn btn-lg btn-secondary">Show deleted staff</a>#}
+                    {##}
+                    <p>
+                        <a href="{% url 'create physician user' %}" class="btn btn-lg btn-secondary">Register new user
+                            as
+                            physician</a>
 
-                                        <a href="{% url 'all physicians' %}" class="btn btn-lg btn-secondary">Show all physicians</a>
+                        <a href="{% url 'all physicians' %}" class="btn btn-lg btn-secondary">Show all physicians</a>
 
-                                        <a href="{% url 'all deleted physicians' %}" class="btn btn-lg btn-secondary">Show deleted
-                                            physicians</a>
-                                    </p>
-                {#                    <p>#}
-                {#                        Analysis Fields#}
-                {#                        <a href="{% url 'create analysis field' %}" class="btn btn-lg btn-secondary">Create new analysis#}
-                {#                            field</a>#}
-                {##}
-                {#                        <a href="{% url 'all analysis fields' %}" class="btn btn-lg btn-secondary">Show all analysis#}
-                {#                            fields</a>#}
-                {##}
-                {#                        <a href="{% url 'all deleted analysis fields' %}" class="btn btn-lg btn-secondary">Show deleted#}
-                {#                            analysis fields</a>#}
-                {#                    </p>#}
-                {#                    <p>#}
-                {#                        Analyses#}
-                {#                        <a href="{% url 'create analysis' %}" class="btn btn-lg btn-secondary">Create new analysis</a>#}
-                {##}
-                {#                        <a href="{% url 'all analyses' %}" class="btn btn-lg btn-secondary">Show all analyses</a>#}
-                {##}
-                {#                        <a href="{% url 'all deleted analyses' %}" class="btn btn-lg btn-secondary">Show deleted#}
-                {#                            analyses</a>#}
-                {#                    </p>#}
-                {##}
-                {##}
-                {#                </div>#}
+                        <a href="{% url 'all deleted physicians' %}" class="btn btn-lg btn-secondary">Show deleted
+                            physicians</a>
+                    </p>
+                    {#                    <p>#}
+                    {#                        Analysis Fields#}
+                    {#                        <a href="{% url 'create analysis field' %}" class="btn btn-lg btn-secondary">Create new analysis#}
+                    {#                            field</a>#}
+                    {##}
+                    {#                        <a href="{% url 'all analysis fields' %}" class="btn btn-lg btn-secondary">Show all analysis#}
+                    {#                            fields</a>#}
+                    {##}
+                    {#                        <a href="{% url 'all deleted analysis fields' %}" class="btn btn-lg btn-secondary">Show deleted#}
+                    {#                            analysis fields</a>#}
+                    {#                    </p>#}
+                    <p>
+                        Analyses
+                        <a href="{% url 'create analysis' %}" class="btn btn-lg btn-secondary">Create new analysis</a>
+
+                        <a href="{% url 'all analyses' %}" class="btn btn-lg btn-secondary">Show all analyses</a>
+
+                        <a href="{% url 'all deleted analyses' %}" class="btn btn-lg btn-secondary">Show deleted
+                            analyses</a>
+                    </p>
+                    {##}
+                    {##}
+                </div>
             </div>
         </div>
     </div>

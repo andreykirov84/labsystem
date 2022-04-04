@@ -51,6 +51,7 @@ PROJECT_APPS = (
 
 THIRD_PARTY_APPS = (
     'environ',
+    # 'django-search-views'
 )
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS

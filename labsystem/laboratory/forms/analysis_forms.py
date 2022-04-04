@@ -32,3 +32,4 @@ class RestoreAnalysisForm(RestoreAbstractForm):
             'updated_on',
             'deleted_at',
         )
+
