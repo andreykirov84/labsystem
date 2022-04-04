@@ -33,6 +33,7 @@ class PhysicianRequiredMixin(AccessMixin):
             # raise PermissionDenied('You need to be staff member to visit this page!')
         return super().dispatch(request, *args, **kwargs)
 
+
 class SuperUserRequiredMixin(AccessMixin):
     """    View mixin which requires that the authenticated user is a staff member
     (i.e. `is_staff` is True)."""
@@ -50,3 +51,11 @@ class ErrorIfNotPhysicianOrStaff:
 
         return super().dispatch(request, *args, **kwargs)
 
+
+class LoginAndNotDeletedRequiredMixin(AccessMixin):
+    """Verify that the current user is authenticated."""
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated and not request.user.deleted_at:
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)

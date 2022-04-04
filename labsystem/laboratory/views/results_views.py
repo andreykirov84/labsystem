@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginAndNotDeletedRequiredMixin
 from django.views import generic as views
 from django.urls import reverse_lazy
 
@@ -7,7 +7,7 @@ from labsystem.laboratory.models import Profile, Result, Analysis, ResultLine
 from utils.view_mixins import StaffRequiredMixin
 
 
-class CreateResultView(LoginRequiredMixin, StaffRequiredMixin, views.CreateView):
+class CreateResultView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.CreateView):
     form_class = CreateResultForm
     template_name = 'laboratory/result/result_create.html'
     success_url = reverse_lazy('index')
@@ -27,7 +27,7 @@ class CreateResultView(LoginRequiredMixin, StaffRequiredMixin, views.CreateView)
         return super().form_valid(form)
 
 
-class EditResultView(LoginRequiredMixin, StaffRequiredMixin, views.UpdateView):
+class EditResultView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.UpdateView):
     model = Result
     context_object_name = 'result'
     template_name = 'laboratory/result/result_edit.html'
@@ -41,7 +41,7 @@ class EditResultView(LoginRequiredMixin, StaffRequiredMixin, views.UpdateView):
     )
 
 
-class PatientSpecificResultListView(LoginRequiredMixin, views.ListView):
+class PatientSpecificResultListView(LoginAndNotDeletedRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = Result
     template_name = 'laboratory/result/patient_specific_result_list.html'
@@ -64,7 +64,7 @@ class PatientSpecificResultListView(LoginRequiredMixin, views.ListView):
         return context
 
 
-class ResultDetailsView(LoginRequiredMixin, views.DetailView):
+class ResultDetailsView(LoginAndNotDeletedRequiredMixin, views.DetailView):
     model = Result
     template_name = 'laboratory/result/result_details.html'
     context_object_name = 'result_context'
@@ -80,7 +80,7 @@ class ResultDetailsView(LoginRequiredMixin, views.DetailView):
         return context
 
 
-class EditResultLineView(LoginRequiredMixin, StaffRequiredMixin, views.UpdateView):
+class EditResultLineView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.UpdateView):
     VALUE_IN_RANGE_COMMENT = 'Value in normal range'
     NO_SEX_COMMENT = 'Value in normal range'
     model = ResultLine

@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginAndNotDeletedRequiredMixin
 from django.shortcuts import redirect, render
 from django.views import generic as views
 from django.urls import reverse_lazy
@@ -9,13 +9,13 @@ from labsystem.laboratory.models import AnalysisField
 from utils.view_mixins import StaffRequiredMixin
 
 
-class CreateAnalysisFieldView(LoginRequiredMixin, StaffRequiredMixin, views.CreateView):
+class CreateAnalysisFieldView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.CreateView):
     form_class = CreateAnalysisFieldForm
     template_name = 'laboratory/analysis_field/analysis_field_create.html'
     success_url = reverse_lazy('all analysis fields')
 
 
-class EditAnalysisFieldView(LoginRequiredMixin, StaffRequiredMixin, views.UpdateView):
+class EditAnalysisFieldView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.UpdateView):
     model = AnalysisField
     context_object_name = 'analysis_field'
     template_name = 'laboratory/analysis_field/analysis_field_edit.html'
@@ -65,7 +65,7 @@ def restore_analysis_field_view(request, pk):
     return render(request, 'laboratory/analysis_field/analysis_field_restore.html', context)
 
 
-class AnalysisFieldsListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
+class AnalysisFieldsListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = AnalysisField
     template_name = 'laboratory/analysis_field/analysis_field_nondeleted_list.html'
@@ -74,7 +74,7 @@ class AnalysisFieldsListView(LoginRequiredMixin, StaffRequiredMixin, views.ListV
     paginate_by = ITEMS_PER_PAGE
 
 
-class DeletedAnalysisFieldsListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
+class DeletedAnalysisFieldsListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = AnalysisField
     template_name = 'laboratory/analysis_field/analysis_field_deleted_list.html'

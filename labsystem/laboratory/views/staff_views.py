@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginAndNotDeletedRequiredMixin
 from django.shortcuts import redirect, render
 from django.views import generic as views
 from django.urls import reverse_lazy, reverse
@@ -10,7 +10,7 @@ from utils.decorators import superuser_required
 from utils.view_mixins import StaffRequiredMixin, SuperUserRequiredMixin
 
 
-class StaffUserCreateView(LoginRequiredMixin, SuperUserRequiredMixin, views.CreateView):
+class StaffUserCreateView(LoginAndNotDeletedRequiredMixin, SuperUserRequiredMixin, views.CreateView):
     form_class = CreateStafftUserForm
     template_name = 'users/staff/staff_user_create.html'
     success_url = reverse_lazy('create staff')
@@ -20,7 +20,7 @@ class StaffUserCreateView(LoginRequiredMixin, SuperUserRequiredMixin, views.Crea
         return reverse('create staff', kwargs={'pk': self.object.pk})
 
 
-class StaffCreateView(LoginRequiredMixin, SuperUserRequiredMixin, views.CreateView):
+class StaffCreateView(LoginAndNotDeletedRequiredMixin, SuperUserRequiredMixin, views.CreateView):
     form_class = CreateProfileStaffForm
     template_name = 'users/staff/staff_create.html'
     success_url = reverse_lazy('index')
@@ -42,7 +42,7 @@ class StaffCreateView(LoginRequiredMixin, SuperUserRequiredMixin, views.CreateVi
         return reverse_lazy('index')
 
 
-class StaffListView(LoginRequiredMixin, SuperUserRequiredMixin, views.ListView):
+class StaffListView(LoginAndNotDeletedRequiredMixin, SuperUserRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = Profile
     template_name = 'users/staff/staff_nondeleted_list.html'
@@ -52,7 +52,7 @@ class StaffListView(LoginRequiredMixin, SuperUserRequiredMixin, views.ListView):
     ordering = ['-updated_on']
 
 
-class DeletedStaffListView(LoginRequiredMixin, SuperUserRequiredMixin, views.ListView):
+class DeletedStaffListView(LoginAndNotDeletedRequiredMixin, SuperUserRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = Profile
     template_name = 'users/staff/staff_deleted_list.html'
@@ -62,7 +62,7 @@ class DeletedStaffListView(LoginRequiredMixin, SuperUserRequiredMixin, views.Lis
     ordering = ['-updated_on']
 
 
-class EditStaffView(LoginRequiredMixin, SuperUserRequiredMixin, views.UpdateView):
+class EditStaffView(LoginAndNotDeletedRequiredMixin, SuperUserRequiredMixin, views.UpdateView):
     model = Profile
     template_name = 'users/staff/staff_edit.html'
     fields = (
@@ -86,7 +86,7 @@ class EditStaffView(LoginRequiredMixin, SuperUserRequiredMixin, views.UpdateView
     success_url = reverse_lazy('all staffs')
 
 
-class StaffDetailsView(LoginRequiredMixin, SuperUserRequiredMixin, views.DetailView):
+class StaffDetailsView(LoginAndNotDeletedRequiredMixin, SuperUserRequiredMixin, views.DetailView):
     model = Profile
     template_name = 'users/staff/staff_details.html'
     context_object_name = 'profile'

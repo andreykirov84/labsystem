@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginAndNotDeletedRequiredMixin
 from django.shortcuts import redirect, render
 from django.views import generic as views
 from django.urls import reverse_lazy, reverse
@@ -10,7 +10,7 @@ from utils.view_mixins import StaffRequiredMixin, SuperUserRequiredMixin
 from django.contrib.admin.views.decorators import staff_member_required
 
 
-class PhysicianUserCreateView(LoginRequiredMixin, SuperUserRequiredMixin, views.CreateView):
+class PhysicianUserCreateView(LoginAndNotDeletedRequiredMixin, SuperUserRequiredMixin, views.CreateView):
     form_class = CreatePhysicianUserForm
     template_name = 'users/physician/physician_user_create.html'
     success_url = reverse_lazy('create physician')
@@ -20,7 +20,7 @@ class PhysicianUserCreateView(LoginRequiredMixin, SuperUserRequiredMixin, views.
         return reverse('create physician', kwargs={'pk': self.object.pk})
 
 
-class PhysicianCreateView(LoginRequiredMixin, SuperUserRequiredMixin, views.CreateView):
+class PhysicianCreateView(LoginAndNotDeletedRequiredMixin, SuperUserRequiredMixin, views.CreateView):
     form_class = CreateProfilePhysicianForm
     template_name = 'users/physician/physician_create.html'
     success_url = reverse_lazy('index')
@@ -42,7 +42,7 @@ class PhysicianCreateView(LoginRequiredMixin, SuperUserRequiredMixin, views.Crea
         return reverse_lazy('index')
 
 
-class PhysicianListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
+class PhysicianListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = Profile
     template_name = 'users/physician/physician_nondeleted_list.html'
@@ -52,7 +52,7 @@ class PhysicianListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
     ordering = ['-updated_on']
 
 
-class DeletedPhysicianListView(LoginRequiredMixin, SuperUserRequiredMixin, views.ListView):
+class DeletedPhysicianListView(LoginAndNotDeletedRequiredMixin, SuperUserRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = Profile
     template_name = 'users/physician/physician_deleted_list.html'
@@ -62,7 +62,7 @@ class DeletedPhysicianListView(LoginRequiredMixin, SuperUserRequiredMixin, views
     ordering = ['-updated_on']
 
 
-class EditPhysicianView(LoginRequiredMixin, StaffRequiredMixin, views.UpdateView):
+class EditPhysicianView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.UpdateView):
     model = Profile
     template_name = 'users/physician/physician_details.html'
     fields = (
@@ -84,7 +84,7 @@ class EditPhysicianView(LoginRequiredMixin, StaffRequiredMixin, views.UpdateView
     success_url = reverse_lazy('all staffs')
 
 
-class PhysicianDetailsView(LoginRequiredMixin, StaffRequiredMixin, views.DetailView):
+class PhysicianDetailsView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.DetailView):
     model = Profile
     template_name = 'users/physician/physician_details.html'
     context_object_name = 'profile'

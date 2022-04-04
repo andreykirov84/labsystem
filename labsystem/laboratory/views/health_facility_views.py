@@ -1,5 +1,5 @@
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginAndNotDeletedRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, render
 from django.views import generic as views
@@ -9,7 +9,7 @@ from labsystem.laboratory.models import HealthFacility
 from utils.view_mixins import StaffRequiredMixin
 
 
-class HealthFacilityCreation(LoginRequiredMixin, StaffRequiredMixin, views.CreateView):
+class HealthFacilityCreation(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.CreateView):
     model = HealthFacility
     template_name = 'laboratory/health_facility_create.html'
     success_url = reverse_lazy('all health facilities')
@@ -25,7 +25,7 @@ class HealthFacilityCreation(LoginRequiredMixin, StaffRequiredMixin, views.Creat
     )
 
 
-class EditHealthFacility(LoginRequiredMixin, StaffRequiredMixin, SuccessMessageMixin, views.UpdateView):
+class EditHealthFacility(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, SuccessMessageMixin, views.UpdateView):
     model = HealthFacility
     context_object_name = 'facility'
     template_name = 'laboratory/health_facility_edit.html'
@@ -79,7 +79,7 @@ def restore_health_facility(request, pk):
     return render(request, 'laboratory/health_facility_restore.html', context)
 
 
-class HealthFacilityListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
+class HealthFacilityListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = HealthFacility
     template_name = 'laboratory/health_facilities_nondeleted_list.html'
@@ -88,7 +88,7 @@ class HealthFacilityListView(LoginRequiredMixin, StaffRequiredMixin, views.ListV
     paginate_by = ITEMS_PER_PAGE
 
 
-class DeletedHealthFacilityListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
+class DeletedHealthFacilityListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = HealthFacility
     template_name = 'laboratory/health_facilities_deleted_list.html'

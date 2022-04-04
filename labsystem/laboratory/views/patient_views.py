@@ -1,5 +1,5 @@
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginAndNotDeletedRequiredMixin
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.views import generic as views
@@ -10,10 +10,10 @@ from labsystem.laboratory.forms.patient_forms import CreatePatientUserForm, Crea
     RestorePatientForm
 from labsystem.laboratory.models import Profile, Result
 from utils.generators import get_secure_random_string
-from utils.view_mixins import StaffRequiredMixin, PhysicianRequiredMixin
+from utils.view_mixins import StaffRequiredMixin, PhysicianRequiredMixin, LoginAndNotDeletedRequiredMixin
 
 
-class PatientUserCreateView(LoginRequiredMixin, StaffRequiredMixin, views.CreateView):
+class PatientUserCreateView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.CreateView):
     form_class = CreatePatientUserForm
     template_name = 'users/patient_user_create.html'
     success_url = reverse_lazy('create patient')
@@ -47,7 +47,7 @@ class PatientUserCreateView(LoginRequiredMixin, StaffRequiredMixin, views.Create
         return reverse('create patient', kwargs={'pk': self.object.pk})
 
 
-class PatientCreateView(LoginRequiredMixin, StaffRequiredMixin, views.CreateView):
+class PatientCreateView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.CreateView):
     form_class = CreateProfilePatientForm
     template_name = 'users/patient_create.html'
     success_url = reverse_lazy('index')
@@ -70,7 +70,7 @@ class PatientCreateView(LoginRequiredMixin, StaffRequiredMixin, views.CreateView
         return reverse_lazy('all patients')
 
 
-class PatientsListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
+class PatientsListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.ListView):
     PATIENTS_PER_PAGE = 10
     Model = Profile
     template_name = 'users/patients_nondeleted_list.html'
@@ -80,7 +80,7 @@ class PatientsListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
     ordering = ['-updated_on']
 
 
-class AllPhysicianPatientsListView(LoginRequiredMixin, PhysicianRequiredMixin, views.ListView):
+class AllPhysicianPatientsListView(LoginAndNotDeletedRequiredMixin, PhysicianRequiredMixin, views.ListView):
     PATIENTS_PER_PAGE = 10
     Model = Profile
     template_name = 'laboratory/all_patients_referred_by_specific_physician_list.html'
@@ -103,7 +103,7 @@ class AllPhysicianPatientsListView(LoginRequiredMixin, PhysicianRequiredMixin, v
         return context
 
 
-class DeletedPatientsListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
+class DeletedPatientsListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = Profile
     template_name = 'users/patients_deleted_list.html'
@@ -113,7 +113,7 @@ class DeletedPatientsListView(LoginRequiredMixin, StaffRequiredMixin, views.List
     ordering = ['-updated_on']
 
 
-class EditPatientView(LoginRequiredMixin, StaffRequiredMixin, views.UpdateView):
+class EditPatientView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.UpdateView):
     model = Profile
     template_name = 'users/patient_edit.html'
     fields = (
@@ -129,7 +129,7 @@ class EditPatientView(LoginRequiredMixin, StaffRequiredMixin, views.UpdateView):
     success_url = reverse_lazy('all patients')
 
 
-class PatientDetailsView(LoginRequiredMixin, views.DetailView):
+class PatientDetailsView(LoginAndNotDeletedRequiredMixin, views.DetailView):
     model = Profile
     template_name = 'users/patient_details.html'
     context_object_name = 'profile'

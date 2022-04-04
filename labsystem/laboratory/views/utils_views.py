@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginAndNotDeletedRequiredMixin
 from django.views import generic as views
 from django.contrib.auth import views as auth_views
 from django.urls import reverse_lazy
@@ -45,7 +45,7 @@ class HomeView(views.TemplateView):
         return context
 
 
-class StaffPatientView(LoginRequiredMixin, views.ListView):
+class StaffPatientView(LoginAndNotDeletedRequiredMixin, views.ListView):
     Model = Profile
     template_name = 'users/staff_view_patient_details.html'
     paginate_by = 10

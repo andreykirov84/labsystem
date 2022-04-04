@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginAndNotDeletedRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, render
 from django.views import generic as views
@@ -11,13 +11,13 @@ from utils.decorators import superuser_required
 from utils.view_mixins import StaffRequiredMixin
 
 
-class DepartmentCreation(LoginRequiredMixin, StaffRequiredMixin, views.CreateView):
+class DepartmentCreation(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.CreateView):
     form_class = CreateDepartmentForm
     template_name = 'laboratory/department_create.html'
     success_url = reverse_lazy('all departments')
 
 
-class EditDepartment(LoginRequiredMixin, StaffRequiredMixin, views.UpdateView):
+class EditDepartment(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.UpdateView):
     model = Department
     context_object_name = 'department'
     template_name = 'laboratory/department_edit.html'
@@ -66,7 +66,7 @@ def restore_department(request, pk):
     return render(request, 'laboratory/department_restore.html', context)
 
 
-class DepartmentsListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
+class DepartmentsListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = Department
     template_name = 'laboratory/department_nondeleted_list.html'
@@ -75,7 +75,7 @@ class DepartmentsListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView
     paginate_by = ITEMS_PER_PAGE
 
 
-class DeletedDepartmentsListView(LoginRequiredMixin, StaffRequiredMixin, views.ListView):
+class DeletedDepartmentsListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = Department
     template_name = 'laboratory/department_deleted_list.html'
