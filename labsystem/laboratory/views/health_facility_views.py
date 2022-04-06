@@ -11,7 +11,7 @@ from utils.view_mixins import StaffRequiredMixin
 
 class HealthFacilityCreation(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.CreateView):
     model = HealthFacility
-    template_name = 'laboratory/health_facility_create.html'
+    template_name = 'laboratory/health_facility/health_facility_create.html'
     success_url = reverse_lazy('all health facilities')
     fields = (
         'name',
@@ -28,7 +28,7 @@ class HealthFacilityCreation(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin
 class EditHealthFacility(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, SuccessMessageMixin, views.UpdateView):
     model = HealthFacility
     context_object_name = 'facility'
-    template_name = 'laboratory/health_facility_edit.html'
+    template_name = 'laboratory/health_facility/health_facility_edit.html'
     fields = (
         'name',
         'address',
@@ -58,7 +58,7 @@ def delete_health_facility(request, pk):
         'form': form,
         'facility': facility
     }
-    return render(request, 'laboratory/health_facility_delete.html', context)
+    return render(request, 'laboratory/health_facility/health_facility_delete.html', context)
 
 
 @staff_member_required
@@ -76,13 +76,13 @@ def restore_health_facility(request, pk):
         'form': form,
         'facility': facility
     }
-    return render(request, 'laboratory/health_facility_restore.html', context)
+    return render(request, 'laboratory/health_facility/health_facility_restore.html', context)
 
 
 class HealthFacilityListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = HealthFacility
-    template_name = 'laboratory/health_facilities_nondeleted_list.html'
+    template_name = 'laboratory/health_facility/health_facilities_nondeleted_list.html'
     context_object_name = 'all_facilities'
     queryset = HealthFacility.objects.filter(deleted_at=None)
     paginate_by = ITEMS_PER_PAGE
@@ -91,7 +91,7 @@ class HealthFacilityListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin
 class DeletedHealthFacilityListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = HealthFacility
-    template_name = 'laboratory/health_facilities_deleted_list.html'
+    template_name = 'laboratory/health_facility/health_facilities_deleted_list.html'
     context_object_name = 'all_deleted_facilities'
     queryset = HealthFacility.objects.exclude(deleted_at=None)
     paginate_by = ITEMS_PER_PAGE

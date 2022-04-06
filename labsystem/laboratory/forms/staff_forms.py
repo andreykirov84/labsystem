@@ -7,19 +7,19 @@ from utils.helpers import BootstrapFormMixin
 from utils.widgets import DatePickerInput
 
 
-class CreateStafftUserForm(BootstrapFormMixin, auth_forms.UserCreationForm):
-    PASSWORD_LENGTH = 4
+class CreateStaffUserForm(BootstrapFormMixin, auth_forms.UserCreationForm):
+    MAX_PASSWORD_LENGTH = 20
     username = forms.CharField(
         max_length=LimsUser.USERNAME_MAX_LENGTH,
     )
 
     password1 = forms.CharField(
-        max_length=PASSWORD_LENGTH,
+        max_length=MAX_PASSWORD_LENGTH,
         widget=forms.PasswordInput()
     )
 
     password2 = forms.CharField(
-        max_length=PASSWORD_LENGTH,
+        max_length=MAX_PASSWORD_LENGTH,
         widget=forms.PasswordInput()
     )
 

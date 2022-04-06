@@ -12,7 +12,7 @@ from utils.view_mixins import StaffRequiredMixin
 
 class DepartmentCreation(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.CreateView):
     form_class = CreateEditDepartmentForm
-    template_name = 'laboratory/department_create.html'
+    template_name = 'laboratory/department/department_create.html'
     success_url = reverse_lazy('all departments')
 
 
@@ -20,7 +20,7 @@ class EditDepartment(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.
     model = Department
     form_class = CreateEditDepartmentForm
     context_object_name = 'department'
-    template_name = 'laboratory/department_edit.html'
+    template_name = 'laboratory/department/department_edit.html'
     # fields = (
     #     'name',
     #     'description',
@@ -45,7 +45,7 @@ def delete_department(request, pk):
         'form': form,
         'department': department
     }
-    return render(request, 'laboratory/department_delete.html', context)
+    return render(request, 'laboratory/department/department_delete.html', context)
 
 
 @superuser_required
@@ -63,13 +63,13 @@ def restore_department(request, pk):
         'form': form,
         'department': department
     }
-    return render(request, 'laboratory/department_restore.html', context)
+    return render(request, 'laboratory/department/department_restore.html', context)
 
 
 class DepartmentsListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = Department
-    template_name = 'laboratory/department_nondeleted_list.html'
+    template_name = 'laboratory/department/department_nondeleted_list.html'
     context_object_name = 'all_departments'
     queryset = Department.objects.filter(deleted_at=None)
     paginate_by = ITEMS_PER_PAGE
@@ -78,7 +78,7 @@ class DepartmentsListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, v
 class DeletedDepartmentsListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = Department
-    template_name = 'laboratory/department_deleted_list.html'
+    template_name = 'laboratory/department/department_deleted_list.html'
     context_object_name = 'all_deleted_departments'
     queryset = Department.objects.exclude(deleted_at=None)
     paginate_by = ITEMS_PER_PAGE

@@ -1,33 +1,37 @@
 {% extends 'main/base.html' %}
 
 {% block page_content %}
-    <h1 class="text-center">Employees List</h1>
+    <h1 class="text-center">Departments List</h1>
     <p></p>
     <div class="d-flex justify-content-center">
-        <a href="{% url 'create staff user' %}" class="btn btn-primary" role="button">Register New Employee</a>
+        <a href="{% url 'department register' %}" class="btn btn-primary" role="button">Create New Department</a>
     </div>
     <p></p>
-
-    {% if all_staff %}
+    {% if all_departments %}
         <div class="table-responsive-md">
-        <table class="table table-bordered">
-            <tr class="first-table-row">
-                <th scope="col">PID</th>
-                <th scope="col">PID (type)</th>
-                <th scope="col">Full Name</th>
-                <th scope="col">Department</th>
-                <th scope="col">Detail link</th>
-            </tr>
-            {% for staff in all_staff %}
-                <tr>
-                    <td>{{ staff.pid }}</td>
-                    <td>{{ staff.pid_type }}</td>
-                    <td>{{ staff.full_name }}</td>
-                    <td>{{ staff.department }}</td>
-                    <td><a href="{% url 'show details staff' staff.pk %}"> Details</a></td>
+            <table class="table table-bordered">
+                <tr class="first-table-row">
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Telephone Number</th>
+                    <th scope="col">E-mail</th>
+                    {% if user.is_superuser %}
+                        <th scope="col">Edit</th>
+                    {% endif %}
                 </tr>
-            {% endfor %}
-        </table>
+                {% for department in all_departments %}
+                    <tr>
+                        <td>{{ department.name }}</td>
+                        <td>{{ department.description }}</td>
+                        <td>{{ department.telephone_number }}</td>
+                        <td>{{ department.email }}</td>
+                        {% if user.is_superuser %}
+                            <td><a href="{% url 'edit department' department.pk %}"> Edit</a></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
         {#            Start Pagination#}
         {% if is_paginated %}
             <nav aria-label="Page navigation">
@@ -75,9 +79,7 @@
         {% endif %}
         {#            End of Pagination#}
     {% else %}
-        No staff to display
+        No departments to display!
     {% endif %}
-</div>
-    <div class="col-lg-3"></div>
-    </div>
+
 {% endblock %}

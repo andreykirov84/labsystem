@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 from django.views import generic as views
 from django.urls import reverse_lazy, reverse
 from labsystem.auth_app.models import LimsUser
-from labsystem.laboratory.forms.staff_forms import CreateStafftUserForm, CreateProfileStaffForm, DeleteStaffForm, \
+from labsystem.laboratory.forms.staff_forms import CreateStaffUserForm, CreateProfileStaffForm, DeleteStaffForm, \
     RestoreStaffForm
 from labsystem.laboratory.models import Profile
 from utils.decorators import superuser_required
@@ -11,7 +11,7 @@ from utils.view_mixins import StaffRequiredMixin, SuperUserRequiredMixin
 
 
 class StaffUserCreateView(LoginAndNotDeletedRequiredMixin, SuperUserRequiredMixin, views.CreateView):
-    form_class = CreateStafftUserForm
+    form_class = CreateStaffUserForm
     template_name = 'users/staff/staff_user_create.html'
     success_url = reverse_lazy('create staff')
     pk = None
@@ -23,14 +23,11 @@ class StaffUserCreateView(LoginAndNotDeletedRequiredMixin, SuperUserRequiredMixi
 class StaffCreateView(LoginAndNotDeletedRequiredMixin, SuperUserRequiredMixin, views.CreateView):
     form_class = CreateProfileStaffForm
     template_name = 'users/staff/staff_create.html'
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('all staffs')
 
     def get_initial(self):
         initial = super().get_initial()
         initial['user'] = LimsUser.objects.get(pk=self.kwargs['pk'])
-        print('user')
-        print(initial['user'])
-        print(initial['user'].username)
         return initial
 
     def get_context_data(self, **kwargs):
@@ -39,7 +36,7 @@ class StaffCreateView(LoginAndNotDeletedRequiredMixin, SuperUserRequiredMixin, v
         return context
 
     def get_success_url(self):
-        return reverse_lazy('index')
+        return reverse_lazy('all staffs')
 
 
 class StaffListView(LoginAndNotDeletedRequiredMixin, SuperUserRequiredMixin, views.ListView):

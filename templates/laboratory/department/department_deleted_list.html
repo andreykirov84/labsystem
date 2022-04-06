@@ -1,13 +1,10 @@
 {% extends 'main/base.html' %}
 
 {% block page_content %}
-    <h1 class="text-center">Departments List</h1>
-    <p>
-        <a href="{% url 'department register' %}" class="btn btn-primary" role="button">Create New Department</a>
-    </p>
+    <h1 class="text-center">Deleted departments List</h1>
     <div class="row">
-        {#        <div class="col-lg-3"></div>#}
-        {% if all_departments %}
+        <div class="col-lg-3"></div>
+        {% if all_deleted_departments %}
             <div class="table-responsive-md">
             <table class="table table-bordered">
                 <tr class="first-table-row">
@@ -15,22 +12,20 @@
                     <th scope="col">Description</th>
                     <th scope="col">Telephone Number</th>
                     <th scope="col">E-mail</th>
-                    {% if user.is_superuser %}
-                        <th scope="col">Edit</th>
-                    {% endif %}
+                    <th scope="col">Restore</th>
                 </tr>
-                {% for department in all_departments %}
+                {% for department in all_deleted_departments %}
                     <tr>
                         <td>{{ department.name }}</td>
                         <td>{{ department.description }}</td>
                         <td>{{ department.telephone_number }}</td>
                         <td>{{ department.email }}</td>
-                        {% if user.is_superuser %}
-                            <td><a href="{% url 'edit department' department.pk %}"> Edit Link</a></td>
-                        {% endif %}
+                        <td><a href="{% url 'restore department' department.pk %}"> Restore Link</a></td>
                     </tr>
                 {% endfor %}
             </table>
+
+            {#            Start Pagination#}
             {% if is_paginated %}
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center">
@@ -75,9 +70,11 @@
                     </ul>
                 </nav>
             {% endif %}
+            {#            End of Pagination#}
         {% else %}
             No departments to display!
         {% endif %}
         </div>
+        <div class="col-lg-3"></div>
     </div>
 {% endblock %}
