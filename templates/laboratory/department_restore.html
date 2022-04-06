@@ -4,11 +4,11 @@
     <h1 class="text-center">Restore Analysis Field Form</h1>
     <div class="row">
         <div class="col-lg-6">
-            <form method="post" action="{% url 'restore analysis field' analysis_field.pk %}">
+            <form method="post" action="{% url 'restore department' department.pk %}">
                 {% csrf_token %}
                 {{ form }}
 
-                <button class="btn btn-primary mt-2" type="submit">Restore</button>
+                <button class="btn btn-success mt-2" type="submit">Restore</button>
             </form>
         </div>
         <div class="col-lg-3"></div>

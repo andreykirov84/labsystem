@@ -1,7 +1,12 @@
 {% extends 'main/base.html' %}
 
 {% block page_content %}
-    <h1 class="text-center">All Patients List</h1>
+    <div class="row justify-content-center">
+        <h2>
+            Found {{ all_patients | length }} result(s)
+        </h2>
+    </div>
+
     <div class="row">
         <div class="col-lg-3"></div>
                 {% if all_patients %}

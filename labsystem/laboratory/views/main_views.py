@@ -26,22 +26,8 @@ class HomeView(views.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data()
-        is_logged_in = True
         user = self.request.user
-        logged_user_is_physician = False
-        logged_user_is_staff = False
-        logged_user_is_patient = False
-        if self.request.user.is_anonymous:
-            is_logged_in = False
-        else:
-            logged_user_is_staff = self.request.user.is_staff
-            logged_user_is_patient = self.request.user.is_patient
-            logged_user_is_physician = self.request.user.is_physician
         context['user'] = user
-        context['is_logged_in'] = is_logged_in
-        context['logged_user_is_staff'] = logged_user_is_staff
-        context['logged_user_is_patient'] = logged_user_is_patient
-        context['logged_user_is_physician'] = logged_user_is_physician
         return context
 
 
@@ -51,7 +37,6 @@ class StaffPatientView(LoginAndNotDeletedRequiredMixin, views.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        # new_context = Profile.objects.all().filter(user__is_patient=True)
         new_context = Profile.undeleted_objects.all().filter(user__is_patient=True)
 
         return new_context

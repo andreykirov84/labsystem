@@ -10,12 +10,14 @@ from labsystem.laboratory.forms.patient_forms import CreatePatientUserForm, Crea
     RestorePatientForm
 from labsystem.laboratory.models import Profile, Result
 from utils.generators import get_secure_random_string
+from utils.validators import validate_only_letters_and_spaces
 from utils.view_mixins import StaffRequiredMixin, PhysicianRequiredMixin, LoginAndNotDeletedRequiredMixin
+from django.db.models import Q
 
 
 class PatientUserCreateView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.CreateView):
     form_class = CreatePatientUserForm
-    template_name = 'users/patient_user_create.html'
+    template_name = 'users/patient/patient_user_create.html'
     success_url = reverse_lazy('create patient')
     pk = None
 
@@ -49,7 +51,7 @@ class PatientUserCreateView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin,
 
 class PatientCreateView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.CreateView):
     form_class = CreateProfilePatientForm
-    template_name = 'users/patient_create.html'
+    template_name = 'users/patient/patient_create.html'
     success_url = reverse_lazy('index')
 
     def get_initial(self):
@@ -70,10 +72,31 @@ class PatientCreateView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, vie
         return reverse_lazy('all patients')
 
 
+class EditPatientView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.UpdateView):
+    model = Profile
+    template_name = 'users/patient/patient_edit.html'
+    fields = (
+        'pid',
+        'pid_type',
+        'sex',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'date_of_birth',
+        'telephone_number',
+        'email',
+        'address',
+        'city',
+        'clinical_data',
+        'comments',
+    )
+    success_url = reverse_lazy('all patients')
+
+
 class PatientsListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.ListView):
     PATIENTS_PER_PAGE = 10
     Model = Profile
-    template_name = 'users/patients_nondeleted_list.html'
+    template_name = 'users/patient/patients_nondeleted_list.html'
     context_object_name = 'all_patients'
     queryset = Profile.objects.filter(user__is_patient=True, deleted_at=None)
     paginate_by = PATIENTS_PER_PAGE
@@ -98,7 +121,7 @@ class AllPhysicianPatientsListView(LoginAndNotDeletedRequiredMixin, PhysicianReq
         if results:
             all_patients_pk = [x['patient_id'] for x in results]
             patients = Profile.objects.filter(pk__in=all_patients_pk)
-        context['patients'] = patients
+        context['patient'] = patients
         context['physician'] = physician
         return context
 
@@ -106,42 +129,39 @@ class AllPhysicianPatientsListView(LoginAndNotDeletedRequiredMixin, PhysicianReq
 class DeletedPatientsListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.ListView):
     ITEMS_PER_PAGE = 10
     Model = Profile
-    template_name = 'users/patients_deleted_list.html'
+    template_name = 'users/patient/patients_deleted_list.html'
     context_object_name = 'deleted_patients'
     queryset = Profile.objects.filter(user__is_patient=True).exclude(deleted_at=None)
     paginate_by = ITEMS_PER_PAGE
     ordering = ['-updated_on']
 
 
-class EditPatientView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.UpdateView):
-    model = Profile
-    template_name = 'users/patient_edit.html'
-    fields = (
-        'pid',
-        'sex',
-        'pid_type',
-        'first_name',
-        'middle_name',
-        'last_name',
-        'date_of_birth',
-        'comments',
-    )
-    success_url = reverse_lazy('all patients')
-
-
 class PatientDetailsView(LoginAndNotDeletedRequiredMixin, views.DetailView):
+    ITEMS_PER_PAGE = 10
     model = Profile
-    template_name = 'users/patient_details.html'
+    template_name = 'users/patient/patient_details.html'
     context_object_name = 'profile'
+    paginate_by = ITEMS_PER_PAGE
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         deleted = False
         if self.object.deleted_at is not None:
             deleted = True
-        user_is_staff = Profile.objects.get(pk=self.kwargs['pk']).user.is_staff
+
+        patient_results = Result.objects.filter(patient=self.kwargs['pk'])
+        patient = Profile.objects.get(pk=self.kwargs['pk'])
+        user = Profile.objects.get(pk=self.request.user.pk)
+        if user.is_staff:
+            user_is_staff = True
+        else:
+            user_is_staff = False
+
         context['deleted'] = deleted
         context['user_is_staff'] = user_is_staff
+        context['patient_results'] = patient_results
+        context['patient'] = patient
+
         return context
 
 
@@ -166,7 +186,7 @@ def delete_patient_view(request, pk):
         'patient_pid': patient_pid,
         'has_middlename': has_middlename
     }
-    return render(request, 'users/patient_delete.html', context)
+    return render(request, 'users/patient/patient_delete.html', context)
 
 
 @staff_member_required
@@ -190,4 +210,71 @@ def restore_patient_view(request, pk):
         'has_middlename': has_middlename
     }
 
-    return render(request, 'users/patient_restore.html', context)
+    return render(request, 'users/patient/patient_restore.html', context)
+
+
+class SearchPatientsView(LoginAndNotDeletedRequiredMixin, views.ListView):
+    ITEMS_PER_PAGE = 10
+    Model = Profile
+    template_name = 'users/patient/patients_search_list.html'
+    context_object_name = 'all_patients'
+    paginate_by = ITEMS_PER_PAGE
+
+    def get_queryset(self):
+        query = self.request.GET.get("search")
+        object_list = None
+        if query == '':
+            query = 'None'
+            all_patients = []
+        elif validate_only_letters_and_spaces(query):
+            if self.request.user.is_staff:
+                all_patients = Profile.objects.filter(
+                    (Q(first_name__icontains=query) | Q(middle_name__icontains=query) | Q(last_name__icontains=query)) &
+                    Q(deleted_at=None) &
+                    Q(user__is_patient=True)
+                )
+
+            elif self.request.user.is_physician:
+                results = Result.objects.filter(referring_physician=self.request.user.pk).values()
+                patients = None
+                patient_pks = None
+                if results:
+                    all_patients_pk = [x['patient_id'] for x in results]
+                    patients = Profile.objects.filter(pk__in=all_patients_pk).values
+                    patient_pks = [x['pk'] for x in patients]
+
+                all_patients = Profile.objects.filter(
+                    (Q(first_name__icontains=query) | Q(middle_name__icontains=query) | Q(last_name__icontains=query)) &
+                    Q(pk__in=patient_pks) &
+                    Q(deleted_at=None) &
+                    Q(user__is_patient=True)
+                )
+
+            else:
+                all_patients = Profile.objects.get(pk=self.request.user.pk)
+        else:
+            all_patients = []
+
+        return all_patients
+
+# class AllPhysicianPatientsListView(LoginAndNotDeletedRequiredMixin, PhysicianRequiredMixin, views.ListView):
+#     PATIENTS_PER_PAGE = 10
+#     Model = Profile
+#     template_name = 'laboratory/all_patients_referred_by_specific_physician_list.html'
+#     context_object_name = 'all_patients'
+#
+#     queryset = Profile.objects.filter(user__is_patient=True, deleted_at=None, )
+#     paginate_by = PATIENTS_PER_PAGE
+#     ordering = ['-created_on']
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data()
+#         physician = Profile.objects.get(pk=self.kwargs['pk'])
+#         results = Result.objects.filter(referring_physician=self.kwargs['pk']).values()
+#         patients = None
+#         if results:
+#             all_patients_pk = [x['patient_id'] for x in results]
+#             patients = Profile.objects.filter(pk__in=all_patients_pk)
+#         context['patient'] = patients
+#         context['physician'] = physician
+#         return context

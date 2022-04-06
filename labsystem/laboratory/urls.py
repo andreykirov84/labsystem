@@ -11,14 +11,14 @@ from labsystem.laboratory.views.health_facility_views import HealthFacilityCreat
 from labsystem.laboratory.views.job_position_views import JobPositionCreation
 from labsystem.laboratory.views.patient_views import PatientUserCreateView, PatientCreateView, EditPatientView, \
     PatientDetailsView, delete_patient_view, restore_patient_view, PatientsListView, DeletedPatientsListView, \
-    AllPhysicianPatientsListView
+    AllPhysicianPatientsListView, SearchPatientsView
 from labsystem.laboratory.views.physician_views import PhysicianListView, DeletedPhysicianListView, EditPhysicianView, \
     PhysicianDetailsView, delete_physician_view, restore_physician_view, PhysicianUserCreateView, PhysicianCreateView
 from labsystem.laboratory.views.results_views import CreateResultView, EditResultView, PatientSpecificResultListView, \
     ResultDetailsView, EditResultLineView
 from labsystem.laboratory.views.staff_views import StaffCreateView, StaffListView, StaffUserCreateView, \
     StaffDetailsView, delete_staff_view, restore_staff_view, DeletedStaffListView
-from labsystem.laboratory.views.utils_views import HomeView, UserLoginView, UserLogoutView
+from labsystem.laboratory.views.main_views import HomeView, UserLoginView, UserLogoutView
 
 urlpatterns = (
     path('', HomeView.as_view(), name='index'),
@@ -35,6 +35,7 @@ urlpatterns = (
     path('patients/<int:pk>/restore/', restore_patient_view, name='restore patient'),
     path('patients/all', PatientsListView.as_view(), name='all patients'),
     path('patients/all/deleted/', DeletedPatientsListView.as_view(), name='all deleted patients'),
+    path('patients/all/search/', SearchPatientsView.as_view(), name='search patient'),
 
     path('staffs/create/<int:pk>/profile', StaffCreateView.as_view(), name='create staff'),
     path('staffs/<int:pk>/edit/', EditPatientView.as_view(), name='edit staff'),
@@ -51,7 +52,7 @@ urlpatterns = (
     path('physicians/<int:pk>/restore/', restore_physician_view, name='restore physician'),
     path('physicians/all', PhysicianListView.as_view(), name='all physicians'),
     path('physicians/all/deleted/', DeletedPhysicianListView.as_view(), name='all deleted physicians'),
-    path('physicians/<int:pk>/patients/all/', AllPhysicianPatientsListView.as_view(), name='all specific physician patients'),
+    path('physicians/<int:pk>/patient/all/', AllPhysicianPatientsListView.as_view(), name='all specific physician patients'),
 
     path('health_facility/create/', HealthFacilityCreation.as_view(), name='health facility register'),
     path('health_facility/<int:pk>/edit/', EditHealthFacility.as_view(), name='edit health facility'),
@@ -84,24 +85,12 @@ urlpatterns = (
     path('analyses/all/search/', SearchAnalysesView.as_view(), name='all searched analyses'),
     path('analyses/all_deleted/', DeletedAnalysisListView.as_view(), name='all deleted analyses'),
 
-    path('patients/<int:pk>/result/create/', CreateResultView.as_view(), name='add result to patient'),
-    path('patients/<int:pk>/result/edit/', EditResultView.as_view(), name='edit result'),
-    path('patients/<int:pk>/results/', PatientSpecificResultListView.as_view(), name='all patient specific results'),
-    path('patients/<int:patient_pk>/results/<int:pk>/', ResultDetailsView.as_view(), name='result details'),
-    path('resultline/<int:pk>/edit', EditResultLineView.as_view(), name='result line details'),
+    path('patient/<int:pk>/result/create/', CreateResultView.as_view(), name='add result to patient'),
+    path('patient/<int:pk>/result/edit/', EditResultView.as_view(), name='edit result'),
+    path('patient/<int:pk>/results/', PatientSpecificResultListView.as_view(), name='all patient specific results'),
+    path('patient/<int:patient_pk>/results/<int:pk>/', ResultDetailsView.as_view(), name='result details'),
 
+    path('resultline/<int:pk>/edit', EditResultLineView.as_view(), name='result line details'),
 
 )
 
-# path('', HomeView.as_view(), name='index'),
-# path('analysis/create/', AnalysisCreation.as_view(), name='analysis register'),
-# path('analysis/edit/<int:pk>/', EditAnalysis.as_view(), name='edit analysis'),
-# path('analysis/delete/<int:pk>/', DeleteAnalysis.as_view(), name='delete analysis'),
-# path('analysis/all/', AnalysisView.as_view(), name='all analysis'),
-#
-#
-# path('health_facility/create/', HealthFacilityCreation.as_view(), name='health facility register'),
-#
-# path('department/create/', DepartmentCreation.as_view(), name='department register'),
-#
-# path('jobs/create/', JobPositionCreation.as_view(), name='position register'),

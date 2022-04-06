@@ -16,8 +16,8 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light ">
+    <a class="navbar-brand" href="{% url 'index' %}">KirovLab</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -28,32 +28,99 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'index' %}">Home <span class="sr-only">(current)</span></a>
             </li>
-            {#            <li class="nav-item">#}
-            {#                <a class="nav-link" href="#">Link</a>#}
-            {#            </li>#}
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'all analyses' %}">Our analyses <span class="sr-only">(current)</span></a>
+            </li>
+            {% if user.is_superuser %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'admin:index' %}">Admin Panel <span
+                            class="sr-only">(current)</span></a>
+                </li>
+            {% endif %}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    Dropdown
+                   aria-haspopup="true" aria-expanded="false"> Common Actions
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'all analyses' %}">All analysis</a>
-                    {#                    <a class="dropdown-item" href="#">Another action</a>#}
-                    {#                    <div class="dropdown-divider"></div>#}
-                    {#                    <a class="dropdown-item" href="#">Something else here</a>#}
+                    {% if user.is_physician %}
+                        <a class="dropdown-item" href="{% url 'all specific physician patients' user.pk %}">Check Your
+                            Patients</a>
+                    {% endif %}
+                    {% if user.is_patient %}
+                        <a class="dropdown-item" href="{% url 'all patient specific results' user.pk %}">Check Your
+                            Results</a>
+                    {% endif %}
+                    {% if user.is_staff %}
+                        <a class="dropdown-item" href="{% url 'create user_as_patient' %}">Register New Patient</a>
+                        <a class="dropdown-item" href="{% url 'all patients' %}">All Patient List</a>
+                        <a class="dropdown-item" href="{% url 'all physicians' %}">All Physicians List</a>
+                    {% endif %}
+
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li>
-        </ul>
 
+            {% if user.is_superuser %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false"> Administrative Actions
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'all departments' %}">Show Departments List</a>
+                        <a class="dropdown-item" href="{% url 'department register' %}">Create New Department</a>
+                        <a class="dropdown-item" href="{% url 'all deleted departments' %}">Show Deleted Departments
+                            List</a>
+                        <a class="dropdown-item" href="{% url 'all staffs' %}">Show Employees List</a>
+                        <a class="dropdown-item" href="{% url 'create staff user' %}">Register New Employee</a>
+                        <a class="dropdown-item" href="{% url 'all deleted staffs' %}">Show Deleted Employees List</a>
+                    </div>
+                </li>
+            {% endif %}
+            {% if user.is_superuser %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false"> Physicians and Health Facilities
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'all physicians' %}">Show Physicians List</a>
+                        <a class="dropdown-item" href="{% url 'create physician user' %}">Create New
+                            Physician</a>
+                        <a class="dropdown-item" href="{% url 'all deleted physicians' %}">Show Deleted
+                            Physicians List</a>
+                        <a class="dropdown-item" href="{% url 'all health facilities' %}">Show Health Facilities
+                            List</a>
+                        <a class="dropdown-item" href="{% url 'health facility register' %}">Register New Health
+                            Facility</a>
+                        <a class="dropdown-item" href="{% url 'all deleted health facilities' %}">Show Deleted
+                            Health Facilities List</a>
+                    </div>
+                </li>
+            {% endif %}
+            {% if user.is_superuser %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false"> Analyses and Patients
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'all analyses' %}">Show Analyses List (with edit)</a>
+                        <a class="dropdown-item" href="{% url 'create analysis' %}">Create New Analysis</a>
+                        <a class="dropdown-item" href="{% url 'all deleted analyses' %}">Show Deleted
+                            Analyses List</a>
+                        <a class="dropdown-item" href="{% url 'all patients' %}">Show All Patients</a>
+                        <a class="dropdown-item" href="{% url 'all deleted patients' %}">Show Deleted Patients</a>
+                    </div>
+                </li>
+            {% endif %}
+        </ul>
         <br/>
 
         <form action="{% url 'all searched analyses' %}" class="form-inline my-2 my-lg-0" method="get">
             <div class="form-group mx-sm-3 mb-2">
                 <label for="" class="sr-only">Search</label>
-                <input type='text' name='search' class="form-control mr-sm-2" placeholder="Search analyses" aria-label="Search">
+                <input type='text' name='search' class="form-control mr-sm-2" placeholder="Search analyses"
+                       aria-label="Search">
             </div>
             <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
         </form>
@@ -73,45 +140,11 @@
     {% endblock %}
 </div>
 
-{% block bottom_page_content %}
-{% endblock %}
+{#{% block bottom_page_content %}#}
+{#{% endblock %}#}
 
 {#<!-- Page Footer -->#}
-{#<footer class="fixed-bottom card-footer ">#}
-{#    <div>@Laboratory Managment System Project (author: Andrey Kirov)</div>#}
-{#</footer>#}
-{#<!-- Footer -->#}
 <footer class="text-center text-lg-start bg-light text-muted">
-    <!-- Section: Social media -->
-    {#        <section#}
-    {#                class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">#}
-    <!-- Left -->
-
-    <!-- Left -->
-
-    <!-- Right -->
-    {#            <div>#}
-    {#                 <a href="https://www.facebook.com/andrey.kirov.10/">Share</a>#}
-    {#                    <i class="fab fa-facebook-f"></i>#}
-    {#                <a href="" class="me-4 text-reset">#}
-    {#                    <i class="fab fa-twitter"></i>#}
-    {#                </a>#}
-    {#                <a href="" class="me-4 text-reset">#}
-    {#                    <i class="fab fa-google"></i>#}
-    {#                </a>#}
-    {#                <a href="" class="me-4 text-reset">#}
-    {#                    <i class="fab fa-instagram"></i>#}
-    {#                </a>#}
-    {#                <a href="" class="me-4 text-reset">#}
-    {#                    <i class="fab fa-linkedin"></i>#}
-    {#                </a>#}
-    {#                <a href="" class="me-4 text-reset">#}
-    {#                    <i class="fab fa-github"></i>#}
-    {#                </a>#}
-    {#            </div>#}
-    {#            <!-- Right -->#}
-    {#        </section>#}
-    <!-- Section: Social media -->
 
     <!-- Section: Links  -->
     <section class="">

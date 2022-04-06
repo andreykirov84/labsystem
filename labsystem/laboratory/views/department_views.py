@@ -1,32 +1,32 @@
 from django.contrib.auth.mixins import LoginAndNotDeletedRequiredMixin
-from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, render
 from django.views import generic as views
 from django.urls import reverse_lazy
 
 from labsystem.laboratory.forms.department_forms import DeleteDepartmentForm, RestoreDepartmentForm, \
-    CreateDepartmentForm
+    CreateEditDepartmentForm
 from labsystem.laboratory.models import Department
 from utils.decorators import superuser_required
 from utils.view_mixins import StaffRequiredMixin
 
 
 class DepartmentCreation(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.CreateView):
-    form_class = CreateDepartmentForm
+    form_class = CreateEditDepartmentForm
     template_name = 'laboratory/department_create.html'
     success_url = reverse_lazy('all departments')
 
 
 class EditDepartment(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.UpdateView):
     model = Department
+    form_class = CreateEditDepartmentForm
     context_object_name = 'department'
     template_name = 'laboratory/department_edit.html'
-    fields = (
-        'name',
-        'description',
-        'telephone_number',
-        'email',
-    )
+    # fields = (
+    #     'name',
+    #     'description',
+    #     'telephone_number',
+    #     'email',
+    # )
     success_url = reverse_lazy('all departments')
 
 

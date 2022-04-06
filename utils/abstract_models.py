@@ -4,7 +4,12 @@ from labsystem.auth_app.managers import LimsUserManager, SoftDeleteManager
 
 
 class SoftDeleteModel(models.Model):
-    deleted_at = models.DateTimeField(null=True, default=None)
+    deleted_at = models.DateTimeField(
+        blank=True,
+        null=True,
+        # default=None,
+    )
+
     objects = LimsUserManager()
     undeleted_objects = SoftDeleteManager()
 

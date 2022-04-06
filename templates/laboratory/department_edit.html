@@ -6,14 +6,13 @@
         <div class="col-lg-6">
             <form method="post" action="{% url 'edit department' department.pk %}">
                 {% csrf_token %}
-                {{ form }}
+                {{ form.as_p }}
 
                 <button class="btn btn-primary mt-2" type="submit">Edit Department</button>
             </form>
         </div>
-        <div class="col-lg-3"></div>
     </div>
     <div class="row">
-        <a href="{% url 'delete department' department.pk %}"> Delete department </a>
+        <a href="{% url 'delete department' department.pk %}" class="btn btn-danger mt-2" role="button">Delete Department</a>
     </div>
 {% endblock %}

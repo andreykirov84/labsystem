@@ -5,6 +5,7 @@ from django.views import generic as views
 from django.urls import reverse_lazy
 from labsystem.laboratory.forms.analysis_forms import CreateAnalysisForm, DeleteAnalysisForm, RestoreAnalysisForm
 from labsystem.laboratory.models import Analysis
+from utils.validators import validate_only_letters_and_spaces
 from utils.view_mixins import StaffRequiredMixin
 from django.db.models import Q
 
@@ -100,33 +101,14 @@ class SearchAnalysesView(views.ListView):
     context_object_name = 'all_analyses'
     paginate_by = ITEMS_PER_PAGE
 
-    def get_queryset(self):  # new
+    def get_queryset(self):
         query = self.request.GET.get("search")
-        object_list = None
         if query == '':
-            query = 'None'
             all_analyses = []
-        else:
+        elif validate_only_letters_and_spaces(query):
             all_analyses = Analysis.objects.filter(
                 Q(name__icontains=query) & Q(deleted_at=None))
+        else:
+            all_analyses = []
 
         return all_analyses
-
-#
-# def analysis_search_view(request):
-#     all_analyses = []
-#     if request.method == "GET":
-#         query = request.GET.get('search')
-#
-#         if query == '':
-#             query = 'None'
-#
-#         else:
-#             all_analyses = Analysis.objects.filter(
-#                 Q(name__icontains=query) & Q(deleted_at=None))
-#
-#     context = {
-#         'all_analyses': all_analyses,
-#     }
-#
-#     return render(request, 'laboratory/analysis/analysis_search.html', context)

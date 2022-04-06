@@ -1,26 +1,33 @@
 {% extends 'main/base.html' %}
 
 {% block page_content %}
-    <h1 class="text-center">Deleted departments List</h1>
+    <h1 class="text-center">All Patients List</h1>
+    <form action="{% url 'search patient' %}" class="form-inline my-2 my-lg-0" method="get">
+        <div class="form-group mx-sm-3 mb-2">
+            <label for="" class="sr-only">Search</label>
+            <input type='text' name='search' class="form-control mr-sm-2" placeholder="Search patient by name"
+                   aria-label="Search">
+        </div>
+        <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+    </form>
+    <br/>
     <div class="row">
         <div class="col-lg-3"></div>
-                {% if all_deleted_departments %}
-        <div class="table-responsive-md">
+        {% if all_patients %}
+            <div class="table-responsive-md">
             <table class="table table-bordered">
                 <tr class="first-table-row">
-                    <th scope="col">Name</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Telephone Number</th>
-                    <th scope="col">E-mail</th>
-                    <th scope="col">Restore</th>
+                    <th scope="col">pid</th>
+                    <th scope="col">pid_type</th>
+                    <th scope="col">full_name</th>
+                    <th scope="col">Detail link</th>
                 </tr>
-                {% for department in all_deleted_departments %}
+                {% for patient in all_patients %}
                     <tr>
-                        <td>{{ department.name }}</td>
-                        <td>{{ department.description }}</td>
-                        <td>{{ department.telephone_number }}</td>
-                        <td>{{ department.email }}</td>
-                        <td><a href="{% url 'restore department' department.pk %}"> Restore Link</a></td>
+                        <td>{{ patient.pid }}</td>
+                        <td>{{ patient.pid_type }}</td>
+                        <td>{{ patient.full_name }}</td>
+                        <td><a href="{% url 'show details patient' patient.pk %}"> Details</a></td>
                     </tr>
                 {% endfor %}
             </table>
@@ -44,9 +51,9 @@
                         <li class="disabled"><span>&raquo;</span></li>
                     {% endif %}
                 </ul>
-                        {% endif %}
-                    {% else %}
-                    No departments to display!
+            {% endif %}
+        {% else %}
+            No Patients
         {% endif %}
         </div>
         <div class="col-lg-3"></div>

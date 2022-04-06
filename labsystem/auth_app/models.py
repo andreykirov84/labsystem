@@ -57,3 +57,6 @@ class LimsUser(auth_models.AbstractBaseUser, auth_models.PermissionsMixin):
     def restore(self):
         self.deleted_at = None
         self.save()
+
+    def hard_delete(self):
+        self.delete()

@@ -74,3 +74,13 @@ class MaxDateValidator:
     def __call__(self, value):
         if self.max_date < value:
             raise ValidationError(f'Date must be earlier than {self.max_date}')
+
+
+def validate_only_letters_and_spaces(value):
+    stripped_value = value.replace(' ', '')
+    result = True
+    for ch in stripped_value:
+        if not ch.isalpha():
+            result = False
+            break
+    return result

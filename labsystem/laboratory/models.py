@@ -37,6 +37,9 @@ class City(SoftDeleteModel):
         on_delete=models.CASCADE,
     )
 
+    class Meta:
+        verbose_name_plural = "Cities"
+
     def __str__(self):
         return f'Name: {self.name}, province: {self.province}'
 
@@ -61,6 +64,9 @@ class Country(SoftDeleteModel):
             MinLengthValidator(CODE_MIN_LEN),
         )
     )
+
+    class Meta:
+        verbose_name_plural = "Countries"
 
     def __str__(self):
         return self.name
@@ -106,27 +112,8 @@ class ResultStatus(SoftDeleteModel):
         unique=True,
     )
 
-    def __str__(self):
-        return self.name
-
-
-class Sample(SoftDeleteModel):
-    NAME_MAX_LEN = 30
-    CODE_MAX_LEN = 3
-    CODE_MIN_LEN = 3
-
-    name = models.CharField(
-        max_length=NAME_MAX_LEN,
-        unique=True,
-    )
-
-    code = models.CharField(
-        max_length=CODE_MAX_LEN,
-        unique=True,
-        validators=(
-            MinLengthValidator(CODE_MIN_LEN),
-        ),
-    )
+    class Meta:
+        verbose_name_plural = "Result Statuses"
 
     def __str__(self):
         return self.name
@@ -149,8 +136,9 @@ class HealthFacility(SoftDeleteModel):
 
     city = models.ForeignKey(
         'City',
-        to_field='post_code',
         on_delete=models.CASCADE,
+        blank=True,
+        null=True,
     )
 
     vat = models.CharField(
@@ -181,6 +169,9 @@ class HealthFacility(SoftDeleteModel):
     created_on = models.DateTimeField(auto_now_add=True)
 
     updated_on = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = "Health Facilities"
 
     def __str__(self):
         return f'{self.name} in {self.city}'
@@ -215,6 +206,9 @@ class Specialty(SoftDeleteModel):
         unique=True,
     )
 
+    class Meta:
+        verbose_name_plural = "Specialties"
+
     def __str__(self):
         return self.name
 
@@ -237,6 +231,9 @@ class Sex(SoftDeleteModel):
         max_length=NAME_MAX_LEN,
         unique=True,
     )
+
+    class Meta:
+        verbose_name_plural = "Sexes"
 
     def __str__(self):
         return self.name
@@ -540,6 +537,9 @@ class Analysis(SoftDeleteModel):
 
     updated_on = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        verbose_name_plural = "Analyses"
+
     def __str__(self):
         return f'{self.name}, price: {self.price} {self.currency}'
 
@@ -667,3 +667,30 @@ class ResultLine(SoftDeleteModel):
 
     def __str__(self):
         return f'{self.name}'
+
+
+class Sample(SoftDeleteModel):
+    NAME_MAX_LEN = 30
+    CODE_MAX_LEN = 3
+    CODE_MIN_LEN = 3
+
+    name = models.CharField(
+        max_length=NAME_MAX_LEN,
+        unique=True,
+    )
+
+    code = models.CharField(
+        max_length=CODE_MAX_LEN,
+        unique=True,
+        validators=(
+            MinLengthValidator(CODE_MIN_LEN),
+        ),
+    )
+
+    result = models.ForeignKey(
+        Result,
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return f'Name: {self.name}, Analysis: {self.result.analysis}'
