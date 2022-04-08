@@ -1,35 +1,64 @@
 from django import forms
 
-from labsystem.laboratory.models import Analysis
+from labsystem.laboratory.models import Analysis, AnalysisField
 from utils.abstract_forms import DeleteAbstractForm, RestoreAbstractForm
 
 
-class CreateAnalysisForm(forms.ModelForm):
+class CreateEditAnalysisForm(forms.ModelForm):
     class Meta:
         model = Analysis
-        exclude = (
-            'created_on',
-            'updated_on',
-            'deleted_at',
+        fields = (
+            'name',
+            'description',
+            'currency',
+            'price',
+            'tat',
+            'analysis_field',
         )
+
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'price': forms.NumberInput(attrs={'class': 'form-control'}),
+            'tat': forms.TextInput(attrs={'class': 'form-control'}),
+        }
 
 
 class DeleteAnalysisForm(DeleteAbstractForm):
     class Meta:
         model = Analysis
-        exclude = (
-            'created_on',
-            'updated_on',
-            'deleted_at',
+        fields = (
+            'name',
+            'description',
+            'currency',
+            'price',
+            'tat',
+            'analysis_field',
         )
+
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'price': forms.NumberInput(attrs={'class': 'form-control'}),
+            'tat': forms.TextInput(attrs={'class': 'form-control'}),
+        }
 
 
 class RestoreAnalysisForm(RestoreAbstractForm):
     class Meta:
         model = Analysis
-        exclude = (
-            'created_on',
-            'updated_on',
-            'deleted_at',
+        fields = (
+            'name',
+            'description',
+            'currency',
+            'price',
+            'tat',
+            'analysis_field',
         )
 
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'price': forms.NumberInput(attrs={'class': 'form-control'}),
+            'tat': forms.TextInput(attrs={'class': 'form-control'}),
+        }

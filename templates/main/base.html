@@ -101,12 +101,19 @@
                        aria-haspopup="true" aria-expanded="false"> Analyses and Patients
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{% url 'all analyses' %}">Show Analyses List (with edit)</a>
+                        <a class="dropdown-item" href="{% url 'all analyses' %}">Analyses List</a>
                         <a class="dropdown-item" href="{% url 'create analysis' %}">Create New Analysis</a>
-                        <a class="dropdown-item" href="{% url 'all deleted analyses' %}">Show Deleted
-                            Analyses List</a>
-                        <a class="dropdown-item" href="{% url 'all patients' %}">Show All Patients</a>
-                        <a class="dropdown-item" href="{% url 'all deleted patients' %}">Show Deleted Patients</a>
+                        <a class="dropdown-item" href="{% url 'all deleted analyses' %}">Deleted Analyses List</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'all analysis fields' %}">Analyses Fields List</a>
+                        <a class="dropdown-item" href="{% url 'create analysis field' %}">Create New Analyses Field</a>
+                        <a class="dropdown-item" href="{% url 'all deleted analysis fields' %}">Deleted Analyses Fields List</a>
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item" href="{% url 'all patients' %}">Patients List</a>
+                        <a class="dropdown-item" href="{% url 'create user_as_patient' %}">Register New Patient</a>
+                        <a class="dropdown-item" href="{% url 'all deleted patients' %}">Deleted Patients List</a>
+                        <div class="dropdown-divider"></div>
                     </div>
                 </li>
             {% endif %}

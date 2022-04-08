@@ -1,12 +1,12 @@
 {% extends 'main/base.html' %}
 
 {% block page_content %}
-    <h1 class="text-center">Restore Analysis Field Form</h1>
+    <h1 class="text-center">Restore Analysis Field </h1>
     <div class="row">
         <div class="col-lg-6">
             <form method="post" action="{% url 'restore analysis field' analysis_field.pk %}">
                 {% csrf_token %}
-                {{ form }}
+                {{ form.as_p }}
 
                 <button class="btn btn-primary mt-2" type="submit">Restore</button>
             </form>

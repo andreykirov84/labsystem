@@ -3,31 +3,23 @@ from django.shortcuts import redirect, render
 from django.views import generic as views
 from django.urls import reverse_lazy
 
-from labsystem.laboratory.forms.analysis_field_forms import CreateAnalysisFieldForm, DeleteAnalysisFieldForm, \
-    RestoreAnalysisFieldForm
+from labsystem.laboratory.forms.analysis_field_forms import DeleteAnalysisFieldForm, \
+    RestoreAnalysisFieldForm, CreateEditAnalysisFieldForm
 from labsystem.laboratory.models import AnalysisField
 from utils.view_mixins import StaffRequiredMixin
 
 
 class CreateAnalysisFieldView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.CreateView):
-    form_class = CreateAnalysisFieldForm
+    form_class = CreateEditAnalysisFieldForm
     template_name = 'laboratory/analysis_field/analysis_field_create.html'
     success_url = reverse_lazy('all analysis fields')
 
 
 class EditAnalysisFieldView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.UpdateView):
     model = AnalysisField
+    form_class = CreateEditAnalysisFieldForm
     context_object_name = 'analysis_field'
     template_name = 'laboratory/analysis_field/analysis_field_edit.html'
-    fields = (
-        'name',
-        'unit',
-        'male_min',
-        'male_max',
-        'female_min',
-        'female_max',
-        'comment',
-    )
     success_url = reverse_lazy('all analysis fields')
 
 

@@ -3,7 +3,8 @@ from django.contrib.auth.mixins import LoginAndNotDeletedRequiredMixin
 from django.shortcuts import redirect, render
 from django.views import generic as views
 from django.urls import reverse_lazy
-from labsystem.laboratory.forms.analysis_forms import CreateAnalysisForm, DeleteAnalysisForm, RestoreAnalysisForm
+from labsystem.laboratory.forms.analysis_forms import DeleteAnalysisForm, RestoreAnalysisForm, \
+    CreateEditAnalysisForm
 from labsystem.laboratory.models import Analysis
 from utils.validators import validate_only_letters_and_spaces
 from utils.view_mixins import StaffRequiredMixin
@@ -11,22 +12,16 @@ from django.db.models import Q
 
 
 class CreateAnalysisView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.CreateView):
-    form_class = CreateAnalysisForm
+    form_class = CreateEditAnalysisForm
     template_name = 'laboratory/analysis/analysis_create.html'
     success_url = reverse_lazy('all analyses')
 
 
 class EditAnalysisView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.UpdateView):
     model = Analysis
+    form_class = CreateEditAnalysisForm
     context_object_name = 'analysis'
     template_name = 'laboratory/analysis/analysis_edit.html'
-    fields = (
-        'name',
-        'description',
-        'price',
-        'tat',
-        'analysis_field',
-    )
     success_url = reverse_lazy('all analyses')
 
 
@@ -67,8 +62,7 @@ def restore_analysis_view(request, pk):
 
 
 class AnalysisListView(views.ListView):
-    # class AnalysisListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.ListView):
-    ITEMS_PER_PAGE = 10
+    ITEMS_PER_PAGE = 5
     Model = Analysis
     template_name = 'laboratory/analysis/analysis_nondeleted_list.html'
     context_object_name = 'all_analyses'
@@ -77,7 +71,7 @@ class AnalysisListView(views.ListView):
 
 
 class DeletedAnalysisListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.ListView):
-    ITEMS_PER_PAGE = 10
+    ITEMS_PER_PAGE = 5
     Model = Analysis
     template_name = 'laboratory/analysis/analysis_deleted_list.html'
     context_object_name = 'all_analyses'
