@@ -1,18 +1,16 @@
 {% extends 'main/base.html' %}
 {% block page_content %}
-    <h1 class="text-center">Edit Analysis Form</h1>
-    <div class="row">
-        <div class="col-lg-6">
-            <form method="post" action="{% url 'edit staff' profile.pk %}">
-                {% csrf_token %}
-                {{ form }}
-
-                <button class="btn btn-primary mt-2" type="submit">Edit Staff</button>
-            </form>
+    <h1 class="text-center">Edit Employee Profile</h1>
+    <form method="post" action="{% url 'edit staff' profile.pk %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p></p>
+        <div class="d-flex justify-content-center">
+            <button class="btn btn-primary mt-2" type="submit">Edit</button>
         </div>
-        <div class="col-lg-3"></div>
-    </div>
-    <div class="row">
-    <a href="{% url 'delete staff' profile.pk %}"> Delete Staff </a>
+    </form>
+    <p></p>
+    <div class="d-flex justify-content-center">
+        <a href="{% url 'delete staff' object.pk %}" class="btn btn-danger" role="button">Delete </a>
     </div>
 {% endblock %}

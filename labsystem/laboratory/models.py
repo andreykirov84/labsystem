@@ -41,7 +41,7 @@ class City(SoftDeleteModel):
         verbose_name_plural = "Cities"
 
     def __str__(self):
-        return f'Name: {self.name}, province: {self.province}'
+        return f'{self.name}, province: {self.province}'
 
 
 class Country(SoftDeleteModel):

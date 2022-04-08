@@ -6,8 +6,6 @@ from utils.helpers import BootstrapFormMixin
 
 
 class CreateEditDepartmentForm(forms.ModelForm):
-    success_message = "Department was created successfully"
-
     class Meta:
         model = Department
         fields = (

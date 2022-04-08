@@ -4,42 +4,24 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import redirect, render
 from django.views import generic as views
 from django.urls import reverse_lazy
-from labsystem.laboratory.forms.health_facility_forms import DeleteHealthFacilityForm, RestoreHealthFacilityForm
+from labsystem.laboratory.forms.health_facility_forms import DeleteHealthFacilityForm, RestoreHealthFacilityForm, \
+    CreateEditHealthFacilityForm
 from labsystem.laboratory.models import HealthFacility
 from utils.view_mixins import StaffRequiredMixin
 
 
 class HealthFacilityCreation(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.CreateView):
     model = HealthFacility
+    form_class = CreateEditHealthFacilityForm
     template_name = 'laboratory/health_facility/health_facility_create.html'
     success_url = reverse_lazy('all health facilities')
-    fields = (
-        'name',
-        'address',
-        'city',
-        'vat',
-        'contact_person',
-        'telephone_number',
-        'email',
-        'comments',
-    )
 
 
 class EditHealthFacility(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, SuccessMessageMixin, views.UpdateView):
     model = HealthFacility
+    form_class = CreateEditHealthFacilityForm
     context_object_name = 'facility'
     template_name = 'laboratory/health_facility/health_facility_edit.html'
-    fields = (
-        'name',
-        'address',
-        'city',
-        'vat',
-        'contact_person',
-        'telephone_number',
-        'email',
-        'comments',
-    )
-    success_message = f'The Health facility was successfully updated'
     success_url = reverse_lazy('all health facilities')
 
 

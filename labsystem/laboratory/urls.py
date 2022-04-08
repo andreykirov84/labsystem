@@ -1,5 +1,4 @@
 from django.urls import path
-
 from labsystem.laboratory.views.analysis_field_views import CreateAnalysisFieldView, EditAnalysisFieldView, \
     delete_analysis_field_view, restore_analysis_field_view, AnalysisFieldsListView, DeletedAnalysisFieldsListView
 from labsystem.laboratory.views.analysis_views import CreateAnalysisView, EditAnalysisView, delete_analysis_view, \
@@ -8,7 +7,6 @@ from labsystem.laboratory.views.department_views import DepartmentCreation, Edit
     restore_department, DepartmentsListView, DeletedDepartmentsListView
 from labsystem.laboratory.views.health_facility_views import HealthFacilityCreation, EditHealthFacility, \
     delete_health_facility, restore_health_facility, HealthFacilityListView, DeletedHealthFacilityListView
-from labsystem.laboratory.views.job_position_views import JobPositionCreation
 from labsystem.laboratory.views.patient_views import PatientUserCreateView, PatientCreateView, EditPatientView, \
     PatientDetailsView, delete_patient_view, restore_patient_view, PatientsListView, DeletedPatientsListView, \
     AllPhysicianPatientsListView, SearchPatientsView
@@ -17,7 +15,7 @@ from labsystem.laboratory.views.physician_views import PhysicianListView, Delete
 from labsystem.laboratory.views.results_views import CreateResultView, EditResultView, PatientSpecificResultListView, \
     ResultDetailsView, EditResultLineView
 from labsystem.laboratory.views.staff_views import StaffCreateView, StaffListView, StaffUserCreateView, \
-    StaffDetailsView, delete_staff_view, restore_staff_view, DeletedStaffListView
+    StaffDetailsView, delete_staff_view, restore_staff_view, DeletedStaffListView, EditStaffView
 from labsystem.laboratory.views.main_views import HomeView, UserLoginView, UserLogoutView
 
 urlpatterns = (
@@ -38,7 +36,7 @@ urlpatterns = (
     path('patients/all/search/', SearchPatientsView.as_view(), name='search patient'),
 
     path('staffs/create/<int:pk>/profile', StaffCreateView.as_view(), name='create staff'),
-    path('staffs/<int:pk>/edit/', EditPatientView.as_view(), name='edit staff'),
+    path('staffs/<int:pk>/edit/', EditStaffView.as_view(), name='edit staff'),
     path('staffs/<int:pk>/details/', StaffDetailsView.as_view(), name='show details staff'),
     path('staffs/<int:pk>/delete/', delete_staff_view, name='delete staff'),
     path('staffs/<int:pk>/restore/', restore_staff_view, name='restore staff'),
@@ -68,8 +66,6 @@ urlpatterns = (
     path('department/all/', DepartmentsListView.as_view(), name='all departments'),
     path('department/all_deleted/', DeletedDepartmentsListView.as_view(), name='all deleted departments'),
 
-    path('jobs/create/', JobPositionCreation.as_view(), name='position register'),
-
     path('analysis_fields/create/', CreateAnalysisFieldView.as_view(), name='create analysis field'),
     path('analysis_fields/<int:pk>/edit/', EditAnalysisFieldView.as_view(), name='edit analysis field'),
     path('analysis_fields/<int:pk>/delete/', delete_analysis_field_view, name='delete analysis field'),
@@ -91,6 +87,5 @@ urlpatterns = (
     path('patient/<int:patient_pk>/results/<int:pk>/', ResultDetailsView.as_view(), name='result details'),
 
     path('resultline/<int:pk>/edit', EditResultLineView.as_view(), name='result line details'),
-
 )
 

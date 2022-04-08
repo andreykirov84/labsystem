@@ -4,7 +4,7 @@ from django.views import generic as views
 from django.urls import reverse_lazy, reverse
 from labsystem.auth_app.models import LimsUser
 from labsystem.laboratory.forms.staff_forms import CreateStaffUserForm, CreateProfileStaffForm, DeleteStaffForm, \
-    RestoreStaffForm
+    RestoreStaffForm, EditProfileStaffForm
 from labsystem.laboratory.models import Profile
 from utils.decorators import superuser_required
 from utils.view_mixins import StaffRequiredMixin, SuperUserRequiredMixin
@@ -62,24 +62,7 @@ class DeletedStaffListView(LoginAndNotDeletedRequiredMixin, SuperUserRequiredMix
 class EditStaffView(LoginAndNotDeletedRequiredMixin, SuperUserRequiredMixin, views.UpdateView):
     model = Profile
     template_name = 'users/staff/staff_edit.html'
-    fields = (
-        'pid',
-        'pid_type',
-        'sex',
-        'first_name',
-        'middle_name',
-        'last_name',
-        'date_of_birth',
-        'telephone_number',
-        'email',
-        'address',
-        'city',
-        'specialty',
-        'position',
-        'department',
-        'salary',
-        'comments',
-    )
+    form_class = EditProfileStaffForm
     success_url = reverse_lazy('all staffs')
 
 

@@ -1,13 +1,11 @@
 {% extends 'main/base.html' %}
 
 {% block page_content %}
-    <h1 class="text-center">Staff information</h1>
-
-    <div class="col-lg-6">
+    <h1 class="text-center">Employee Details</h1>
         <div class="table-responsive-md">
             <table class="table table-bordered">
                 <tr class="first-table-row">
-                    <th scope="col">Personal ID (Type)</th>
+                    <th scope="col">Personal ID</th>
                     <td>{{ object.pid_type }}: {{ object.pid }}</td>
                 </tr>
                 <tr>
@@ -79,22 +77,35 @@
             </table>
 
         </div>
-    </div>
-
     {% if deleted %}
-        <p>
-            <a href="{% url 'all deleted staffs' %}"> Back</a>
-        </p>
-        <p>
-            <a href="{% url 'restore staff' object.pk %}"> Restore Employee</a>
-        </p>
+        <p></p>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'all deleted staffs' %}" class="btn btn-secondary" role="button">Back </a>
+        </div>
+        <p></p>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'edit staff' object.pk %}" class="btn btn-primary" role="button">Edit </a>
+        </div>
+        <p></p>
+        <div class="d-flex justify-content-center">
+            <a href="{% url  'restore staff' object.pk %}" class="btn btn-success" role="button">Restore </a>
+        </div>
+        <p></p>
     {% else %}
-        <p>
-            <a href="{% url 'all staffs' %}"> Back</a>
-        </p>
-        <p>
-            <a href="{% url 'delete staff' object.pk %}"> Delete Employee</a>
-        </p>
+        <p></p>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'all staffs' %}" class="btn btn-secondary" role="button">Back </a>
+        </div>
+        <p></p>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'edit staff' object.pk %}" class="btn btn-primary" role="button">Edit </a>
+        </div>
+        <p></p>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'delete staff' object.pk %}" class="btn btn-danger" role="button">Delete </a>
+        </div>
     {% endif %}
+
+
 
 {% endblock %}

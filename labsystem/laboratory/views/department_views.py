@@ -21,12 +21,6 @@ class EditDepartment(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.
     form_class = CreateEditDepartmentForm
     context_object_name = 'department'
     template_name = 'laboratory/department/department_edit.html'
-    # fields = (
-    #     'name',
-    #     'description',
-    #     'telephone_number',
-    #     'email',
-    # )
     success_url = reverse_lazy('all departments')
 
 

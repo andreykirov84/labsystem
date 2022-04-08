@@ -4,7 +4,7 @@ from django.views import generic as views
 from django.urls import reverse_lazy, reverse
 from labsystem.auth_app.models import LimsUser
 from labsystem.laboratory.forms.physician_forms import CreatePhysicianUserForm, CreateProfilePhysicianForm, \
-    DeletePhysicianForm, RestorePhysicianForm
+    DeletePhysicianForm, RestorePhysicianForm, EditProfilePhysicianForm
 from labsystem.laboratory.models import Profile
 from utils.view_mixins import StaffRequiredMixin, SuperUserRequiredMixin
 from django.contrib.admin.views.decorators import staff_member_required
@@ -64,24 +64,9 @@ class DeletedPhysicianListView(LoginAndNotDeletedRequiredMixin, SuperUserRequire
 
 class EditPhysicianView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.UpdateView):
     model = Profile
-    template_name = 'users/physician/physician_details.html'
-    fields = (
-        'pid',
-        'pid_type',
-        'sex',
-        'first_name',
-        'middle_name',
-        'last_name',
-        'date_of_birth',
-        'telephone_number',
-        'email',
-        'address',
-        'city',
-        'specialty',
-        'health_facility',
-        'comments',
-    )
-    success_url = reverse_lazy('all staffs')
+    template_name = 'users/physician/physician_edit.html'
+    form_class = EditProfilePhysicianForm
+    success_url = reverse_lazy('all physicians')
 
 
 class PhysicianDetailsView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.DetailView):

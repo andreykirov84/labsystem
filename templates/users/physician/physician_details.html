@@ -1,84 +1,105 @@
 {% extends 'main/base.html' %}
 
 {% block page_content %}
-    <h1 class="text-center">Physician information</h1>
-    <div class="row">
-        <div class="col-lg-3"></div>
+    <h1 class="text-center">Physician Profile Details</h1>
 
-        <div class="col-lg-6">
-            Physician information:
-            <div class="col-lg-6">
-                {{ object.pid_type }}: {{ object.pid }}
-            </div>
-            <div class="col-lg-6">
-                First Name: {{ object.first_name }}
-            </div>
-
-            {% if object.middle_name %}
-                <div class="col-lg-6">
-                    Middle Name: {{ object.middle_name }}
-                </div>
-            {% endif %}
-            <div class="col-lg-6">
-                Last Name: {{ object.last_name }}
-            </div>
-            <div class="col-lg-6">
-                Date of Birth: {{ object.date_of_birth }}
-            </div>
-            <div class="col-lg-6">
-                Sex: {{ object.sex }}
-            </div>
+    <div class="table-responsive-md">
+        <table class="table table-bordered">
+            <tr class="first-table-row">
+                <th scope="col">Personal ID</th>
+                <td>{{ object.pid_type }}: {{ object.pid }}</td>
+            </tr>
+            <tr>
+                <th scope="col">Name</th>
+                <td>{{ object.full_name }}</td>
+            </tr>
+            <tr>
+                <th scope="col">Sex</th>
+                <td>{{ object.sex }}</td>
+            </tr>
+            <tr>
+                <th scope="col">Date of Birth</th>
+                <td>{{ object.date_of_birth }}</td>
+            </tr>
             {% if object.telephone_number %}
-                <div class="col-lg-6">
-                    Telephone number: {{ object.telephone_number }}
-                </div>
+                <tr>
+                    <th scope="col">Telephone number</th>
+                    <td>{{ object.telephone_number }}</td>
+                </tr>
             {% endif %}
             {% if object.email %}
-                <div class="col-lg-6">
-                    E-mail: {{ object.email }}
-                </div>
+                <tr>
+                    <th scope="col">E-mail</th>
+                    <td>{{ object.email }}</td>
+                </tr>
             {% endif %}
             {% if object.address %}
-                <div class="col-lg-6">
-                    Address: {{ object.address }}
-                </div>
+                <tr>
+                    <th scope="col">Address</th>
+                    <td>{{ object.address }}</td>
+                </tr>
             {% endif %}
             {% if object.city %}
-                <div class="col-lg-6">
-                    City: {{ object.city }}
-                </div>
+                <tr>
+                    <th scope="col">City</th>
+                    <td>{{ object.city }}</td>
+                </tr>
             {% endif %}
             {% if object.specialty %}
-                <div class="col-lg-6">
-                    Specialty: {{ object.specialty }}
-                </div>
+                <tr>
+                    <th scope="col">Speciality</th>
+                    <td>{{ object.specialty }}</td>
+                </tr>
+            {% endif %}
+            {% if object.position %}
+                <tr>
+                    <th scope="col">Position</th>
+                    <td>{{ object.position }}</td>
+                </tr>
             {% endif %}
             {% if object.health_facility %}
-                <div class="col-lg-6">
-                    Affiliated Health facility: {{ object.health_facility }}
-                </div>
+                <tr>
+                    <th scope="col">Affiliated Health facility</th>
+                    <td>{{ object.health_facility }}</td>
+                </tr>
             {% endif %}
             {% if object.comments %}
-                <div class="col-lg-6">
-                    Comments: {{ object.comments }}
-                </div>
+                <tr>
+                    <th scope="col">Comments</th>
+                    <td>{{ object.comments }}</td>
+                </tr>
             {% endif %}
+        </table>
+
+
+    </div>
+    {% if deleted %}
+        <p></p>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'all deleted physicians' %}" class="btn btn-secondary" role="button">Back </a>
         </div>
-        {% if deleted %}
-            <p>
-                <a href="{% url 'all deleted physicians' %}"> Back</a>
-            </p>
-            <p>
-                <a href="{% url 'restore physician' object.pk %}"> Restore Physician</a>
-            </p>
-        {% else %}
-            <p>
-                <a href="{% url 'all physicians' %}"> Back</a>
-            </p>
-            <p>
-                <a href="{% url 'delete physician' object.pk %}"> Delete Physician</a>
-            </p>
-        {% endif %}
-        <div class="col-lg-3"></div>
+        <p></p>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'edit physician' object.pk %}" class="btn btn-primary" role="button">Edit </a>
+        </div>
+        <p></p>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'restore physician' object.pk %}" class="btn btn-success" role="button">Restore </a>
+        </div>
+        <p></p>
+    {% else %}
+        <p></p>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'all physicians' %}" class="btn btn-secondary" role="button">Back </a>
+        </div>
+        <p></p>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'edit physician' object.pk %}" class="btn btn-primary" role="button">Edit </a>
+        </div>
+        <p></p>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'delete physician' object.pk %}" class="btn btn-danger" role="button">Delete </a>
+        </div>
+    {% endif %}
     </div>
 {% endblock %}

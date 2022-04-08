@@ -2,10 +2,16 @@
 
 {% block page_content %}
     <h1 class="text-center">Health Facilities List</h1>
+    <p></p>
+    <div class="d-flex justify-content-center">
+        <a href="{% url 'health facility register' %}" class="btn btn-primary" role="button">Register New Health
+            Facility</a>
+    </div>
+    <p></p>
     <div class="row">
         <div class="col-lg-3"></div>
-                {% if all_facilities %}
-        <div class="table-responsive-md">
+        {% if all_facilities %}
+            <div class="table-responsive-md">
             <table class="table table-bordered">
                 <tr class="first-table-row">
                     <th scope="col">Name</th>
@@ -14,7 +20,7 @@
                     <th scope="col">VAT</th>
                     <th scope="col">Contact Person</th>
                     <th scope="col">Telephone Number</th>
-                    <th scope="col">e-mail</th>
+                    <th scope="col">E-mail</th>
                     <th scope="col">Comments</th>
                     <th scope="col">Detail link</th>
                 </tr>
@@ -28,33 +34,59 @@
                         <td>{{ facility.telephone_number }}</td>
                         <td>{{ facility.email }}</td>
                         <td>{{ facility.comments }}</td>
-                        <td><a href="{% url 'edit health facility' facility.pk %}"> {{ facility.name }} details</a></td>
+                        <td><a href="{% url 'edit health facility' facility.pk %}"> Link </a></td>
                     </tr>
                 {% endfor %}
             </table>
+            {#            Start Pagination#}
             {% if is_paginated %}
-                <ul class="pagination">
-                    {% if page_obj.has_previous %}
-                        <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
-                    {% else %}
-                        <li class="disabled"><span>&laquo;</span></li>
-                    {% endif %}
-                    {% for i in paginator.page_range %}
-                        {% if page_obj.number == i %}
-                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
                         {% else %}
-                            <li><a href="?page={{ i }}">{{ i }}</a></li>
+                            <li class="page-item disabled">
+                                <a class="page-link" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                            </li>
                         {% endif %}
-                    {% endfor %}
-                    {% if page_obj.has_next %}
-                        <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
-                    {% else %}
-                        <li class="disabled"><span>&raquo;</span></li>
-                    {% endif %}
-                </ul>
+                        {% for i in paginator.page_range %}
+                            {% if page_obj.number == i %}
+                                <li class="page-item"><a class="page-link">{{ i }}</a></li>
+                            {% else %}
+                                <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </li>
                         {% endif %}
-                    {% else %}
-                    No health facilities to display! If you want to create one clic here:  <a href="{% url 'health facility register' %}"> Health facility register </a>
+                    </ul>
+                </nav>
+            {% endif %}
+            {#            End of Pagination#}
+
+        {% else %}
+            No health facilities to display!
         {% endif %}
         </div>
         <div class="col-lg-3"></div>

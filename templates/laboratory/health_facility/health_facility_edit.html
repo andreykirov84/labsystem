@@ -6,14 +6,13 @@
         <div class="col-lg-6">
             <form method="post" action="{% url 'edit health facility' facility.pk %}">
                 {% csrf_token %}
-                {{ form }}
+                {{ form.as_p }}
 
-                <button class="btn btn-primary mt-2" type="submit">Edit Health Facility</button>
+                <button class="btn btn-primary mt-2" type="submit">Edit </button>
+                <p>
+                    <a href="{% url 'delete health facility' facility.pk %}" class="btn btn-danger mt-2" role="button">Delete</a>
+                </p>
             </form>
         </div>
-        <div class="col-lg-3"></div>
-    </div>
-    <div class="row">
-        <a href="{% url 'delete health facility' facility.pk %}"> Delete health facility </a>
-    </div>
+     </div>
 {% endblock %}
