@@ -74,22 +74,8 @@ class PatientCreateView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, vie
 
 class EditPatientView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.UpdateView):
     model = Profile
+    form_class = CreateProfilePatientForm
     template_name = 'users/patient/patient_edit.html'
-    fields = (
-        'pid',
-        'pid_type',
-        'sex',
-        'first_name',
-        'middle_name',
-        'last_name',
-        'date_of_birth',
-        'telephone_number',
-        'email',
-        'address',
-        'city',
-        'clinical_data',
-        'comments',
-    )
     success_url = reverse_lazy('all patients')
 
 

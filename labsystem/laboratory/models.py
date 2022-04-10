@@ -407,17 +407,7 @@ class Profile(SoftDeleteModel):
         elif self.is_staff:
             return f'Staff Name: {self.full_name}'
         elif self.is_physician:
-            return f'Physician Name: {self.full_name}, Health Facility: {self.health_facility.name} ' \
-                   f'City: ({self.health_facility.city}) '
-
-    # """
-    # Here, we are telling Django that whenever a save event occurs (signal called post_save)
-    # create or save the profile depending on the situation.
-    # """
-    # @receiver(post_save, sender=LimsUser)
-    # def create_profile(sender, instance, created, **kwargs):
-    #     if created:
-    #         Profile.objects.create(user=instance)
+            return f'Physician Name: {self.full_name}, Health Facility: {self.health_facility.name}, City: {self.health_facility.city}'
 
 
 class SampleType(SoftDeleteModel):
@@ -630,7 +620,7 @@ class Result(SoftDeleteModel):
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'ID: {self.id}, patient ID: {self.patient_id}'
+        return f'ID: {self.pk}, patient ID: {self.patient.user.pk}'
 
 
 class ResultLine(SoftDeleteModel):
@@ -666,12 +656,12 @@ class ResultLine(SoftDeleteModel):
     )
 
     def __str__(self):
-        return f'{self.name}'
+        return self.name
 
 
 class Sample(SoftDeleteModel):
     NAME_MAX_LEN = 30
-    CODE_MAX_LEN = 3
+    CODE_MAX_LEN = 30
     CODE_MIN_LEN = 3
 
     name = models.CharField(

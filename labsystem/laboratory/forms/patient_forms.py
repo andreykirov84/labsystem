@@ -119,15 +119,96 @@ class CreateProfilePatientForm(BootstrapFormMixin, forms.ModelForm):
 class DeletePatientForm(DeleteAbstractForm):
     class Meta:
         model = Profile
-        exclude = (
-            'deleted_at',
+        fields = (
+            'pid',
+            'pid_type',
+            'sex',
+            'first_name',
+            'middle_name',
+            'last_name',
+            'date_of_birth',
+            'telephone_number',
+            'email',
+            'address',
+            'city',
+            'clinical_data',
+            'comments',
+            'user',
         )
+        widgets = {
+            'pid': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter Personal ID',
+                }),
+
+            'first_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter First Name',
+                }),
+
+            'middle_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter Middle Name (Optional)',
+                }),
+
+            'last_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter Last Name',
+                }),
+
+            'date_of_birth': DatePickerInput,
+
+            'user': forms.HiddenInput(
+                attrs={
+                    'placeholder': 'User id',
+                }),
+        }
 
 
 class RestorePatientForm(RestoreAbstractForm):
-
     class Meta:
         model = Profile
-        exclude = (
-            'deleted_at',
+        fields = (
+            'pid',
+            'pid_type',
+            'sex',
+            'first_name',
+            'middle_name',
+            'last_name',
+            'date_of_birth',
+            'telephone_number',
+            'email',
+            'address',
+            'city',
+            'clinical_data',
+            'comments',
+            'user',
         )
+        widgets = {
+            'pid': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter Personal ID',
+                }),
+
+            'first_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter First Name',
+                }),
+
+            'middle_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter Middle Name (Optional)',
+                }),
+
+            'last_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter Last Name',
+                }),
+
+            'date_of_birth': DatePickerInput,
+
+            'user': forms.HiddenInput(
+                attrs={
+                    'placeholder': 'User id',
+                }),
+        }

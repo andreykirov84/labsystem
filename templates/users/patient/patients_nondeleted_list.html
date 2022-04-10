@@ -2,14 +2,25 @@
 
 {% block page_content %}
     <h1 class="text-center">All Patients List</h1>
-    <form action="{% url 'search patient' %}" class="form-inline my-2 my-lg-0" method="get">
-        <div class="form-group mx-sm-3 mb-2">
-            <label for="" class="sr-only">Search</label>
-            <input type='text' name='search' class="form-control mr-sm-2" placeholder="Search patient by name"
-                   aria-label="Search">
-        </div>
-        <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
-    </form>
+    <p></p>
+    <div class="row">
+        <div class="col-lg-3"></div>
+        <form action="{% url 'search patient' %}" class="form-inline my-2" method="get">
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="" class="sr-only">Search</label>
+                <input type='text' name='search' class="form-control mr-sm-2" placeholder="Search patient by name"
+                       aria-label="Search">
+            </div>
+            <button type="submit" class="btn btn-outline-success my-2 my-sm-2">Search</button>
+        </form>
+    </div>
+    <p></p>
+    <p></p>
+    <div class="d-flex justify-content-center">
+        <a href="{% url 'create user_as_patient' %}" class="btn btn-primary" role="button">Register New Patient </a>
+    </div>
+    <p></p>
+
     <br/>
     <div class="row">
         <div class="col-lg-3"></div>

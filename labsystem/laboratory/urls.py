@@ -17,11 +17,13 @@ from labsystem.laboratory.views.results_views import CreateResultView, EditResul
 from labsystem.laboratory.views.staff_views import StaffCreateView, StaffListView, StaffUserCreateView, \
     StaffDetailsView, delete_staff_view, restore_staff_view, DeletedStaffListView, EditStaffView
 from labsystem.laboratory.views.main_views import HomeView, UserLoginView, UserLogoutView
+from labsystem.laboratory.views.user_view import PasswordChangeView
 
 urlpatterns = (
     path('', HomeView.as_view(), name='index'),
-    path('user/login/', UserLoginView.as_view(), name='login user'),
-    path('user/logout/', UserLogoutView.as_view(), name='logout user'),
+    path('users/login/', UserLoginView.as_view(), name='login user'),
+    path('users/logout/', UserLogoutView.as_view(), name='logout user'),
+    path('users/<int:pk>/password/change/', PasswordChangeView.as_view(), name='change password'),
     path('register/user_as_patient/', PatientUserCreateView.as_view(), name='create user_as_patient'),
     path('register/user_as_staff/', StaffUserCreateView.as_view(), name='create staff user'),
     path('register/user_as_physician/', PhysicianUserCreateView.as_view(), name='create physician user'),

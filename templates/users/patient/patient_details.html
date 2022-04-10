@@ -62,94 +62,70 @@
                 </table>
 
             </div>
+
+            {% if user.is_superuser %}
+                {% if deleted %}
+                    <p></p>
+                    <div class="col-lg-6">
+                        <a href="{% url 'restore patient' object.pk %}" class="btn btn-primary btn-lg active"
+                           role="button" aria-pressed="true">Restore</a>
+                    </div>
+                    <p></p>
+                {% else %}
+                    <p></p>
+                    <div class="col-lg-6">
+                        <a href="{{% url 'delete patient' object.pk %}" class="btn btn-danger btn-lg active"
+                           role="button" aria-pressed="true">Delete</a>
+                    </div>
+                    <p></p>
+                {% endif %}
+
+            {% endif %}
+            {% if user_is_staff %}
+                <p></p>
+                <div class="col-lg-6">
+                    <a href="{% url 'edit patient' object.pk %}" class="btn btn-info btn-lg active"
+                       role="button" aria-pressed="true">Edit</a>
+                </div>
+                <p></p>
+            {% endif %}
         </div>
-    </div>
-
-    {% if user_is_staff %}
-        {% if deleted %}
-            {#                    <p>#}
-            {#                        <a href="{% url 'all deleted patients' %}"> Back</a>#}
-            {#                    </p>#}
-            <div class="col-lg-6">
-                <a href="{% url 'restore patient' object.pk %}" class="btn btn-danger btn-lg active"
-                   role="button" aria-pressed="true">Restore Patient</a>
-            </div>
-
-        {% else %}
-            {#                    <p>#}
-            {#                        <a href="{% url 'all patients' %}"> Back</a>#}
-            {#                    </p>#}
-            <div class="col-lg-6">
-                <a href="{{% url 'delete patient' object.pk %}" class="btn btn-danger btn-lg active"
-                   role="button" aria-pressed="true">Delete Patient</a>
-            </div>
-        {% endif %}
-
-    {% endif %}
-    <div class="col-lg-6">
-        {% if user_is_staff %}
-            <div class="col-lg-6">
-                <a href="{% url 'edit patient' object.pk %}" class="btn btn-info btn-lg active"
-                   role="button" aria-pressed="true">Edit Patient</a>
-            </div>
-        {% endif %}
-    </div>
-    <div class="col-lg-3"></div>
-    <h1 class="text-center">Patient's Analysis List</h1>
-    <div class="row">
-        <div class="col-lg-3"></div>
-        {% if patient_results %}
-            <div class="table-responsive-md">
-            <table class="table table-bordered">
-                <tr class="first-table-row">
-                    <th scope="col">Result ID</th>
-                    <th scope="col">Created at</th>
-                    <th scope="col">Status</th>
-                    {% if user_is_staff %}
-                        <th scope="col">Details</th>
-                    {% endif %}
-                </tr>
-                {% for result in patient_results %}
-                    <tr>
-                        <td>{{ result.pk }}</td>
-                        <td>{{ result.created_on }}</td>
-                        <td>{{ result.status }}</td>
+        <div class="col-lg-3">
+            <h1 class="text-center">Patient's Analysis List</h1>
+        </div>
+        <div class="row">
+            <div class="col-lg-3"></div>
+            {% if patient_results %}
+                <div class="table-responsive-md">
+                <table class="table table-bordered">
+                    <tr class="first-table-row">
+                        <th scope="col">Result ID</th>
+                        <th scope="col">Created at</th>
+                        <th scope="col">Status</th>
                         {% if user_is_staff %}
-                            <td><a href="{% url 'result details' patient.pk result.pk %}"> Link </a></td>
+                            <th scope="col">Details</th>
                         {% endif %}
                     </tr>
-                {% endfor %}
-            </table>
-            {% if is_paginated %}
-                <ul class="pagination">
-                    {% if page_obj.has_previous %}
-                        <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
-                    {% else %}
-                        <li class="disabled"><span>&laquo;</span></li>
-                    {% endif %}
-                    {% for i in paginator.page_range %}
-                        {% if page_obj.number == i %}
-                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-                        {% else %}
-                            <li><a href="?page={{ i }}">{{ i }}</a></li>
-                        {% endif %}
+                    {% for result in patient_results %}
+                        <tr>
+                            <td>{{ result.pk }}</td>
+                            <td>{{ result.created_on }}</td>
+                            <td>{{ result.status }}</td>
+                            {% if user_is_staff %}
+                                <td><a href="{% url 'result details' patient.pk result.pk %}"> Link </a></td>
+                            {% endif %}
+                        </tr>
                     {% endfor %}
-                    {% if page_obj.has_next %}
-                        <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
-                    {% else %}
-                        <li class="disabled"><span>&raquo;</span></li>
-                    {% endif %}
-                </ul>
+                </table>
+            {% else %}
+                No analyses to display!
             {% endif %}
-        {% else %}
-            No analyses to display!
+            </div>
+        </div>
+        {% if not deleted %}
+            <div class="col-lg-6">
+                <a href="{% url 'add result to patient' object.pk %}" class="btn btn-primary btn-lg active"
+                   role="button" aria-pressed="true">Add New Analysis to Patient</a>
+            </div>
         {% endif %}
-        </div>
-    </div>
-    {% if not deleted %}
-        <div class="col-lg-6">
-            <a href="{% url 'add result to patient' object.pk %}" class="btn btn-primary btn-lg active"
-               role="button" aria-pressed="true">Add New Analysis to Patient</a>
-        </div>
-    {% endif %}
 {% endblock %}

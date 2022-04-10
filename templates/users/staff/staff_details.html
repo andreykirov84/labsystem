@@ -2,108 +2,112 @@
 
 {% block page_content %}
     <h1 class="text-center">Employee Details</h1>
-        <div class="table-responsive-md">
-            <table class="table table-bordered">
-                <tr class="first-table-row">
-                    <th scope="col">Personal ID</th>
-                    <td>{{ object.pid_type }}: {{ object.pid }}</td>
-                </tr>
+    <div class="table-responsive-md">
+        <table class="table table-bordered">
+            <tr class="first-table-row">
+                <th scope="col">Personal ID</th>
+                <td>{{ object.pid_type }}: {{ object.pid }}</td>
+            </tr>
+            <tr>
+                <th scope="col">Name</th>
+                <td>{{ object.full_name }}</td>
+            </tr>
+            <tr>
+                <th scope="col">Sex</th>
+                <td>{{ object.sex }}</td>
+            </tr>
+            <tr>
+                <th scope="col">Date of Birth</th>
+                <td>{{ object.date_of_birth }}</td>
+            </tr>
+            {% if object.telephone_number %}
                 <tr>
-                    <th scope="col">Name</th>
-                    <td>{{ object.full_name }}</td>
+                    <th scope="col">Telephone number</th>
+                    <td>{{ object.telephone_number }}</td>
                 </tr>
+            {% endif %}
+            {% if object.email %}
                 <tr>
-                    <th scope="col">Sex</th>
-                    <td>{{ object.sex }}</td>
+                    <th scope="col">E-mail</th>
+                    <td>{{ object.email }}</td>
                 </tr>
+            {% endif %}
+            {% if object.address %}
                 <tr>
-                    <th scope="col">Date of Birth</th>
-                    <td>{{ object.date_of_birth }}</td>
+                    <th scope="col">Address</th>
+                    <td>{{ object.address }}</td>
                 </tr>
-                {% if object.telephone_number %}
-                    <tr>
-                        <th scope="col">Telephone number</th>
-                        <td>{{ object.telephone_number }}</td>
-                    </tr>
-                {% endif %}
-                {% if object.email %}
-                    <tr>
-                        <th scope="col">E-mail</th>
-                        <td>{{ object.email }}</td>
-                    </tr>
-                {% endif %}
-                {% if object.address %}
-                    <tr>
-                        <th scope="col">Address</th>
-                        <td>{{ object.address }}</td>
-                    </tr>
-                {% endif %}
-                {% if object.city %}
-                    <tr>
-                        <th scope="col">City</th>
-                        <td>{{ object.city }}</td>
-                    </tr>
-                {% endif %}
-                {% if object.specialty %}
-                    <tr>
-                        <th scope="col">Speciality</th>
-                        <td>{{ object.specialty }}</td>
-                    </tr>
-                {% endif %}
-                {% if object.position %}
-                    <tr>
-                        <th scope="col">Position</th>
-                        <td>{{ object.position }}</td>
-                    </tr>
-                {% endif %}
-                {% if object.department %}
-                    <tr>
-                        <th scope="col">Department</th>
-                        <td>{{ object.department }}</td>
-                    </tr>
-                {% endif %}
-                {% if object.salary %}
-                    <tr>
-                        <th scope="col">Salary</th>
-                        <td>{{ object.salary }}</td>
-                    </tr>
-                {% endif %}
-                {% if object.comments %}
-                    <tr>
-                        <th scope="col">Comments</th>
-                        <td>{{ object.comments }}</td>
-                    </tr>
-                {% endif %}
-            </table>
+            {% endif %}
+            {% if object.city %}
+                <tr>
+                    <th scope="col">City</th>
+                    <td>{{ object.city }}</td>
+                </tr>
+            {% endif %}
+            {% if object.specialty %}
+                <tr>
+                    <th scope="col">Speciality</th>
+                    <td>{{ object.specialty }}</td>
+                </tr>
+            {% endif %}
+            {% if object.position %}
+                <tr>
+                    <th scope="col">Position</th>
+                    <td>{{ object.position }}</td>
+                </tr>
+            {% endif %}
+            {% if object.department %}
+                <tr>
+                    <th scope="col">Department</th>
+                    <td>{{ object.department }}</td>
+                </tr>
+            {% endif %}
+            {% if object.salary %}
+                <tr>
+                    <th scope="col">Salary</th>
+                    <td>{{ object.salary }}</td>
+                </tr>
+            {% endif %}
+            {% if object.comments %}
+                <tr>
+                    <th scope="col">Comments</th>
+                    <td>{{ object.comments }}</td>
+                </tr>
+            {% endif %}
+        </table>
 
-        </div>
+    </div>
     {% if deleted %}
         <p></p>
         <div class="d-flex justify-content-center">
             <a href="{% url 'all deleted staffs' %}" class="btn btn-secondary" role="button">Back </a>
         </div>
         <p></p>
-        <div class="d-flex justify-content-center">
-            <a href="{% url 'edit staff' object.pk %}" class="btn btn-primary" role="button">Edit </a>
-        </div>
-        <p></p>
-        <div class="d-flex justify-content-center">
-            <a href="{% url  'restore staff' object.pk %}" class="btn btn-success" role="button">Restore </a>
-        </div>
-        <p></p>
+        {% if user.is_staff %}
+            <div class="d-flex justify-content-center">
+                <a href="{% url 'edit staff' object.pk %}" class="btn btn-primary" role="button">Edit </a>
+            </div>
+            <p></p>
+            <div class="d-flex justify-content-center">
+                <a href="{% url  'restore staff' object.pk %}" class="btn btn-success" role="button">Restore </a>
+            </div>
+            <p></p>
+        {% endif %}
     {% else %}
         <p></p>
         <div class="d-flex justify-content-center">
             <a href="{% url 'all staffs' %}" class="btn btn-secondary" role="button">Back </a>
         </div>
         <p></p>
-        <div class="d-flex justify-content-center">
-            <a href="{% url 'edit staff' object.pk %}" class="btn btn-primary" role="button">Edit </a>
-        </div>
-        <p></p>
-        <div class="d-flex justify-content-center">
-            <a href="{% url 'delete staff' object.pk %}" class="btn btn-danger" role="button">Delete </a>
-        </div>
+        {% if user.is_staff %}
+            <div class="d-flex justify-content-center">
+                <a href="{% url 'edit staff' object.pk %}" class="btn btn-primary" role="button">Edit </a>
+            </div>
+            <p></p>
+            <div class="d-flex justify-content-center">
+                <a href="{% url 'delete staff' object.pk %}" class="btn btn-danger" role="button">Delete </a>
+            </div>
+        {% endif %}
     {% endif %}
 
 
