@@ -5,26 +5,27 @@
         <div class="col-lg-6">
             <form method="post" action="{% url 'delete physician' physician.pk %}">
                 {% csrf_token %}
-                <div class="col-lg-6">
-                    {{ physician_pid }}: {{ form.pid }}
-                </div>
-                <div class="col-lg-6">
-                    First Name: {{ form.first_name }}
-                </div>
-                {% if has_middlename %}
-                    <div class="col-lg-6">
-                        Middle Name: {{ form.middle_name }}
-                    </div>
-                {% endif %}
-                <div class="col-lg-6">
-                    Last Name: {{ form.last_name }}
-                </div>
-                <div class="col-lg-6">
-                    Date of birth: {{ form.date_of_birth }}
-                </div>
-                <div class="col-lg-6">
-                    Affiliated Health Facility: {{ physician.health_facility.name }} Located in: {{ physician.health_facility.city.name }} Province: {{ physician.health_facility.city.province }}
-                </div>
+                {{ form.as_p }}
+{#                <div class="col-lg-6">#}
+{#                    {{ physician_pid }}: {{ form.pid }}#}
+{#                </div>#}
+{#                <div class="col-lg-6">#}
+{#                    First Name: {{ form.first_name }}#}
+{#                </div>#}
+{#                {% if has_middlename %}#}
+{#                    <div class="col-lg-6">#}
+{#                        Middle Name: {{ form.middle_name }}#}
+{#                    </div>#}
+{#                {% endif %}#}
+{#                <div class="col-lg-6">#}
+{#                    Last Name: {{ form.last_name }}#}
+{#                </div>#}
+{#                <div class="col-lg-6">#}
+{#                    Date of birth: {{ form.date_of_birth }}#}
+{#                </div>#}
+{#                <div class="col-lg-6">#}
+{#                    Affiliated Health Facility: {{ physician.health_facility.name }} Located in: {{ physician.health_facility.city.name }} Province: {{ physician.health_facility.city.province }}#}
+{#                </div>#}
 
                 <button class="btn btn-primary mt-2" type="submit">Delete Physician</button>
             </form>

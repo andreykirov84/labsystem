@@ -5,28 +5,29 @@
         <div class="col-lg-6">
             <form method="post" action="{% url 'delete staff' staff.pk %}">
                 {% csrf_token %}
-                <div class="col-lg-6">
-                    {{ staff_pid }}: {{ form.pid }}
-                </div>
-                <div class="col-lg-6">
-                    First Name: {{ form.first_name }}
-                </div>
-                {% if has_middlename %}
-                    <div class="col-lg-6">
-                        Middle Name: {{ form.middle_name }}
-                    </div>
-                {% endif %}
-                <div class="col-lg-6">
-                    Last Name: {{ form.last_name }}
-                </div>
-                <div class="col-lg-6">
-                    Date of birth: {{ form.date_of_birth }}
-                </div>
-                <div class="col-lg-6">
-                    Department: {{ staff_department }}
-                </div>
+                {{ form.as_p }}
+{#                <div class="col-lg-6">#}
+{#                    {{ staff_pid }}: {{ form.pid }}#}
+{#                </div>#}
+{#                <div class="col-lg-6">#}
+{#                    First Name: {{ form.first_name }}#}
+{#                </div>#}
+{#                {% if has_middlename %}#}
+{#                    <div class="col-lg-6">#}
+{#                        Middle Name: {{ form.middle_name }}#}
+{#                    </div>#}
+{#                {% endif %}#}
+{#                <div class="col-lg-6">#}
+{#                    Last Name: {{ form.last_name }}#}
+{#                </div>#}
+{#                <div class="col-lg-6">#}
+{#                    Date of birth: {{ form.date_of_birth }}#}
+{#                </div>#}
+{#                <div class="col-lg-6">#}
+{#                    Department: {{ staff_department }}#}
+{#                </div>#}
 
-                <button class="btn btn-danger mt-2" type="submit">Delete Staff</button>
+                <button class="btn btn-danger mt-2" type="submit">Delete</button>
             </form>
         </div>
         <div class="col-lg-3"></div>

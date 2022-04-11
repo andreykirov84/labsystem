@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginAndNotDeletedRequiredMixin
 from django.shortcuts import redirect, render
+from django.utils import timezone
 from django.views import generic as views
 from django.urls import reverse_lazy, reverse
 from labsystem.auth_app.models import LimsUser
@@ -93,8 +94,14 @@ def delete_physician_view(request, pk):
         has_middlename = True
     if request.method == 'POST':
         form = DeletePhysicianForm(request.POST, instance=physician)
+        form.is_valid()
+        form_user_username = form.cleaned_data.get('user')
+        user = LimsUser.objects.get(username=form_user_username)
+        user.is_active = False
+        user.deleted_at = timezone.now()
+        user.save()
         form.save()
-        return redirect('all physicians')
+        return redirect('all deleted physicians')
     else:
         form = DeletePhysicianForm(instance=physician)
 
@@ -118,8 +125,14 @@ def restore_physician_view(request, pk):
         has_middlename = True
     if request.method == 'POST':
         form = RestorePhysicianForm(request.POST, instance=physician)
+        form.is_valid()
+        form_user_username = form.cleaned_data.get('user')
+        user = LimsUser.objects.get(username=form_user_username)
+        user.is_active = True
+        user.deleted_at = None
+        user.save()
         form.save()
-        return redirect('all deleted physicians')
+        return redirect('all physicians')
     else:
         form = RestorePhysicianForm(instance=physician)
 

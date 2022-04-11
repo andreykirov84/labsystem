@@ -2,6 +2,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.mixins import LoginAndNotDeletedRequiredMixin
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
+from django.utils import timezone
 from django.views import generic as views
 from django.urls import reverse_lazy, reverse
 
@@ -160,7 +161,12 @@ def delete_patient_view(request, pk):
         has_middlename = True
     if request.method == 'POST':
         form = DeletePatientForm(request.POST, instance=patient)
-        # if form.is_valid():
+        form.is_valid()
+        form_user_username = form.cleaned_data.get('user')
+        user = LimsUser.objects.get(username=form_user_username)
+        user.is_active = False
+        user.deleted_at = timezone.now()
+        user.save()
         form.save()
         return redirect('all patients')
     else:
@@ -184,6 +190,12 @@ def restore_patient_view(request, pk):
         has_middlename = True
     if request.method == 'POST':
         form = RestorePatientForm(request.POST, instance=patient)
+        form.is_valid()
+        form_user_username = form.cleaned_data.get('user')
+        user = LimsUser.objects.get(username=form_user_username)
+        user.is_active = True
+        user.deleted_at = None
+        user.save()
         form.save()
         return redirect('all patients')
     else:
@@ -242,25 +254,3 @@ class SearchPatientsView(LoginAndNotDeletedRequiredMixin, views.ListView):
             all_patients = []
 
         return all_patients
-
-# class AllPhysicianPatientsListView(LoginAndNotDeletedRequiredMixin, PhysicianRequiredMixin, views.ListView):
-#     PATIENTS_PER_PAGE = 10
-#     Model = Profile
-#     template_name = 'laboratory/all_patients_referred_by_specific_physician_list.html'
-#     context_object_name = 'all_patients'
-#
-#     queryset = Profile.objects.filter(user__is_patient=True, deleted_at=None, )
-#     paginate_by = PATIENTS_PER_PAGE
-#     ordering = ['-created_on']
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data()
-#         physician = Profile.objects.get(pk=self.kwargs['pk'])
-#         results = Result.objects.filter(referring_physician=self.kwargs['pk']).values()
-#         patients = None
-#         if results:
-#             all_patients_pk = [x['patient_id'] for x in results]
-#             patients = Profile.objects.filter(pk__in=all_patients_pk)
-#         context['patient'] = patients
-#         context['physician'] = physician
-#         return context

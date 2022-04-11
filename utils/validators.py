@@ -1,24 +1,24 @@
 from django.utils.deconstruct import deconstructible
 from django.core.exceptions import ValidationError
 
-
-@deconstructible
-class MaxFileSizeInMbValidator:
-    def __init__(self, max_size):
-        self.max_size = max_size
-
-    @staticmethod
-    def __megabytes_to_bytes_converter(value):
-        return value * 1024 * 1024
-
-    def __get_exception_message(self):
-        return f'Max file size is {self.max_size:.2f} MB'
-
-    def __call__(self, value):
-        max_size_in_bytes = self.__megabytes_to_bytes_converter(self.max_size)
-
-        if value.file.size > max_size_in_bytes:
-            raise ValidationError(self.__get_exception_message())
+#
+# @deconstructible
+# class MaxFileSizeInMbValidator:
+#     def __init__(self, max_size):
+#         self.max_size = max_size
+#
+#     @staticmethod
+#     def __megabytes_to_bytes_converter(value):
+#         return value * 1024 * 1024
+#
+#     def __get_exception_message(self):
+#         return f'Max file size is {self.max_size:.2f} MB'
+#
+#     def __call__(self, value):
+#         max_size_in_bytes = self.__megabytes_to_bytes_converter(self.max_size)
+#
+#         if value.file.size > max_size_in_bytes:
+#             raise ValidationError(self.__get_exception_message())
 
 
 def validate_only_letters(value):

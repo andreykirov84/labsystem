@@ -177,14 +177,116 @@ class EditProfilePhysicianForm(BootstrapFormMixin, forms.ModelForm):
 class DeletePhysicianForm(DeleteAbstractForm):
     class Meta:
         model = Profile
-        exclude = (
-            'deleted_at',
+
+        fields = (
+            'pid',
+            'pid_type',
+            'sex',
+            'first_name',
+            'middle_name',
+            'last_name',
+            'date_of_birth',
+            'telephone_number',
+            'email',
+            'address',
+            'city',
+            'specialty',
+            'health_facility',
+            'comments',
+            'user',
         )
+
+        widgets = {
+            'pid': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter Personal ID',
+                    'class': 'form-control',
+                }),
+
+            'first_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter First Name',
+                    'class': 'form-control',
+                }),
+
+            'middle_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter Middle Name (Optional)',
+                    'class': 'form-control',
+                }),
+
+            'last_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter Last Name',
+                    'class': 'form-control',
+                }),
+
+            'date_of_birth': DatePickerInput,
+
+            'telephone_number': forms.TextInput(attrs={'class': 'form-control'}),
+
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+
+            'address': forms.TextInput(attrs={'class': 'form-control'}),
+
+            'comments': forms.Textarea(attrs={'class': 'form-control'}),
+        }
 
 
 class RestorePhysicianForm(RestoreAbstractForm):
     class Meta:
         model = Profile
-        exclude = (
-            'deleted_at',
+
+        fields = (
+            'pid',
+            'pid_type',
+            'sex',
+            'first_name',
+            'middle_name',
+            'last_name',
+            'date_of_birth',
+            'telephone_number',
+            'email',
+            'address',
+            'city',
+            'specialty',
+            'health_facility',
+            'comments',
+            'user'
         )
+
+        widgets = {
+            'pid': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter Personal ID',
+                    'class': 'form-control',
+                }),
+
+            'first_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter First Name',
+                    'class': 'form-control',
+                }),
+
+            'middle_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter Middle Name (Optional)',
+                    'class': 'form-control',
+                }),
+
+            'last_name': forms.TextInput(
+                attrs={
+                    'placeholder': 'Enter Last Name',
+                    'class': 'form-control',
+                }),
+
+            'date_of_birth': DatePickerInput,
+
+            'telephone_number': forms.TextInput(attrs={'class': 'form-control'}),
+
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+
+            'address': forms.TextInput(attrs={'class': 'form-control'}),
+
+            'comments': forms.Textarea(attrs={'class': 'form-control'}),
+        }

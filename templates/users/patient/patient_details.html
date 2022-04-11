@@ -74,7 +74,7 @@
                 {% else %}
                     <p></p>
                     <div class="col-lg-6">
-                        <a href="{{% url 'delete patient' object.pk %}" class="btn btn-danger btn-lg active"
+                        <a href="{% url 'delete patient' object.pk %}" class="btn btn-danger btn-lg active"
                            role="button" aria-pressed="true">Delete</a>
                     </div>
                     <p></p>

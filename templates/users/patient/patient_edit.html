@@ -12,6 +12,10 @@
     </div>
     <p></p>
     <div class="d-flex justify-content-center">
-        <a href="{% url 'delete patient' object.pk %}" class="btn btn-danger" role="button">Delete </a>
+        {% if deleted %}
+            <a href="{% url 'delete patient' object.pk %}" class="btn btn-danger" role="button">Delete </a>
+        {% else %}
+            <a href="{% url 'restore patient' object.pk %}" class="btn btn-success" role="button">Restore </a>
+        {% endif %}
     </div>
 {% endblock %}

@@ -1,5 +1,8 @@
+import time
+
 from django.contrib.auth.mixins import LoginAndNotDeletedRequiredMixin
 from django.shortcuts import redirect, render
+from django.utils import timezone
 from django.views import generic as views
 from django.urls import reverse_lazy, reverse
 from labsystem.auth_app.models import LimsUser
@@ -90,8 +93,14 @@ def delete_staff_view(request, pk):
         has_middlename = True
     if request.method == 'POST':
         form = DeleteStaffForm(request.POST, instance=staff)
+        form.is_valid()
+        form_user_username = form.cleaned_data.get('user')
+        user = LimsUser.objects.get(username=form_user_username)
+        user.is_active = False
+        user.deleted_at = timezone.now()
+        user.save()
         form.save()
-        return redirect('all patients')
+        return redirect('all deleted staffs')
     else:
         form = DeleteStaffForm(instance=staff)
 
@@ -115,6 +124,12 @@ def restore_staff_view(request, pk):
         has_middlename = True
     if request.method == 'POST':
         form = RestoreStaffForm(request.POST, instance=staff)
+        form.is_valid()
+        form_user_username = form.cleaned_data.get('user')
+        user = LimsUser.objects.get(username=form_user_username)
+        user.is_active = True
+        user.deleted_at = None
+        user.save()
         form.save()
         return redirect('all staffs')
     else:
