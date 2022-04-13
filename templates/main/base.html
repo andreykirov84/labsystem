@@ -1,8 +1,12 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>LIMS</title>
+    <title>KirovLab</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/logo1_solid.jpg' %}">
+
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -17,7 +21,10 @@
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light ">
-    <a class="navbar-brand" href="{% url 'index' %}">KirovLab</a>
+    <a class="navbar-brand" href="{% url 'index' %}">
+        <img class="logo" src="{% static 'images/logo2.png' %}" alt="Logo" height="50">
+    </a>
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -26,7 +33,8 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'all analyses' %}">Our analyses <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="{% url 'all analyses' %}">Our analyses <span
+                        class="sr-only">(current)</span></a>
             </li>
             {% if user.is_superuser %}
                 <li class="nav-item active">
@@ -41,7 +49,6 @@
                        aria-haspopup="true" aria-expanded="false"> Common Actions
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{% url 'change password' user.pk %}">Change Your Password</a>
                         {% if user.is_physician %}
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{% url 'all specific physician patients' user.pk %}">Check
@@ -49,17 +56,21 @@
                         {% endif %}
                         {% if user.is_patient %}
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'all patient specific results' user.pk %}">Check Your
+                            <a class="dropdown-item" href="{% url 'all patient specific results' user.pk %}">Check
+                                Your
                                 Results</a>
                         {% endif %}
                         {% if user.is_staff %}
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'create user_as_patient' %}">Register New Patient</a>
+                            <a class="dropdown-item" href="{% url 'create user_as_patient' %}">Register New
+                                Patient</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'all patients' %}">All Patient List</a>
+                            <a class="dropdown-item" href="{% url 'all patients' %}">Patients List</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{% url 'all physicians' %}">All Physicians List</a>
+                            <a class="dropdown-item" href="{% url 'all physicians' %}">Physicians List</a>
+                            <div class="dropdown-divider"></div>
                         {% endif %}
+                        <a class="dropdown-item" href="{% url 'change password' user.pk %}">Change Your Password</a>
 
                     </div>
                 </li>
@@ -78,7 +89,8 @@
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'all staffs' %}">Show Employees List</a>
                         <a class="dropdown-item" href="{% url 'create staff user' %}">Register New Employee</a>
-                        <a class="dropdown-item" href="{% url 'all deleted staffs' %}">Show Deleted Employees List</a>
+                        <a class="dropdown-item" href="{% url 'all deleted staffs' %}">Show Deleted Employees
+                            List</a>
                     </div>
                 </li>
             {% endif %}
@@ -116,8 +128,10 @@
                         <a class="dropdown-item" href="{% url 'all deleted analyses' %}">Deleted Analyses List</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'all analysis fields' %}">Analyses Fields List</a>
-                        <a class="dropdown-item" href="{% url 'create analysis field' %}">Create New Analyses Field</a>
-                        <a class="dropdown-item" href="{% url 'all deleted analysis fields' %}">Deleted Analyses Fields
+                        <a class="dropdown-item" href="{% url 'create analysis field' %}">Create New Analyses
+                            Field</a>
+                        <a class="dropdown-item" href="{% url 'all deleted analysis fields' %}">Deleted Analyses
+                            Fields
                             List</a>
                         <div class="dropdown-divider"></div>
 
@@ -188,6 +202,7 @@
                 <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
                     <!-- Content -->
                     <h6 class="text-uppercase fw-bold mb-4">
+                        <p></p>
                         <i class="fas fa-gem me-3"></i>Company name
                     </h6>
                     <p>
@@ -198,6 +213,7 @@
                 <!-- Grid column -->
                 <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
                     <!-- Links -->
+                    <p></p>
                     <h6 class="text-uppercase fw-bold mb-4">
                         Useful links
                     </h6>
@@ -213,6 +229,7 @@
                 <!-- Grid column -->
                 <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
                     <!-- Links -->
+                    <p></p>
                     <h6 class="text-uppercase fw-bold mb-4">
                         Contact
                     </h6>
@@ -220,9 +237,10 @@
                     <a href="https://goo.gl/maps/oB7qgh5k9iap4ags7" class="text-reset">Find us on Google maps</a>
                     <p>
                         <i class="fa fa-envelope"></i>
-                        info@lims.com
+                        <a href="mailto:info@lims.com">info@lims.com</a>
                     </p>
-                    <p><i class="fas fa-phone me-3"></i> +359 123 456 789</p>
+                    <p><i class="fa fa-phone"></i> +359 123 456 789</p>
+
                 </div>
                 <!-- Grid column -->
             </div>
@@ -233,7 +251,7 @@
 
     <!-- Copyright -->
     <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-        © Laboratory Managment System Project (author: Andrey Kirov):
+        © Laboratory Management System Project (author: Andrey Kirov):
         {#        <a class="text-reset fw-bold" href="#">LIMS</a>#}
     </div>
     <!-- Copyright -->

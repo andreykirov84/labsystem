@@ -4,70 +4,73 @@
     <h1 class="text-center">Patient information</h1>
     <div class="row">
 
-        <div class="col-lg-6">
-            <div class="table-responsive-md">
-                <table class="table table-bordered">
-                    <tr class="first-table-row">
-                        <th scope="col">Personal ID (Type)</th>
-                        <td>{{ object.pid_type }}: {{ object.pid }}</td>
-                    </tr>
+        {#        <div class="col-lg-6">#}
+        <div class="table-responsive-md">
+            <table class="table table-bordered">
+                <tr class="first-table-row">
+                    <th scope="col">Personal ID (Type)</th>
+                    <td>{{ object.pid_type }}: {{ object.pid }}</td>
+                </tr>
+                <tr>
+                    <th scope="col">Name</th>
+                    <td>{{ object.full_name }}</td>
+                </tr>
+                <tr>
+                    <th scope="col">Sex</th>
+                    <td>{{ object.sex }}</td>
+                </tr>
+                <tr>
+                    <th scope="col">Date of Birth</th>
+                    <td>{{ object.date_of_birth }}</td>
+                </tr>
+                {% if object.telephone_number %}
                     <tr>
-                        <th scope="col">Name</th>
-                        <td>{{ object.full_name }}</td>
+                        <th scope="col">Telephone number</th>
+                        <td>{{ object.telephone_number }}</td>
                     </tr>
+                {% endif %}
+                {% if object.email %}
                     <tr>
-                        <th scope="col">Sex</th>
-                        <td>{{ object.sex }}</td>
+                        <th scope="col">E-mail</th>
+                        <td>{{ object.email }}</td>
                     </tr>
+                {% endif %}
+                {% if object.address %}
                     <tr>
-                        <th scope="col">Date of Birth</th>
-                        <td>{{ object.date_of_birth }}</td>
+                        <th scope="col">Address</th>
+                        <td>{{ object.address }}</td>
                     </tr>
-                    {% if object.telephone_number %}
-                        <tr>
-                            <th scope="col">Telephone number</th>
-                            <td>{{ object.telephone_number }}</td>
-                        </tr>
-                    {% endif %}
-                    {% if object.email %}
-                        <tr>
-                            <th scope="col">E-mail</th>
-                            <td>{{ object.email }}</td>
-                        </tr>
-                    {% endif %}
-                    {% if object.address %}
-                        <tr>
-                            <th scope="col">Address</th>
-                            <td>{{ object.address }}</td>
-                        </tr>
-                    {% endif %}
-                    {% if object.city %}
-                        <tr>
-                            <th scope="col">City</th>
-                            <td>{{ object.city }}</td>
-                        </tr>
-                    {% endif %}
-                    {% if object.clinical_data %}
-                        <tr>
-                            <th scope="col">Clinical data</th>
-                            <td>{{ object.clinical_data }}</td>
-                        </tr>
-                    {% endif %}
-                    {% if object.comments %}
-                        <tr>
-                            <th scope="col">Comments</th>
-                            <td>{{ object.comments }}</td>
-                        </tr>
-                    {% endif %}
-                </table>
-
-            </div>
-
+                {% endif %}
+                {% if object.city %}
+                    <tr>
+                        <th scope="col">City</th>
+                        <td>{{ object.city }}</td>
+                    </tr>
+                {% endif %}
+                {% if object.clinical_data %}
+                    <tr>
+                        <th scope="col">Clinical data</th>
+                        <td>{{ object.clinical_data }}</td>
+                    </tr>
+                {% endif %}
+                {% if object.comments %}
+                    <tr>
+                        <th scope="col">Comments</th>
+                        <td>{{ object.comments }}</td>
+                    </tr>
+                {% endif %}
+            </table>
+            {% if not deleted %}
+                <div class="col-lg-6">
+                    <a href="{% url 'add result to patient' object.pk %}" class="btn btn-primary btn-lg active"
+                       role="button" aria-pressed="true">Add New Analysis</a>
+                </div>
+            {% endif %}
             {% if user.is_superuser %}
                 {% if deleted %}
                     <p></p>
                     <div class="col-lg-6">
-                        <a href="{% url 'restore patient' object.pk %}" class="btn btn-primary btn-lg active"
+                        <a href="{% url 'restore patient' object.pk %}" class="btn btn-success btn-lg active"
                            role="button" aria-pressed="true">Restore</a>
                     </div>
                     <p></p>
@@ -84,48 +87,46 @@
             {% if user_is_staff %}
                 <p></p>
                 <div class="col-lg-6">
-                    <a href="{% url 'edit patient' object.pk %}" class="btn btn-info btn-lg active"
+                    <a href="{% url 'edit patient' object.pk %}" class="btn btn-primary btn-lg active"
                        role="button" aria-pressed="true">Edit</a>
                 </div>
                 <p></p>
             {% endif %}
         </div>
-        <div class="col-lg-3">
-            <h1 class="text-center">Patient's Analysis List</h1>
-        </div>
-        <div class="row">
-            <div class="col-lg-3"></div>
-            {% if patient_results %}
-                <div class="table-responsive-md">
-                <table class="table table-bordered">
-                    <tr class="first-table-row">
-                        <th scope="col">Result ID</th>
-                        <th scope="col">Created at</th>
-                        <th scope="col">Status</th>
+    </div>
+    {#    </div>#}
+
+    <h1 class="text-center">Patient's Analyses</h1>
+
+    {% if patient_results %}
+        <div class="table-responsive-md">
+            <table class="table table-bordered">
+                <tr class="first-table-row">
+                    <th scope="col">Result ID</th>
+                    <th scope="col">Created at</th>
+                    <th scope="col">Status</th>
+                    {% if user_is_staff %}
+                        <th scope="col">Details</th>
+                    {% endif %}
+                </tr>
+                {% for result in patient_results %}
+                    <tr>
+                        <td>{{ result.pk }}</td>
+                        <td>{{ result.created_on }}</td>
+                        <td>{{ result.status }}</td>
                         {% if user_is_staff %}
-                            <th scope="col">Details</th>
+                            <td><a href="{% url 'result details' patient.pk result.pk %}"> Link </a></td>
                         {% endif %}
                     </tr>
-                    {% for result in patient_results %}
-                        <tr>
-                            <td>{{ result.pk }}</td>
-                            <td>{{ result.created_on }}</td>
-                            <td>{{ result.status }}</td>
-                            {% if user_is_staff %}
-                                <td><a href="{% url 'result details' patient.pk result.pk %}"> Link </a></td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
-                </table>
+                {% endfor %}
+            </table>
             {% else %}
+            <div class="row">
+                <div class="col-lg-3"></div>
                 No analyses to display!
-            {% endif %}
             </div>
         </div>
-        {% if not deleted %}
-            <div class="col-lg-6">
-                <a href="{% url 'add result to patient' object.pk %}" class="btn btn-primary btn-lg active"
-                   role="button" aria-pressed="true">Add New Analysis to Patient</a>
-            </div>
-        {% endif %}
+    {% endif %}
+
+
 {% endblock %}

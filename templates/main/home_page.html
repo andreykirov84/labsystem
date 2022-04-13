@@ -6,37 +6,6 @@
     <div class="jumbotron">
 
         <div class="position-sticky">
-{#            {% if user.is_physician %}#}
-{#                <h3>Welcome Dr. {{ user.profile.full_name }}</h3>#}
-{#                <a href="{% url 'all specific physician patients' user.pk %}" class="btn btn-primary btn-lg active"#}
-{#                   role="button"#}
-{#                   aria-pressed="true">Check Your Patients</a>#}
-{#            {% endif %}#}
-{#            {% if user.is_patient %}#}
-{#                <h3>Welcome {{ user.profile.full_name }}</h3>#}
-{#                <a href="{% url 'all patient specific results' user.pk %}" class="btn btn-primary btn-lg active"#}
-{#                   role="button"#}
-{#                   aria-pressed="true">Check Your Results</a>#}
-{#            {% endif %}#}
-{#            {% if user.is_staff %}#}
-{#                <h3>Welcome {{ user.profile.full_name }}! You are logged in as a laboratory staff member</h3>#}
-{#                <p>#}
-{#                    <a href="{% url 'create user_as_patient' %}" class="btn btn-primary btn-lg active"#}
-{#                       role="button"#}
-{#                       aria-pressed="true">Register a new patients</a>#}
-{#                </p>#}
-{#                <p>#}
-{#                    <a href="{% url 'all patients' %}" class="btn btn-primary btn-lg active"#}
-{#                       role="button"#}
-{#                       aria-pressed="true">See all patients</a>#}
-{#                </p>#}
-{#            {% endif %}#}
-{#            {% if user.is_superuser %}#}
-{#                <h3> You are also logged in as admin user </h3>#}
-{#                <a href="{% url 'admin:index' %}" class="btn btn-primary btn-lg active"#}
-{#                   role="button" aria-pressed="true">Admin panel</a>#}
-{#            {% endif %}#}
-
             <h1 class="display-4">Welcome to KirovLab</h1>
             <p class="lead">Use our world-class medical diagnostic testing covering from basic routine testing to more
                 advanced genetic testing.</p>
@@ -142,7 +111,7 @@
                 {#                        deleted#}
                 {#                        health facilities</a>#}
                 {##}
-               {##}
+                {##}
                 {#                    <a href="{% url 'all patients' %}" class="btn btn-lg btn-secondary">Show non-deleted patients</a>#}
                 {##}
                 {#                    <a href="{% url 'all deleted patient' %}" class="btn btn-lg btn-secondary">Show deleted#}

@@ -9,10 +9,11 @@
                 {{ form.as_p }}
 
                 <button class="btn btn-primary mt-2" type="submit">Edit Department</button>
+
+                <p>
+                    <a href="{% url 'delete department' department.pk %}" class="btn btn-danger mt-2" role="button">Delete</a>
+                </p>
             </form>
         </div>
-    </div>
-    <div class="row">
-        <a href="{% url 'delete department' department.pk %}" class="btn btn-danger mt-2" role="button">Delete</a>
     </div>
 {% endblock %}
