@@ -9,7 +9,6 @@ class DeleteAbstractForm(forms.ModelForm):
         readonly = [x for x in self.fields]
         for field in readonly:
             self.fields[field].widget.attrs['readonly'] = 'readonly'
-            # self.fields[field].widget = 'forms.TextInput'
 
     def save(self, commit=True):
         if commit:

@@ -2,54 +2,75 @@
 
 {% block page_content %}
     <h1 class="text-center">Patient information</h1>
-    <div class="row">
-        <div class="col-lg-3"></div>
 
-        <div class="col-lg-6">
-            Patient information:
-            <div class="col-lg-6">
-                {{ patient.pid_type }}: {{ patient.pid }}
-            </div>
-            <div class="col-lg-6">
-                First Name: {{ patient.first_name }}
-            </div>
+    <br>
 
-            {% if patient.middle_name %}
-                <div class="col-lg-6">
-                    Middle Name: {{ patient.middle_name }}
-                </div>
+    <div class="table-responsive-md">
+        <table class="table table-bordered">
+            <tr class="first-table-row">
+                <th scope="col">Personal ID (Type)</th>
+                <td>{{ patient.pid_type }}: {{ patient.pid }}</td>
+            </tr>
+            <tr>
+                <th scope="col">Name</th>
+                <td>{{ patient.full_name }}</td>
+            </tr>
+            <tr>
+                <th scope="col">Sex</th>
+                <td>{{ patient.sex }}</td>
+            </tr>
+            <tr>
+                <th scope="col">Date of Birth</th>
+                <td>{{ patient.date_of_birth }}</td>
+            </tr>
+            {% if patient.telephone_number %}
+                <tr>
+                    <th scope="col">Telephone number</th>
+                    <td>{{ patient.telephone_number }}</td>
+                </tr>
             {% endif %}
-            <div class="col-lg-6">
-                Last Name: {{ patient.last_name }}
-            </div>
-            <div class="col-lg-6">
-                Date of Birth: {{ patient.date_of_birth }}
-            </div>
-            <div class="col-lg-6">
-                Sex: {{ patient.sex }}
-            </div>
+            {% if patient.email %}
+                <tr>
+                    <th scope="col">E-mail</th>
+                    <td>{{ patient.email }}</td>
+                </tr>
+            {% endif %}
+            {% if patient.address %}
+                <tr>
+                    <th scope="col">Address</th>
+                    <td>{{ patient.address }}</td>
+                </tr>
+            {% endif %}
+            {% if patient.city %}
+                <tr>
+                    <th scope="col">City</th>
+                    <td>{{ patient.city }}</td>
+                </tr>
+            {% endif %}
             {% if patient.clinical_data %}
-                <div class="col-lg-6">
-                    Clinical Data: {{ patient.clinical_data }}
-                </div>
+                <tr>
+                    <th scope="col">Clinical data</th>
+                    <td>{{ patient.clinical_data }}</td>
+                </tr>
             {% endif %}
             {% if patient.comments %}
-                <div class="col-lg-6">
-                    Comments: {{ patient.comments }}
-                </div>
+                <tr>
+                    <th scope="col">Comments</th>
+                    <td>{{ patient.comments }}</td>
+                </tr>
             {% endif %}
-        </div>
-        <div class="col-lg-3"></div>
+        </table>
     </div>
-    <div class="row">
-        <div class="col-lg-6">
-            <form method="post" action="{% url 'add result to patient' patient.pk %}">
-                {% csrf_token %}
-{#                {{ form }}#}
-                {{ form.as_p }}
+    <br>
+    <h1 class="text-center">Add new analysis form</h1>
+    <br>
+    <div class="row justify-content-md-center">
+        <form method="post" action="{% url 'add result to patient' patient.pk %}">
+            {% csrf_token %}
+            {{ form.as_p }}
 
-                <button class="btn btn-primary mt-2" type="submit">Create</button>
-            </form>
-        </div>
+            <button class="btn btn-primary mt-2" type="submit">Create</button>
+        </form>
     </div>
+
 {% endblock %}

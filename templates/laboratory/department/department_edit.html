@@ -2,18 +2,17 @@
 
 {% block page_content %}
     <h1 class="text-center">Edit Department Form</h1>
-    <div class="row">
-        <div class="col-lg-6">
-            <form method="post" action="{% url 'edit department' department.pk %}">
-                {% csrf_token %}
-                {{ form.as_p }}
+    <br>
+    <div class="row justify-content-md-center">
+        <form method="post" action="{% url 'edit department' department.pk %}">
+            {% csrf_token %}
+            {{ form.as_p }}
 
-                <button class="btn btn-primary mt-2" type="submit">Edit Department</button>
+            <button class="btn btn-primary mt-2" type="submit">Edit</button>
 
-                <p>
-                    <a href="{% url 'delete department' department.pk %}" class="btn btn-danger mt-2" role="button">Delete</a>
-                </p>
-            </form>
-        </div>
+            <a href="{% url 'delete department' department.pk %}" class="btn btn-danger mt-2"
+               role="button">Delete</a>
+
+        </form>
     </div>
 {% endblock %}

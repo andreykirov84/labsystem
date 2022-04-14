@@ -1,32 +1,14 @@
 {% extends 'main/base.html' %}
 {% block page_content %}
     <h1 class="text-center">Restore Patient Form</h1>
-    <div class="row">
-        <div class="col-lg-6">
-            <form method="post" action="{% url 'restore patient' patient.pk %}">
-                {% csrf_token %}
-                {{ form.as_p }}
-{#                <div class="col-lg-6">#}
-{#                    {{ patient_pid }}: {{ form.pid }}#}
-{#                </div>#}
-{#                <div class="col-lg-6">#}
-{#                    First Name: {{ form.first_name }}#}
-{#                </div>#}
-{#                {% if has_middlename %}#}
-{#                    <div class="col-lg-6">#}
-{#                        Middle Name: {{ form.middle_name }}#}
-{#                    </div>#}
-{#                {% endif %}#}
-{#                <div class="col-lg-6">#}
-{#                    Last Name: {{ form.last_name }}#}
-{#                </div>#}
-{#                <div class="col-lg-6">#}
-{#                    Date of birth: {{ form.date_of_birth }}#}
-{#                </div>#}
+    <br>
+    <div class="row justify-content-md-center">
+        <form method="post" action="{% url 'restore patient' patient.pk %}">
+            {% csrf_token %}
+            {{ form.as_p }}
 
-                <button class="btn btn-primary mt-2" type="submit">Restore</button>
-            </form>
-        </div>
-        <div class="col-lg-3"></div>
+            <button class="btn btn-primary mt-2" type="submit">Restore</button>
+        </form>
     </div>
+
 {% endblock %}

@@ -44,7 +44,7 @@ class CreatePatientUserForm(BootstrapFormMixin, auth_forms.UserCreationForm):
         )
 
 
-class CreateProfilePatientForm(BootstrapFormMixin, forms.ModelForm):
+class CreateEditProfilePatientForm(BootstrapFormMixin, forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._init_bootstrap_form_controls()
@@ -139,21 +139,25 @@ class DeletePatientForm(DeleteAbstractForm):
             'pid': forms.TextInput(
                 attrs={
                     'placeholder': 'Enter Personal ID',
+                    'class': 'form-control',
                 }),
 
             'first_name': forms.TextInput(
                 attrs={
                     'placeholder': 'Enter First Name',
+                    'class': 'form-control',
                 }),
 
             'middle_name': forms.TextInput(
                 attrs={
                     'placeholder': 'Enter Middle Name (Optional)',
+                    'class': 'form-control',
                 }),
 
             'last_name': forms.TextInput(
                 attrs={
                     'placeholder': 'Enter Last Name',
+                    'class': 'form-control',
                 }),
 
             'date_of_birth': DatePickerInput,
@@ -161,6 +165,7 @@ class DeletePatientForm(DeleteAbstractForm):
             'user': forms.HiddenInput(
                 attrs={
                     'placeholder': 'User id',
+                    'class': 'form-control',
                 }),
         }
 

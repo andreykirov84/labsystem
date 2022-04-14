@@ -2,15 +2,14 @@
 
 {% block page_content %}
     <h1 class="text-center">Restore Department Form</h1>
-    <p></p>
-    <div class="row">
-        <div class="col-lg-6">
-            <form method="post" action="{% url 'restore department' department.pk %}">
-                {% csrf_token %}
-                {{ form }}
-                <p></p>
-                <button class="btn btn-success mt-2" type="submit">Restore</button>
-            </form>
-        </div>
+    <br>
+    <div class="row justify-content-md-center">
+        <form method="post" action="{% url 'restore department' department.pk %}">
+            {% csrf_token %}
+            {{ form }}
+            <p></p>
+            <button class="btn btn-success mt-2" type="submit">Restore</button>
+        </form>
     </div>
+
 {% endblock %}

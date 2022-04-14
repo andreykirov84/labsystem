@@ -7,7 +7,7 @@ from django.views import generic as views
 from django.urls import reverse_lazy, reverse
 
 from labsystem.auth_app.models import LimsUser
-from labsystem.laboratory.forms.patient_forms import CreatePatientUserForm, CreateProfilePatientForm, DeletePatientForm, \
+from labsystem.laboratory.forms.patient_forms import CreatePatientUserForm, CreateEditProfilePatientForm, DeletePatientForm, \
     RestorePatientForm
 from labsystem.laboratory.models import Profile, Result
 from utils.generators import get_secure_random_string
@@ -51,7 +51,7 @@ class PatientUserCreateView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin,
 
 
 class PatientCreateView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.CreateView):
-    form_class = CreateProfilePatientForm
+    form_class = CreateEditProfilePatientForm
     template_name = 'users/patient/patient_create.html'
     success_url = reverse_lazy('index')
 
@@ -75,7 +75,7 @@ class PatientCreateView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, vie
 
 class EditPatientView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.UpdateView):
     model = Profile
-    form_class = CreateProfilePatientForm
+    form_class = CreateEditProfilePatientForm
     template_name = 'users/patient/patient_edit.html'
     success_url = reverse_lazy('all patients')
 
@@ -89,26 +89,51 @@ class PatientsListView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, view
     paginate_by = PATIENTS_PER_PAGE
     ordering = ['-updated_on']
 
+#
+# class AllPhysicianPatientsListView(LoginAndNotDeletedRequiredMixin, PhysicianRequiredMixin, views.ListView):
+#     PATIENTS_PER_PAGE = 2
+#     Model = Profile
+#     template_name = 'laboratory/all_patients_referred_by_specific_physician_list.html'
+#     context_object_name = 'all_patients'
+#
+#     # queryset = Profile.objects.filter(user__is_patient=True, deleted_at=None)
+#     paginate_by = PATIENTS_PER_PAGE
+#     ordering = ['-created_on']
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data()
+#         physician = Profile.objects.get(pk=self.kwargs['pk'])
+#         results = Result.objects.filter(referring_physician=self.kwargs['pk']).distinct('patient_id').values()
+#         patients = None
+#         if results:
+#             all_patients_pk = [x['patient_id'] for x in results]
+#             patients = Profile.objects.filter(pk__in=all_patients_pk)
+#         context['patients'] = patients
+#         context['physician'] = physician
+#         return context
+
 
 class AllPhysicianPatientsListView(LoginAndNotDeletedRequiredMixin, PhysicianRequiredMixin, views.ListView):
     PATIENTS_PER_PAGE = 10
     Model = Profile
     template_name = 'laboratory/all_patients_referred_by_specific_physician_list.html'
-    context_object_name = 'all_patients'
-
-    queryset = Profile.objects.filter(user__is_patient=True, deleted_at=None, )
     paginate_by = PATIENTS_PER_PAGE
-    ordering = ['-created_on']
+
+    def get_queryset(self):
+        results = Result.objects.filter(referring_physician=self.kwargs['pk']).distinct('patient_id').values()
+        patients = None
+        if results:
+            all_patients_pk = [x['patient_id'] for x in results]
+            for p in all_patients_pk:
+                patient = Profile.objects.get(pk=p)
+                if not patient.user.is_active:
+                    all_patients_pk.remove(p)
+            patients = Profile.objects.filter(pk__in=all_patients_pk)
+        return patients
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         physician = Profile.objects.get(pk=self.kwargs['pk'])
-        results = Result.objects.filter(referring_physician=self.kwargs['pk']).values()
-        patients = None
-        if results:
-            all_patients_pk = [x['patient_id'] for x in results]
-            patients = Profile.objects.filter(pk__in=all_patients_pk)
-        context['patient'] = patients
         context['physician'] = physician
         return context
 

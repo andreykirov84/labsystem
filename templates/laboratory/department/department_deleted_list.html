@@ -2,9 +2,8 @@
 
 {% block page_content %}
     <h1 class="text-center">Deleted departments List</h1>
-    <p></p>
-    <div class="text-center">
-        <div class="col-lg-3"></div>
+    <br>
+    <div class="row justify-content-md-center">
         {% if all_deleted_departments %}
             <div class="table-responsive-md">
             <table class="table table-bordered">
@@ -21,7 +20,7 @@
                         <td>{{ department.description }}</td>
                         <td>{{ department.telephone_number }}</td>
                         <td>{{ department.email }}</td>
-                        <td><a href="{% url 'restore department' department.pk %}"> Restore Link</a></td>
+                        <td><a href="{% url 'restore department' department.pk %}"> Restore</a></td>
                     </tr>
                 {% endfor %}
             </table>
@@ -76,6 +75,6 @@
             No departments to display!
         {% endif %}
         </div>
-        <div class="col-lg-3"></div>
     </div>
+
 {% endblock %}

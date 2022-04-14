@@ -1,6 +1,6 @@
 from django import forms
 
-from labsystem.laboratory.models import Analysis, AnalysisField
+from labsystem.laboratory.models import Analysis
 from utils.abstract_forms import DeleteAbstractForm, RestoreAbstractForm
 
 

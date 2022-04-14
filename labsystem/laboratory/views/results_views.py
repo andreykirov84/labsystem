@@ -10,7 +10,6 @@ from utils.view_mixins import StaffRequiredMixin
 class CreateResultView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.CreateView):
     form_class = CreateResultForm
     template_name = 'laboratory/result/result_create.html'
-    success_url = reverse_lazy('index')
     context_object_name = 'result'
 
     def get_context_data(self, **kwargs):
@@ -25,6 +24,9 @@ class CreateResultView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, view
         self.object.analysis_price = Analysis.objects.get(pk=self.object.analysis.pk).price
         self.object.save()
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('show details patient', kwargs={'pk': self.kwargs['pk']})
 
 
 class EditResultView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin, views.UpdateView):
@@ -65,18 +67,22 @@ class PatientSpecificResultListView(LoginAndNotDeletedRequiredMixin, views.ListV
 
 
 class ResultDetailsView(LoginAndNotDeletedRequiredMixin, views.DetailView):
+    PATIENTS_PER_PAGE = 10
     model = Result
     template_name = 'laboratory/result/result_details.html'
     context_object_name = 'result_context'
+    paginate_by = PATIENTS_PER_PAGE
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         patient = Profile.objects.get(pk=self.kwargs['patient_pk'])
         result = Result.objects.get(pk=self.kwargs['pk'])
         result_lines = ResultLine.objects.filter(result_id=result.pk)
+        user_is_staff = Profile.objects.get(pk=self.request.user.pk).is_staff
         context['patient'] = patient
         context['result'] = result
         context['result_lines'] = result_lines
+        context['user_is_staff'] = user_is_staff
         return context
 
 

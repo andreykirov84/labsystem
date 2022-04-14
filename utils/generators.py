@@ -6,7 +6,7 @@ def get_secure_random_string(length):
     lower = py_string.ascii_lowercase
     upper = py_string.ascii_uppercase
     num = py_string.digits
-    # symbols = py_string.punctuation
+
     allowed_chars = lower + upper + num
 
     password = get_random_string(

@@ -7,7 +7,6 @@ class SoftDeleteModel(models.Model):
     deleted_at = models.DateTimeField(
         blank=True,
         null=True,
-        # default=None,
     )
 
     objects = LimsUserManager()
@@ -23,6 +22,4 @@ class SoftDeleteModel(models.Model):
 
     class Meta:
         abstract = True
-        # permissions = (
-        #     ('can_undelete', 'Can undelete this object'),
-        # )
+

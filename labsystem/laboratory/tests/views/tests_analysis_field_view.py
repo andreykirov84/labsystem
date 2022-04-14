@@ -9,6 +9,7 @@ from labsystem.laboratory.views.analysis_field_views import CreateAnalysisFieldV
 class AnalysisFieldViewTests(TestCase):
     CREATE_TEMPLATE = 'labsystem/templates/laboratory/analysis_field/analysis_field_create.html'
     USERNAME = 'John'
+    USERNAME2 = 'Johnn'
     PASSWORD = '1234'
     CREATE_URL = 'analysis_fields/create/'
     CREATE_URL_NAME = 'create analysis field'
@@ -63,19 +64,19 @@ class AnalysisFieldViewTests(TestCase):
         self.assertNotEqual(response.status_code, 200)
 
     def test_authenticated_patient_user_can_not_see_page(self):
-        user = LimsUser.objects.create_patient_user(self.USERNAME, self.PASSWORD)
+        user = LimsUser.objects.create_patient_user(self.USERNAME2, self.PASSWORD)
         self.client.force_login(user=user)
         response = self.client.get(reverse(self.CREATE_URL_NAME))
         self.assertNotEqual(response.status_code, 200)
 
     def test_CreateAnalysisFieldView__staff_user_can_see_page(self):
-        user = LimsUser.objects.create_staff_user(self.USERNAME, self.PASSWORD)
+        user = LimsUser.objects.create_staff_user(self.USERNAME2, self.PASSWORD)
         self.client.force_login(user=user)
         response = self.client.get(reverse(self.CREATE_URL_NAME))
         self.assertEqual(response.status_code, 200)
 
     def test_CreateAnalysisFieldView__deleted_staff_user_can_not_see_page(self):
-        user = LimsUser.objects.create_staff_user(self.USERNAME, self.PASSWORD)
+        user = LimsUser.objects.create_staff_user(self.USERNAME2, self.PASSWORD)
         user.deleted_at = datetime.now()
         user.is_active = False
         self.client.force_login(user=user)
@@ -84,7 +85,7 @@ class AnalysisFieldViewTests(TestCase):
         self.assertNotEqual(response.status_code, 200)
 
     def test_CreateAnalysisFieldView__physician_user_can_not_see_page(self):
-        user = LimsUser.objects.create_patient_user(self.USERNAME, self.PASSWORD)
+        user = LimsUser.objects.create_physician_user(self.USERNAME2, self.PASSWORD)
         self.client.force_login(user=user)
         response = self.client.get(reverse(self.CREATE_URL_NAME))
         self.assertNotEqual(response.status_code, 200)

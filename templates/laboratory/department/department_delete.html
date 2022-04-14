@@ -2,15 +2,14 @@
 
 {% block page_content %}
     <h1 class="text-center">Delete Department Form</h1>
-    <div class="row">
-        <div class="col-lg-6">
-            <form method="post" action="{% url 'delete department' department.pk %}">
-                {% csrf_token %}
-                {{ form }}
+    <br>
+    <div class="row justify-content-md-center">
+        <form method="post" action="{% url 'delete department' department.pk %}">
+            {% csrf_token %}
+            {{ form }}
 
-                <button class="btn btn-danger mt-2" type="submit">Delete Department</button>
-            </form>
-        </div>
-        <div class="col-lg-3"></div>
+            <button class="btn btn-danger mt-2" type="submit">Delete</button>
+        </form>
     </div>
+
 {% endblock %}

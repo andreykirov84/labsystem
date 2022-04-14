@@ -2,74 +2,115 @@
 
 {% block page_content %}
     <h1 class="text-center">Patient's Result Details</h1>
-    <div class="row">
-        <div class="col-lg-3"></div>
-        <p>
-            Patient: {{ patient.full_name }}
-        </p>
-        <p>
-            {{ patient.pid_type }}: {{ patient.pid }}
-        </p>
-        {% if result_lines %}
-            {#            <div class="col-lg-6">#}
-            <div class="table-responsive-md">
-            <table class="table table-bordered">
-                <tr class="first-table-row">
-                    <th scope="col">Name</th>
-                    <th scope="col">Value</th>
-                    <th scope="col">Units</th>
-                    <th scope="col">Reference range</th>
-                    <th scope="col">Comment</th>
+    <br>
+    <div class="table-responsive-md">
+        <table class="table table-bordered">
+            <tr class="first-table-row">
+                <th scope="col">Personal ID (Type)</th>
+                <td>{{ patient.pid_type }}: {{ patient.pid }}</td>
+            </tr>
+            <tr>
+                <th scope="col">Name</th>
+                <td>{{ patient.full_name }}</td>
+            </tr>
+            <tr>
+                <th scope="col">Sex</th>
+                <td>{{ patient.sex }}</td>
+            </tr>
+            <tr>
+                <th scope="col">Date of Birth</th>
+                <td>{{ patient.date_of_birth }}</td>
+            </tr>
+        </table>
+    </div>
+    <br>
+    {% if result_lines %}
+    <div class="table-responsive-md">
+        <table class="table table-bordered">
+            <tr class="first-table-row">
+                <th scope="col">Name</th>
+                <th scope="col">Value</th>
+                <th scope="col">Units</th>
+                <th scope="col">Reference range</th>
+                <th scope="col">Comment</th>
+                {% if user_is_staff %}
                     <th scope="col">Edit</th>
+                {% endif %}
 
-                </tr>
-                {% for line in result_lines %}
-                    <tr>
-                        <td>{{ line.name }}</td>
-                        <td>{{ line.value }}</td>
-                        <td>{{ line.analysis_field.unit }}</td>
-                        {% if patient.sex.name == 'Male' %}
-                            <td>{{ line.analysis_field.male_min }}
-                                - {{ line.analysis_field.male_max }}</td>
-                        {% elif patient.sex.name == 'Female' %}
-                            <td>{{ line.analysis_field.female_min }}
-                                - {{ line.analysis_field.female_max }}</td>
-                        {% else %}
-                            <td>Males: {{ line.analysis_field.male_min }}
-                                - {{ line.analysis_field.male_max }};
-                                Females: {{ line.analysis_field.female_min }}
-                                - {{ line.analysis_field.female_max }}</td>
-                        {% endif %}
-                        <td>{{ line.comment }}</td>
-                        <td><a href="{% url 'result line details' line.pk %}"> Link </a></td>
                     </tr>
-                {% endfor %}
-            </table>
-            {% if is_paginated %}
-                <ul class="pagination">
-                    {% if page_obj.has_previous %}
-                        <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
-                    {% else %}
-                        <li class="disabled"><span>&laquo;</span></li>
-                    {% endif %}
-                    {% for i in paginator.page_range %}
-                        {% if page_obj.number == i %}
-                            <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-                        {% else %}
-                            <li><a href="?page={{ i }}">{{ i }}</a></li>
-                        {% endif %}
+                    {% for line in result_lines %}
+                        <tr>
+                            <td>{{ line.name }}</td>
+                            <td>{{ line.value }}</td>
+                            <td>{{ line.analysis_field.unit }}</td>
+                            {% if patient.sex.name == 'Male' %}
+                                <td>{{ line.analysis_field.male_min }}
+                                    - {{ line.analysis_field.male_max }}</td>
+                            {% elif patient.sex.name == 'Female' %}
+                                <td>{{ line.analysis_field.female_min }}
+                                    - {{ line.analysis_field.female_max }}</td>
+                            {% else %}
+                                <td>Males: {{ line.analysis_field.male_min }}
+                                    - {{ line.analysis_field.male_max }};
+                                    Females: {{ line.analysis_field.female_min }}
+                                    - {{ line.analysis_field.female_max }}</td>
+                            {% endif %}
+                            <td>{{ line.comment }}</td>
+                            {% if user_is_staff %}
+                            <td><a href="{% url 'result line details' line.pk %}"> Edit </a></td>
+                            {% endif %}
+                        </tr>
                     {% endfor %}
-                    {% if page_obj.has_next %}
-                        <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
-                    {% else %}
-                        <li class="disabled"><span>&raquo;</span></li>
+                    </table>
+                    {#            Start Pagination#}
+                    {% if is_paginated %}
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}"
+                                           aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% for i in paginator.page_range %}
+                                    {% if page_obj.number == i %}
+                                        <li class="page-item"><a class="page-link">{{ i }}</a></li>
+                                    {% else %}
+                                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}"
+                                           aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <a class="page-link" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
                     {% endif %}
-                </ul>
-            {% endif %}
-        {% else %}
-            No results to display!
-        {% endif %}
-        </div>
-        <div class="col-lg-3"></div>
+                    {#            End of Pagination#}
+                {% else %}
+                    No results to display!
+                {% endif %}
     </div>
 {% endblock %}
