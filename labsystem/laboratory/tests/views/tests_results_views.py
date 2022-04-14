@@ -197,7 +197,6 @@ class DepartmentViewTests(TestCase):
 
     def test_PatientSpecificResultListView__when_all_results_belong_to_same_profile__expect_get_proper_context_data(self):
         expected_context_length = 2
-        # user = LimsUser.objects.create_staff_user(self.USERNAME, self.PASSWORD)
         profile = Profile.objects.first()
         user = profile.user
         user_is_staff = True
