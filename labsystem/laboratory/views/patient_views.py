@@ -1,6 +1,4 @@
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth.mixins import LoginAndNotDeletedRequiredMixin
-from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.views import generic as views
@@ -23,7 +21,6 @@ class PatientUserCreateView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin,
     pk = None
 
     def get_initial(self):
-        # new_password = None
         while True:
             new_username = get_secure_random_string(
                 length=LimsUser.USERNAME_MIN_LENGTH,
@@ -40,7 +37,6 @@ class PatientUserCreateView(LoginAndNotDeletedRequiredMixin, StaffRequiredMixin,
         INITIAL_DATA = {
             'password1': password1,
             'password2': password2,
-            # 'password': new_password,
             'username': new_username,
         }
 
@@ -118,6 +114,7 @@ class AllPhysicianPatientsListView(LoginAndNotDeletedRequiredMixin, PhysicianReq
     Model = Profile
     template_name = 'laboratory/all_patients_referred_by_specific_physician_list.html'
     paginate_by = PATIENTS_PER_PAGE
+    ordering = ['-updated_on']
 
     def get_queryset(self):
         results = Result.objects.filter(referring_physician=self.kwargs['pk']).distinct('patient_id').values()
@@ -245,9 +242,7 @@ class SearchPatientsView(LoginAndNotDeletedRequiredMixin, views.ListView):
 
     def get_queryset(self):
         query = self.request.GET.get("search")
-        object_list = None
         if query == '':
-            query = 'None'
             all_patients = []
         elif validate_only_letters_and_spaces(query):
             if self.request.user.is_staff:
@@ -259,7 +254,6 @@ class SearchPatientsView(LoginAndNotDeletedRequiredMixin, views.ListView):
 
             elif self.request.user.is_physician:
                 results = Result.objects.filter(referring_physician=self.request.user.pk).values()
-                patients = None
                 patient_pks = None
                 if results:
                     all_patients_pk = [x['patient_id'] for x in results]
@@ -272,7 +266,6 @@ class SearchPatientsView(LoginAndNotDeletedRequiredMixin, views.ListView):
                     Q(deleted_at=None) &
                     Q(user__is_patient=True)
                 )
-
             else:
                 all_patients = Profile.objects.get(pk=self.request.user.pk)
         else:
